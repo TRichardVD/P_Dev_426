@@ -51,3 +51,12 @@ a {
 #register:hover {
   background-color: #9fa09f;
 }
+h1 {
+  font-family: 'Montserrat';
+  margin: 20px 0px;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
