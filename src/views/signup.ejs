@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>page d'inscription</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="connexionBox">
+      <h1>Inscription</h1>
+      <form action="/api/signup" method="POST">
+        <div class="textbox">
+          <input type="text" name="email" placeholder="Email d'utilisateur" />
+        </div>
+        <div class="textbox">
+          <input type="password" name="password" placeholder="Mot de passe" />
+        </div>
+        <input type="submit" class="btn" value="S'inscrire" />
+      </form>
+    </div>
+  </body>
+</html>
