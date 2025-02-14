@@ -2,6 +2,6 @@ import express from 'express';
 import { Register } from '../controllers/auth.mjs';
 const userRouter = express();
 
-userRouter.get('/register', Register);
+userRouter.post('/register', Register);
 
 export { userRouter };
