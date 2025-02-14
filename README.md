@@ -8,6 +8,16 @@ Ce projet à pour but de mettre en pratique les compétences qui seront acquis d
 
 -   [Aurélie Curchod](https://github.com/zfpacd)
 
+## Product Goal
+
+Mettre en place une plateforme en ligne qui permettra aux utilisateurs de
+découvrir, d'explorer et de suivre les sites du patrimoine mondial de
+l'UNESCO de manière interactive.
+
+## Comment collaborer ?
+
+Rendez-vous sur le document [`collaborate.md`](./doc/collaborate.md)
+
 ## Developpeurs
 
 -   [Abiram Muthulingam](https://github.com/AbiramMuth)
@@ -17,9 +27,3 @@ Ce projet à pour but de mettre en pratique les compétences qui seront acquis d
 -   [Jerry Cleuet](https://github.com/JerryCleuet)
 -   [Nicola Golaz](https://github.com/NicolaGolaz)
 -   [Théo Nicola Richard](https://github.com/TRichardVD)
-
-## Product Goal
-
-Mettre en place une plateforme en ligne qui permettra aux utilisateurs de
-découvrir, d'explorer et de suivre les sites du patrimoine mondial de
-l'UNESCO de manière interactive.
