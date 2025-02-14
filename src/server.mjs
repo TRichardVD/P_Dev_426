@@ -3,7 +3,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import fs from 'fs';
 import path from 'path';
-import connectDB from '../DB/mongoose.mjs';
+import connectDB from './db/mongoose.mjs';
 const app = express();
 
 // middlewares principaux
