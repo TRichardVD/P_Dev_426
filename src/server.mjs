@@ -3,6 +3,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import fs from 'fs';
 import path from 'path';
+import connectDB from '../DB/mongoose.mjs';
 const app = express();
 
 // middlewares principaux
@@ -25,5 +26,6 @@ app.get('/', (req, res) => {
 
 // Démarrage du serveur
 https.createServer(credentials, app).listen(443, () => {
+  connectDB();
   console.log('Server running on port 443 https://localhost:443');
 });
