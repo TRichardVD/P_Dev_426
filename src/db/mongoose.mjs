@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/db_unesco', {});
+    await mongoose.connect(
+      'mongodb://root:admin@localhost:27017/db_unesco',
+      {}
+    );
     console.log('Connexion réussie à MongoDB');
   } catch (error) {
     console.error('Erreur de connexion :', error);
