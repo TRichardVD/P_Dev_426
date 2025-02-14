@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import fs from 'fs';
 import path from 'path';
 import connectDB from './db/mongoose.mjs';
+import { userRouter } from './routes/user.mjs';
 const app = express();
 
 // middlewares principaux
@@ -23,7 +24,7 @@ const credentials = {
 app.get('/', (req, res) => {
   res.render('index');
 });
-
+app.use('/api/user', userRouter);
 // Démarrage du serveur
 https.createServer(credentials, app).listen(443, () => {
   connectDB();
