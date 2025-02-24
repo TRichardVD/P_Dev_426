@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      'mongodb://root:admin@localhost:27017/db_unesco',
+      'mongodb://root:admin@localhost:27017/db_unesco?authSource=admin',
       {}
     );
     console.log('Connexion réussie à MongoDB');

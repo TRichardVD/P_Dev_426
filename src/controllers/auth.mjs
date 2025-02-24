@@ -10,7 +10,7 @@ async function Register(req, res) {
   }
   // Vérifier si l'email existe déjà dans la base de données
   User.findOne({ email }).then((emailExist) => {
-    if (userExist) {
+    if (emailExist) {
       return res
         .status(400)
         .json({ message: "L'email est déjà utilisé, essayez un autre." });
@@ -18,7 +18,7 @@ async function Register(req, res) {
   });
   // Vérifier si le nom d'utilisateur existe déjà dans la base de données
   User.findOne({ username }).then((usernameExist) => {
-    if (userExist) {
+    if (usernameExist) {
       return res.status(400).json({
         message: "Le nom d'utilisateur est déjà utilisé, essayez un autre.",
       });
@@ -27,16 +27,13 @@ async function Register(req, res) {
   bcrypt
     .hash(password, 15)
     .then((hashedPassword) => {
-      new User({
+      const user = new User({
         username: username,
         password: hashedPassword,
         email: email,
-      }).then((user) => {
-        user.save();
-        return res
-          .status(201)
-          .json({ message: 'Utilisateur créé avec succès.' });
       });
+      user.save();
+      return res.status(201).json({ message: 'Utilisateur créé avec succès.' });
     })
     .catch((err) => {
       console.error(err);
