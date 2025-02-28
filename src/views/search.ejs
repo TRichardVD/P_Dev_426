@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="search-container"></div>
+        <form action="/search" method="GET" onsubmit="showLoading()"></form>
+            <input type="text" name="query" placeholder="Search..." value="<%= query %>" required>
+            <button type="submit">Search</button>
+        </form>
+        <div class="loading" id="loading">Loading...</div>
+        <div class="search-results"></div>
+            <% if (results && results.length > 0) { %>
+                <h2>Résultats de recherche pour "<%= query %>":</h2>
+                <ul>
+                    <% results.forEach(result => { %>
+                        <li>
+                            <strong><%= result.name %></strong>: <%= result.description %>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else if (query) { %>
+                <p>Aucun résultat trouvé pour "<%= query %>".</p>
+            <% } %>
+        </div>
+    </div>
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
