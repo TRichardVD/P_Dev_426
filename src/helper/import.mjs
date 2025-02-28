@@ -12,6 +12,7 @@ export const importData = async () => {
       name: site.site,
       address: site.location,
       description: site.short_description,
+      country: site.states,
     });
     newSite.save();
   });

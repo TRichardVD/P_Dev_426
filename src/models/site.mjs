@@ -17,6 +17,7 @@ const SiteSchema = new Schema({
   name: { type: String, required: true },
   address: { type: String },
   description: { type: String },
+  country: [{ type: String }],
   likes_count: { type: Number, default: 0 }, // Nombre de likes pour ce site
   comments: [CommentSchema], // Liste des commentaires associés au site
 });

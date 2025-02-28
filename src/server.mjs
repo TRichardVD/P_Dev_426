@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.use('/api/user', siteRouter);
+app.use('/api/site', siteRouter);
 // Démarrage du serveur
 https.createServer(credentials, app).listen(443, () => {
   connectDB();

@@ -1,8 +1,7 @@
 import express from 'express';
+import { GetSite } from '../controllers/sites.mjs';
 const siteRouter = express();
 
-siteRouter.get('/site', (req, res) => {
-  res.send('Liste des sites');
-});
+siteRouter.get('/', GetSite);
 
 export { siteRouter };
