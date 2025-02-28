@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import User from '../models/user.mjs';
 import mongoose from 'mongoose';
+
+//register
 async function Register(req, res) {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
@@ -41,4 +43,34 @@ async function Register(req, res) {
     });
 }
 
-export { Register };
+//login
+async function Login(req, res) {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res
+      .status(400)
+      .json({ message: 'Tous les champs doivent être spécifiés' });
+  }
+  // Vérifier si l'utilisateur existe dans la base de données
+  User.findOne({ email }).then((user) => {
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "L'email ou le mot de passe est incorrect." });
+    }
+    // Comparer le mot de passe
+    bcrypt.compare(password, user.password).then((isMatch) => {
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ message: "L'email ou le mot de passe est incorrect." });
+      }
+      return res.status(200).json({ message: 'Connexion réussie.' });
+    });
+  }).catch((err) => {
+    console.error(err);
+    return res.status(500).json({ message: 'Erreur interne du serveur' });
+  });
+}
+
+export { Register, Login };
