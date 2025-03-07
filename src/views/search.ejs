@@ -8,11 +8,11 @@
 </head>
 <body>
     <div class="search-container"></div>
-        <form action="/search" method="GET" onsubmit="showLoading()"></form>
-            <input type="text" name="query" placeholder="Search..." value="<%= query %>" required>
-            <button type="submit">Search</button>
-        </form>
-        <div class="loading" id="loading">Loading...</div>
+    <form action="/api/site" method="GET">
+        <input type="text" name="query" placeholder="Search..." required>
+        <button type="submit">Rechercher</button>
+    </form>
+    
         <div class="search-results"></div>
             <% if (results && results.length > 0) { %>
                 <h2>Résultats de recherche pour "<%= query %>":</h2>
@@ -29,9 +29,6 @@
         </div>
     </div>
     <script>
-        function showLoading() {
-            document.getElementById('loading').style.display = 'block';
-        }
     </script>
 </body>
 </html>
