@@ -1,22 +1,21 @@
 import Site from '../models/site.mjs';
-import mongoose from 'mongoose';
+
 async function GetSite(req, res) {
     const { query } = req.query;
     if (!query) {
         Site.find()
             .limit(20)
             .then((sites) => {
-                return res.render('search', { results: sites, query: null });
+                return res.status(200).json(sites);
             });
     } else {
-        Site.find({
-            $or: [
+        Site.find()
+            .or([
                 { name: { $regex: query, $options: 'i' } },
                 { country: { $regex: query, $options: 'i' } },
-            ],
-        })
+            ])
             .then((sites) => {
-                return res.render('search', { results: sites, query });
+                return res.status(200).json(sites);
             })
             .catch((err) => {
                 return res.status(500).json({ error: err.message });
@@ -59,7 +58,11 @@ async function calculateCustomId(id) {
             return null;
         }
 
-        return `${coordinates.lat}_${coordinates.lon}`.replace(/\./g, '_'); // replace . with _
+        const customId = `${coordinates.lat}_${coordinates.lon}`.replace(
+            /\./g,
+            '_'
+        );
+        return Buffer.from(customId).toString('base64'); // encode to base64
     } catch (error) {
         console.error('Error calculating custom ID:', error);
         throw error;
@@ -68,7 +71,8 @@ async function calculateCustomId(id) {
 
 async function findByCustomId(customId) {
     try {
-        const splitId = customId.split('_');
+        const decodedId = Buffer.from(customId, 'base64').toString('ascii'); // decode from base64
+        const splitId = decodedId.split('_');
         const coordinates = {
             lat: Number(`${splitId[0]}.${splitId[1]}`),
             lon: Number(`${splitId[2]}.${splitId[3]}`),
