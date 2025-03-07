@@ -45,25 +45,25 @@ async function Register(req, res) {
 
 //login
 async function Login(req, res) {
-  const { email, password } = req.body;
-  if (!email || !password) {
+  const { username, password } = req.body;
+  if (!username || !password) {
     return res
       .status(400)
       .json({ message: 'Tous les champs doivent être spécifiés' });
   }
   // Vérifier si l'utilisateur existe dans la base de données
-  User.findOne({ email }).then((user) => {
+  User.findOne({ username }).then((user) => {
     if (!user) {
       return res
         .status(400)
-        .json({ message: "L'email ou le mot de passe est incorrect." });
+        .json({ message: "L'username ou le mot de passe est incorrect." });
     }
     // Comparer le mot de passe
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (!isMatch) {
         return res
           .status(400)
-          .json({ message: "L'email ou le mot de passe est incorrect." });
+          .json({ message: "L'username ou le mot de passe est incorrect." });
       }
       return res.status(200).json({ message: 'Connexion réussie.' });
     });
