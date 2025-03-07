@@ -6,16 +6,17 @@ async function GetSite(req, res) {
         Site.find()
             .limit(20)
             .then((sites) => {
-                return res.status(200).json(sites);
+                return res.render('search', { results: sites, query: null });
             });
     } else {
-        Site.find()
-            .or([
+        Site.find({
+            $or: [
                 { name: { $regex: query, $options: 'i' } },
                 { country: { $regex: query, $options: 'i' } },
-            ])
+            ],
+        })
             .then((sites) => {
-                return res.status(200).json(sites);
+                return res.render('search', { results: sites, query });
             })
             .catch((err) => {
                 return res.status(500).json({ error: err.message });
