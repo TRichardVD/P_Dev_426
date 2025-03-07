@@ -58,7 +58,7 @@ async function calculateCustomId(id) {
             return null;
         }
 
-        return `${coordinates.lat}-${coordinates.lon}`.replace(/\./g, '_'); // replace . with _
+        return `${coordinates.lat}_${coordinates.lon}`.replace(/\./g, '_'); // replace . with _
     } catch (error) {
         console.error('Error calculating custom ID:', error);
         throw error;
