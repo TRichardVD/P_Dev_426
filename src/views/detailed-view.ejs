@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue détaillée</title>
+  </head>
+  <body>
+    <main>
+      <h1><%= site.name %></h1>
+      <% const images = ["photo1.jpg", "photo2.jpg", "photo3.jpg"]; %> <% let
+      selectedImage = "photo1.jpg"; %>
+
+      <img
+        id="selected-image"
+        src="<%= selectedImage %>"
+        alt="selected image"
+      />
+      <div>
+        <% images.forEach(image => { %>
+        <img src="<%= image %>" alt="<%= image %>" />
+        <% }); %>
+      </div>
+
+      <section>
+        <h2>Histoire</h2>
+        <p>C'est à l'occasion de l'Exposition Universelle de 1889...</p>
+      </section>
+
+      <section>
+        <h2>Impact culturel et symbolique</h2>
+        <p>La Tour Eiffel, symbole emblématique de la France...</p>
+      </section>
+
+      <section>
+        <h2>Visite et accessibilité</h2>
+        <p>La Tour Eiffel, symbole emblématique de la France...</p>
+      </section>
+
+      <section>
+        <h2>Localisation</h2>
+      </section>
+
+      <section>
+        <h2><%= comments.lenght %> Commentaires</h2>
+        <div>
+          <img src="user1.jpg" alt="user1" />
+          <div>
+            <input type="text" placeholder="Ajoutez un commentaire..." />
+            <button>Envoyer</button>
+          </div>
+        </div>
+        <div>
+          <% comments.forEach(comment => { %>
+          <div>
+            <img src="user1.jpg" alt="user1" />
+            <div>
+              <p><%= comment.user.name %></p>
+              <p><%= comment.content %></p>
+            </div>
+          </div>
+          <div class="like-dislike">
+            <form action="/like" method="POST">
+              <button type="submit">👍</button>
+              <span><%= comment.likes %></span>
+            </form>
+            <form action="/dislike" method="POST">
+              <button type="submit">👎</button>
+            </form>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
