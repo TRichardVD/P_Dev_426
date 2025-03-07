@@ -25,10 +25,12 @@ async function GetSite(req, res) {
 
 async function GetSiteById(req, res) {
     const { id } = req.params;
-    // const idPattern = /^[0-9]+[0-9]+[0-9]+-[0-9]+$/;
-    // if (!idPattern.test(id)) {
-    //     return res.status(400).json({ error: 'Invalid site ID' });
-    // }
+    const idPattern = /^-?\d+_\d+_-?\d+_\d+$/;
+    if (!idPattern.test(id)) {
+        return res.status(400).json({
+            error: 'Invalid site ID format. Expected format: lat_dec_lon_dec',
+        });
+    }
 
     try {
         const site = await findByCustomId(id);
