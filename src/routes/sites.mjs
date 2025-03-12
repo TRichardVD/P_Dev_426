@@ -6,6 +6,6 @@ const siteRouter = express();
 siteRouter.set('views', path.resolve('src/views'));
 siteRouter.get('/', GetSite);
 
-siteRouter.get('/:id', GetSiteById);
+//siteRouter.get('/:id', GetSiteById);
 
 export { siteRouter };
