@@ -66,8 +66,8 @@ async function GetSiteById(req, res) {
       "region": "Europe and North America",
       "revision": 0,
       "secondary_dates": "2011",
-      "short_description": "This transboundary property stretches over 12 countries. Since the end of the last Ice Age, European Beech spread from a few isolated refuge areas in the Alps, Carpathians, Dinarides, Mediterranean and Pyrenees over a short period of a few thousand years in a process that is still ongoing. The successful expansion across a whole continent is related to the tree\u2019s adaptability and tolerance of different climatic, geographical and physical conditions.",
-      "site": "Ancient and Primeval Beech Forests of the Carpathians and Other Regions of Europe",
+      "description": "This transboundary property stretches over 12 countries. Since the end of the last Ice Age, European Beech spread from a few isolated refuge areas in the Alps, Carpathians, Dinarides, Mediterranean and Pyrenees over a short period of a few thousand years in a process that is still ongoing. The successful expansion across a whole continent is related to the tree\u2019s adaptability and tolerance of different climatic, geographical and physical conditions.",
+      "name": "Ancient and Primeval Beech Forests of the Carpathians and Other Regions of Europe",
       "states": [
           "Albania",
           "Austria",
