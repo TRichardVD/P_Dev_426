@@ -34,12 +34,62 @@ async function GetSiteById(req, res) {
   }
 
   try {
-    const site = await findByCustomId(id);
+    //const site = await findByCustomId(id);
+    const site = {
+      comments :[],
+      "category": "Natural",
+      "criteria_txt": "(ix)",
+      "danger": null,
+      "date_inscribed": "2007",
+      "extension": 1,
+      "http_url": null,
+      "id_number": 1133,
+      "image_url": {
+          "thumbnail": true,
+          "filename": "site_1133.jpg",
+          "format": "JPEG",
+          "width": 80,
+          "mimetype": "image/jpeg",
+          "etag": "\"1c8f28ba5ffd21:0\"",
+          "id": "84aefa7c9c4b15d30c41c14dc0c88ce4",
+          "last_synchronized": "2021-02-17T13:06:47.879845",
+          "color_summary": [
+              "rgba(148, 139, 127, 1.00)",
+              "rgba(83, 81, 76, 1.00)",
+              "rgba(69, 67, 67, 1.00)"
+          ],
+          "height": 80
+      },
+      "iso_code": "al,at,be,bg,hr,de,it,ro,sk,si,es,ua",
+      "justification": null,
+      "location": null,
+      "region": "Europe and North America",
+      "revision": 0,
+      "secondary_dates": "2011",
+      "short_description": "This transboundary property stretches over 12 countries. Since the end of the last Ice Age, European Beech spread from a few isolated refuge areas in the Alps, Carpathians, Dinarides, Mediterranean and Pyrenees over a short period of a few thousand years in a process that is still ongoing. The successful expansion across a whole continent is related to the tree\u2019s adaptability and tolerance of different climatic, geographical and physical conditions.",
+      "site": "Ancient and Primeval Beech Forests of the Carpathians and Other Regions of Europe",
+      "states": [
+          "Albania",
+          "Austria",
+          "Belgium",
+          "Bulgaria",
+          "Croatia",
+          "Germany",
+          "Italy",
+          "Romania",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Ukraine"
+      ],
+      "transboundary": 1,
+      "coordinates": { "lon": 22.3388888889, "lat": 49.0097222222 }
+  }
     if (!site) {
       return res.status(404).json({ error: 'Site not found' });
     }
     console.log(site);
-    return res.status(200).json(site);
+    return res.render('detailed-view', {site});
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: err.message });
