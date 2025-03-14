@@ -11,7 +11,7 @@ async function GetSite(req, res) {
   } else {
     Site.find(
       {
-        $text: { $search: query },
+        $or: [{ $text: { $search: query } }],
       },
       { score: { $meta: 'textScore' } }
     )

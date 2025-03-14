@@ -25,7 +25,7 @@ const SiteSchema = new Schema({
     lon: { type: Number },
   },
 });
-SiteSchema.index({ name: 'text', description: 'text' });
+SiteSchema.index({ name: 'text', description: 'text', country: 'text' });
 // Modèle Mongoose pour le site
 const Site = mongoose.model('Site', SiteSchema);
 
