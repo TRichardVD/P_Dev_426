@@ -10,11 +10,12 @@ const app = express();
 
 // middlewares principaux
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('./resources'));
 
 app.set('view engine', 'ejs'); // Utilisation du moteur de rendu EJS
-app.set('views', path.resolve('src/views')); // Définition du dossier des vues
+app.set('views', path.resolve('./src/views')); // Définition du dossier des vues
 
 const credentials = {
     key: fs.readFileSync('./certificates/server.key'), // Clé privée
@@ -25,6 +26,14 @@ const credentials = {
 app.get('/', (req, res) => {
     res.render('index');
 });
+
+app.get('/register', (req, res) => {
+    return res.render('register');
+});
+app.get('/login', (req, res) => {
+    return res.render('login');
+});
+
 app.use('/api/user', userRouter);
 app.use('/api/site', siteRouter);
 // Démarrage du serveur

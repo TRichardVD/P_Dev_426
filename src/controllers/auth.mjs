@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import User from '../models/user.mjs';
-import jwt from '../helper/jwt.mjs';
+import { createToken, verifyToken } from '../helper/jwt.mjs';
 
 //register
 async function Register(req, res) {
@@ -73,7 +73,7 @@ async function Login(req, res) {
                 }
 
                 // Création du token JWT
-                jwt.createToken({ username: user.username })
+                createToken({ username: user.username })
                     .then((token) => {
                         return res
                             .status(200)
@@ -105,7 +105,7 @@ const authReq = async (req, res, next) => {
     if (!token) {
         return res.status(401).json({ message: 'Non autorisé' });
     }
-    jwt.verifyToken(token)
+    verifyToken(token)
         .then((decoded) => {
             req.user = decoded;
             next();

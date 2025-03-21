@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <title>Page-Accueil</title>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a href="#" id="logo"
-          ><img src="./resources/images/logo.png" alt="" style="width: 50px"
-        /></a>
-        <div class="nav-pages">
-          <a href="">Accueil</a>
-          <a href="./api/site">Monuments</a>
-        </div>
-        <div class="nav-login-register">
-          <a href="" class="cta">Se connecter</a>
-          <a href="" id="register">Créer un compte</a>
-        </div>
-      </nav>
-    </header>
-    <main>
-      <h1>Carte interactive</h1>
-      <div id="map" style="height: 600px; width: 1440px"></div>
-    </main>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script type="module" src="/script/main.js"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet/dist/leaflet.css"
+        />
+        <title>Page-Accueil</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href="#" id="logo"
+                    ><img
+                        src="./resources/images/logo.png"
+                        alt=""
+                        style="width: 50px"
+                /></a>
+                <div class="nav-pages">
+                    <a href="">Accueil</a>
+                    <a href="./api/site">Monuments</a>
+                </div>
+                <div class="nav-login-register">
+                    <a href="/login" class="cta">Se connecter</a>
+                    <a href="/register" id="register">Créer un compte</a>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <h1>Carte interactive</h1>
+            <div id="map" style="height: 600px; width: 1440px"></div>
+        </main>
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script type="module" src="/script/main.js"></script>
+    </body>
 </html>
