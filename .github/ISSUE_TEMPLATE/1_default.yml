@@ -1,54 +1,27 @@
-name: 'Modele Issue - DoD & Modifications'
-description: "Formulaire de creation d'issue pour la gestion des DoD et des modifications apportees"
-title: "[ISSUE] Titre de l'issue"
-labels:
-    - 'documentation'
-    - 'enhancement'
+name: 'Demande de fonctionnalité'
+description: 'Suggérez une nouvelle fonctionnalité ou amélioration'
+labels: ['enhancement']
 body:
-    - type: input
-      id: objectif_principal
+    - type: markdown
       attributes:
-          label: 'Objectif Principal'
-          description: 'Décrivez la finalité business/technique de cette issue'
-          placeholder: "Exemple : Améliorer la gestion des erreurs dans l'API"
+          value: '## Description'
     - type: textarea
-      id: modifications
+      id: description
       attributes:
-          label: 'Modifications Apportées'
-          description: "Détaillez les changements majeurs, l'architecture modifiée, les dépendances ajoutées/supprimées"
-          placeholder: "- Ajout d'un middleware de gestion des erreurs\n- Refactoring du module X"
-    - type: checkboxes
-      id: dod_qualite
+          label: 'Décrivez votre demande'
+          description: 'Expliquez clairement votre besoin.'
+          placeholder: 'En tant que... Afin de... Je souhaite...'
+      validations:
+          required: true
+
+    - type: markdown
       attributes:
-          label: 'DoD - Qualité'
-          description: 'Les standards de code et les tests nécessaires'
-          options:
-              - label: 'Les standards de code sont respectés.'
-              - label: 'Les tests nécessaires ont été exécutés.'
-    - type: checkboxes
-      id: dod_diffusion
+          value: "## Tests d'acceptance"
+    - type: textarea
+      id: tests_acceptance
       attributes:
-          label: 'DoD - Diffusion'
-          description: 'Communication et mise à jour des informations'
-          options:
-              - label: "L'information nécessaire a été communiquée au reste de l'équipe."
-              - label: "Les radiateurs d'information correspondants ont été actualisés."
-              - label: 'La documentation correspondante a été écrite ou actualisée.'
-    - type: checkboxes
-      id: dod_revision
-      attributes:
-          label: 'DoD - Révision'
-          description: 'Vérification de la qualité interne et des démonstrations'
-          options:
-              - label: "La qualité interne se maintient ou s'améliore."
-              - label: 'Le Product Owner a vu une démonstration.'
-              - label: 'Une pré-démonstration (démonstration à blanc) a été réalisée.'
-              - label: 'La démonstration correspondante a été préparée.'
-    - type: checkboxes
-      id: dod_environnements
-      attributes:
-          label: 'DoD - Environnements'
-          description: 'Stockage du code et du produit complet'
-          options:
-              - label: 'Le code impliqué est stocké dans un contrôleur de source.'
-              - label: 'Le produit complet est stocké dans un contrôleur de source.'
+          label: "Définissez les critères d'acceptation"
+          description: 'Listez les tests qui valideraient cette fonctionnalité.'
+          placeholder: "- [ ] <NomDuTest>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et...\n\n- [ ] <NomDuTest2>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et..."
+      validations:
+          required: false
