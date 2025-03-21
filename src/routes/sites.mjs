@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { GetSite } from '../controllers/sites.mjs';
+import { GetSite, GetSiteById } from '../controllers/sites.mjs';
 
 const siteRouter = express();
 siteRouter.set('views', path.resolve('src/views'));

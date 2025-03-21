@@ -11,8 +11,8 @@ function initMap() {
     .then((response) => response.json())
     .then((data) => {
       data.forEach((site) => {
-        const lat = site.coordinates.lat;
-        const lon = site.coordinates.lon;
+        const lat = site.latitude;
+        const lon = site.longitude;
         const name = site.site;
         const link = './api/site/' + calculateCustomId(site);
 
@@ -40,12 +40,12 @@ function calculateCustomId(site) {
       return null;
     }
 
-    const { coordinates } = site;
-    if (!coordinates || !coordinates.lat || !coordinates.lon) {
+    const { latitude, longitude } = site;
+    if (!latitude || !longitude) {
       return null;
     }
 
-    return `${coordinates.lat}_${coordinates.lon}`.replace(/\./g, '_'); // replace . with _
+    return `${latitude}_${longitude}`.replace(/\./g, '_');
   } catch (error) {
     console.error('Error calculating custom ID:', error);
     throw error;

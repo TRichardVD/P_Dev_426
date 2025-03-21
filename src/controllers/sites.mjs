@@ -1,5 +1,5 @@
 import Site from '../models/site.mjs';
-import mongoose from 'mongoose';
+
 async function GetSite(req, res) {
   const { query } = req.query;
   if (!query) {
@@ -9,12 +9,13 @@ async function GetSite(req, res) {
         return res.render('search', { results: sites, query: null });
       });
   } else {
-    Site.find({
-      $or: [
-        { name: { $regex: query, $options: 'i' } },
-        { country: { $regex: query, $options: 'i' } },
-      ],
-    })
+    Site.find(
+      {
+        $or: [{ $text: { $search: query } }],
+      },
+      { score: { $meta: 'textScore' } }
+    )
+      .sort({ score: { $meta: 'textScore' } })
       .then((sites) => {
         return res.render('search', { results: sites, query });
       })
@@ -59,7 +60,11 @@ async function calculateCustomId(id) {
       return null;
     }
 
-    return `${coordinates.lat}_${coordinates.lon}`.replace(/\./g, '_'); // replace . with _
+    const customId = `${coordinates.lat}_${coordinates.lon}`.replace(
+      /\./g,
+      '_'
+    );
+    return customId;
   } catch (error) {
     console.error('Error calculating custom ID:', error);
     throw error;
