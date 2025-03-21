@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
   padding: 0;
@@ -9,7 +9,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   border-bottom: 1px solid black;
 }
 
@@ -52,7 +52,7 @@ a {
   background-color: #9fa09f;
 }
 h1 {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   margin: 20px 0px;
 }
 main {

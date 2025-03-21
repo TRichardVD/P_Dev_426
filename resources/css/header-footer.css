@@ -1,0 +1,86 @@
+header {
+  background-color: white;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 40px;
+}
+
+header nav div {
+  display: flex;
+  gap: 45px; /* Espacement entre les éléments */
+  align-items: center;
+  background-color: #9cb8d1; /* Bleu clair */
+  padding: 10px 55px;
+  border-radius: 10px;
+}
+
+nav div a {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
+nav img {
+  height: 40px; /* Ajuste selon la taille du logo */
+}
+
+nav div:last-child img {
+  height: 25px; /* Taille de l’icône profil */
+  border-radius: 50%;
+}
+footer {
+  background-color: #9cb8d1; /* Bleu clair */
+  padding: 20px 40px;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+footer nav {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* Limite la largeur pour éviter l’étirement */
+}
+
+footer div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+footer div:nth-child(2) {
+  padding: 0 40px; /* Espacement entre les sections */
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  text-align: center;
+}
+
+footer div:last-child {
+  text-align: right;
+}
+
+footer img {
+  height: 40px; /* Ajuste la taille du logo */
+}
+
+footer strong {
+  font-weight: bold;
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px;
+}
