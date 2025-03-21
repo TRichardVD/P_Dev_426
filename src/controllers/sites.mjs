@@ -64,7 +64,7 @@ async function calculateCustomId(id) {
       /\./g,
       '_'
     );
-    return Buffer.from(customId).toString('base64'); // encode to base64
+    return customId;
   } catch (error) {
     console.error('Error calculating custom ID:', error);
     throw error;
@@ -73,8 +73,7 @@ async function calculateCustomId(id) {
 
 async function findByCustomId(customId) {
   try {
-    const decodedId = Buffer.from(customId, 'base64').toString('ascii'); // decode from base64
-    const splitId = decodedId.split('_');
+    const splitId = customId.split('_');
     const coordinates = {
       lat: Number(`${splitId[0]}.${splitId[1]}`),
       lon: Number(`${splitId[2]}.${splitId[3]}`),
