@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+          <a href="/" id="logo"
+            ><img src="./resources/images/logo.png" alt="" style="width: 50px"
+          /></a>
+          <div class="nav-pages">
+            <a href="/">Accueil</a>
+            <a href="./api/site">Monuments</a>
+          </div>
+          <div class="nav-login-register">
+            <a href="" class="cta">Se connecter</a>
+            <a href="" id="register">Créer un compte</a>
+          </div>
+        </nav>
+      </header>
+    <div class="search-container"></div>
+    <form action="/api/site" method="GET">
+        <input type="text" name="query" placeholder="Search..." required>
+        <button type="submit">Rechercher</button>
+    </form>
+    
+        <div class="search-results"></div>
+            <% if (results && results.length > 0) { %>
+                <h2>Résultats de recherche pour "<%= query %>":</h2>
+                <ul>
+                    <% results.forEach(result => { %>
+                        <li>
+                            <strong><%= result.name %></strong>: <%= result.description %>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else if (query) { %>
+                <p>Aucun résultat trouvé pour "<%= query %>".</p>
+            <% } %>
+        </div>
+    </div>
+    <script>
+    </script>
+</body>
+</html>
