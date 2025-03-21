@@ -1,5 +1,6 @@
-name: 'Modèle Issue - DoD & Modifications'
-description: "Formulaire de création d'issue pour la gestion des DoD et des modifications apportées"
+blank_issues_enabled: false
+name: 'Modele Issue - DoD & Modifications'
+description: "Formulaire de creation d'issue pour la gestion des DoD et des modifications apportees"
 title: "[ISSUE] Titre de l'issue"
 labels:
     - 'documentation'
