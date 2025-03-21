@@ -36,11 +36,12 @@ async function GetSiteById(req, res) {
 
   try {
     const site = await findByCustomId(id);
+
     if (!site) {
       return res.status(404).json({ error: 'Site not found' });
     }
     console.log(site);
-    return res.status(200).json(site);
+    return res.render('detailed-view', { site });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: err.message });

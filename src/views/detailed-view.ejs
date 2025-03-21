@@ -4,8 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vue détaillée</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="/css/detailed-view.css" />
   </head>
   <body>
+    <header>
+      <nav>
+        <a href="#" id="logo"
+          ><img src="./resources/images/logo.png" alt="" style="width: 50px"
+        /></a>
+        <div class="nav-pages">
+          <a href="/">Accueil</a>
+          <a href="/api/site">Monuments</a>
+        </div>
+        <div class="nav-login-register">
+          <a href="/login" class="cta">Se connecter</a>
+          <a href="/register" id="register">Créer un compte</a>
+        </div>
+      </nav>
+    </header>
     <main>
       <h1><%= site.name %></h1>
       <% const images = ["photo1.jpg", "photo2.jpg", "photo3.jpg"]; %> <% let
@@ -16,33 +33,24 @@
         src="<%= selectedImage %>"
         alt="selected image"
       />
-      <div>
+      <div class="image-gallery">
         <% images.forEach(image => { %>
-        <img src="<%= image %>" alt="<%= image %>" />
+        <img class="thumbnail" src="<%= image %>" alt="<%= image %>" />
         <% }); %>
       </div>
 
       <section>
         <h2>Histoire</h2>
-        <p>C'est à l'occasion de l'Exposition Universelle de 1889...</p>
-      </section>
-
-      <section>
-        <h2>Impact culturel et symbolique</h2>
-        <p>La Tour Eiffel, symbole emblématique de la France...</p>
-      </section>
-
-      <section>
-        <h2>Visite et accessibilité</h2>
-        <p>La Tour Eiffel, symbole emblématique de la France...</p>
+        <p><%= site.description %>.</p>
       </section>
 
       <section>
         <h2>Localisation</h2>
+        <div id="map" style="height: 400px; width: 100%;"></div>
       </section>
 
       <section>
-        <h2><%= comments.lenght %> Commentaires</h2>
+        <h2><%= site.comments.length %> Commentaires</h2>
         <div>
           <img src="user1.jpg" alt="user1" />
           <div>
@@ -51,7 +59,7 @@
           </div>
         </div>
         <div>
-          <% comments.forEach(comment => { %>
+          <% site.comments.forEach(comment => { %>
           <div>
             <img src="user1.jpg" alt="user1" />
             <div>
@@ -72,5 +80,40 @@
         </div>
       </section>
     </main>
+    
+    <!-- Déplacer le script de Leaflet ici -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <script>
+      function initMap() {
+        // Initialiser la carte avec une vue par défaut
+        var map = L.map('map').setView([0, 0], 2);
+
+        // Ajouter le layer OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // Vérifier si les coordonnées existent et sont valides
+        const lat = <%= site.coordinates.lat %>;
+        const lon = <%= site.coordinates.lon %>;
+
+        if (lat && lon) {
+          // Créer un pop-up avec un lien cliquable
+          const popupContent = `<b><%= site.name %></b>`;
+
+          // Ajouter le marqueur avec le pop-up
+          L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
+          map.setView([lat, lon], 13); // Centrer la carte sur le site
+        } else {
+          console.error("Les coordonnées ne sont pas valides.");
+        }
+      }
+
+      // Appeler la fonction d'initialisation de la carte une fois que le script est chargé
+      document.addEventListener("DOMContentLoaded", function() {
+        initMap();
+      });
+    </script>
   </body>
 </html>
