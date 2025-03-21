@@ -10,8 +10,8 @@ body:
       attributes:
           label: 'Décrivez votre demande'
           description: 'Expliquez clairement votre besoin.'
-          placeholder: 'En tant que... Afin de... Je souhaite...'
-          value: 'En tant que... Afin de... Je souhaite...'
+          placeholder: "En tant que...\nAfin de...\nJe souhaite..."
+          value: "En tant que...\nAfin de...\nJe souhaite..."
       validations:
           required: true
 
