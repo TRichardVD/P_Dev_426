@@ -1,4 +1,4 @@
-name: 'Demande de fonctionnalité'
+name: 'Fonctionnalité'
 description: 'Suggérez une nouvelle fonctionnalité ou amélioration'
 labels: ['enhancement']
 body:
@@ -11,6 +11,7 @@ body:
           label: 'Décrivez votre demande'
           description: 'Expliquez clairement votre besoin.'
           placeholder: 'En tant que... Afin de... Je souhaite...'
+          value: 'En tant que... Afin de... Je souhaite...'
       validations:
           required: true
 
@@ -23,5 +24,6 @@ body:
           label: "Définissez les critères d'acceptation"
           description: 'Listez les tests qui valideraient cette fonctionnalité.'
           placeholder: "- [ ] <NomDuTest>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et...\n\n- [ ] <NomDuTest2>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et..."
+          value: "- [ ] <NomDuTest>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et...\n\n- [ ] <NomDuTest2>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et..."
       validations:
           required: false
