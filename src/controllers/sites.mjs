@@ -1,7 +1,7 @@
 import Site from '../models/site.mjs';
 
 async function GetSite(req, res) {
-  const { query } = req.query;
+  const { query, country } = req.query;
   if (!query) {
     Site.find()
       .limit(20)
@@ -17,7 +17,14 @@ async function GetSite(req, res) {
     )
       .sort({ score: { $meta: 'textScore' } })
       .then((sites) => {
-        return res.render('search', { results: sites, query });
+        if (!country) {
+          return res.render('search', { results: sites, query });
+        }
+        console.log(sites);
+        const countrySites = sites.filter((site) =>
+          site.country.includes(country)
+        );
+        return res.render('search', { results: countrySites, query });
       })
       .catch((err) => {
         return res.status(500).json({ error: err.message });
@@ -36,12 +43,11 @@ async function GetSiteById(req, res) {
 
   try {
     const site = await findByCustomId(id);
-
     if (!site) {
       return res.status(404).json({ error: 'Site not found' });
     }
     console.log(site);
-    return res.render('detailed-view', { site });
+    return res.status(200).json(site);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: err.message });
