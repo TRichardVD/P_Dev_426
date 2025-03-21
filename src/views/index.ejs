@@ -4,25 +4,37 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <title>Page-Accueil</title>
+    <title>Page d'Accueil</title>
   </head>
   <body>
-    <header>
-      <nav>
-        <a href="#" id="logo"
-          ><img src="./resources/images/logo.png" alt="" style="width: 50px"
-        /></a>
-        <div class="nav-pages">
-          <a href="">Accueil</a>
-          <a href="./api/site">Monuments</a>
+    <header class="home-header">
+      <div class="dark-opacity">
+        <div class="nav-logo-container">
+          <nav class="home-nav">
+            <a href="/login" class="classic-button">Connexion</a>
+            <a href="/profile" class="profile-icon"
+              ><img src="/images/icons/profile-white.png" alt="icone profile"
+            /></a>
+          </nav>
+          <a href="/"
+            ><img
+              src="/images/logos/BSI_WhiteLogo.png"
+              alt="logo"
+              class="big-logo"
+          /></a>
         </div>
-        <div class="nav-login-register">
-          <a href="" class="cta">Se connecter</a>
-          <a href="" id="register">Créer un compte</a>
+        <div class="home-header-content">
+          <title>Explorez les trésors de l'humanité !</title>
+          <p>
+            Explorez une carte interactive des monuments classés par
+            L'<span>UNESCO</span>, un voyage virtuel à travers les merveilles
+            culturelles et naturelles de notre planète.
+          </p>
+          <button class="classic-button">Explorer les monuments</button>
         </div>
-      </nav>
+      </div>
     </header>
     <main>
       <h1>Carte interactive</h1>
