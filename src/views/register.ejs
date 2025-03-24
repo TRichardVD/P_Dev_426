@@ -7,30 +7,32 @@
         <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
-        <h1>Inscription</h1>
-        <form action="/api/user/register" method="POST">
-            <label for="username">Nom d'utilisateur</label>
-            <input
-                id="username"
-                type="text"
-                name="username"
-                placeholder="Nom d'utilisateur"
-            />
-            <label for="email">Email</label>
-            <input
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Email d'utilisateur"
-            />
-            <label for="password">Mot de passe</label>
-            <input
-                id="password"
-                type="password"
-                name="password"
-                placeholder="Mot de passe"
-            />
-            <input type="submit" class="btn" value="S'inscrire" />
-        </form>
+        <div class="connexionBox">
+            <h1>Inscription</h1>
+            <form action="/api/user/register" method="POST">
+                <label for="username">Nom d'utilisateur</label>
+                <input
+                    id="username"
+                    type="text"
+                    name="username"
+                    placeholder="Nom d'utilisateur"
+                />
+                <label for="email">Email</label>
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="Email d'utilisateur"
+                />
+                <label for="password">Mot de passe</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Mot de passe"
+                />
+                <input type="submit" class="btn" value="S'inscrire" />
+            </form>
+        </div>
     </body>
 </html>
