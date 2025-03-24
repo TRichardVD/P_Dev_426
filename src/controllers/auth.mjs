@@ -35,10 +35,23 @@ async function Register(req, res) {
                 password: hashedPassword,
                 email: email,
             });
-            user.save();
-            return res
-                .status(201)
-                .json({ message: 'Utilisateur créé avec succès.' });
+            user.save()
+                .then((user) => {
+                    return res
+                        .status(201)
+                        .json({ message: 'Utilisateur créé avec succès.' });
+                })
+                .catch((err) => {
+                    if (typeof err === ValidationError) {
+                        return res
+                            .status(400)
+                            .json({ message: 'Champ mal formaté' });
+                    }
+                    console.log(err);
+                    return res.status(500).json({
+                        message: 'Une erreur est survenue',
+                    });
+                });
         })
         .catch((err) => {
             console.error(err);
@@ -66,6 +79,7 @@ async function Login(req, res) {
             }
             // Comparer le mot de passe
             bcrypt.compare(password, user.password).then((isMatch) => {
+                console.log(isMatch);
                 if (!isMatch) {
                     return res.status(400).json({
                         message: "L'username ou le mot de passe est incorrect.",
@@ -101,7 +115,7 @@ async function Login(req, res) {
 }
 
 const authReq = async (req, res, next) => {
-    const token = req.cookies.token;
+    const token = req.cookies.token || req.header.Authorization.split(' ')[1];
     if (!token) {
         return res.status(401).json({ message: 'Non autorisé' });
     }

@@ -10,23 +10,23 @@
         <div class="connexionBox">
             <h1>Connexion</h1>
             <form action="/api/user/login" method="POST">
-                <div class="textbox">
-                    <% if (typeof error !== 'undefined' && error) { %>
-                    <div class="error-message"><%= error %></div>
-                    <% } %>
-                    <input
-                        type="text"
-                        name="email"
-                        placeholder="email d'utilisateur"
-                    />
-                </div>
-                <div class="textbox">
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Mot de passe"
-                    />
-                </div>
+                <% if (typeof error !== 'undefined' && error) { %>
+                <div class="error-message"><%= error %></div>
+                <% } %>
+                <label for="username">Nom d'utilisateur</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Nom d'utilisateur"
+                />¨
+                <label for="password">Mot de passe</label>
+                <input
+                    id="username"
+                    type="password"
+                    name="password"
+                    placeholder="Mot de passe"
+                />
                 <input type="submit" class="btn" value="Se connecter" />
             </form>
         </div>
