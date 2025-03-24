@@ -115,7 +115,13 @@ async function Login(req, res) {
 }
 
 const authReq = async (req, res, next) => {
-    const token = req.cookies.token || req.header.Authorization.split(' ')[1];
+    let token = req.cookies.token;
+    if (!token) {
+        const authHeader = req.get('authorization');
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.split(' ')[1];
+        }
+    }
     if (!token) {
         return res.status(401).json({ message: 'Non autorisé' });
     }
