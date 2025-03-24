@@ -179,3 +179,8 @@ a {
     color: #34db4d;
     text-decoration: underline;
 }
+
+a:hover {
+    color: #26b64a;
+    transition: 0.2s;
+}
