@@ -13,10 +13,53 @@ nav {
     border-bottom: 1px solid black;
 }
 
+/* Base link styles */
 a {
-    color: black;
+    font-family: 'Roboto', sans-serif;
+    color: #2c3e50;
     text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
 }
+
+/* Link hover effect with underline animation */
+a:not(.btn):not(.nav-login-register a):after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #26b64a;
+    transition: width 0.3s ease;
+}
+
+a:not(.btn):not(.nav-login-register a):hover:after {
+    width: 100%;
+}
+
+a:not(.btn):not(.nav-login-register a):hover {
+    color: #26b64a;
+}
+
+/* Login/Register form link specific styles */
+.connexionBox a {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #26b64a;
+}
+
+/* Navigation link specific styles - keeping existing styles but updating colors */
+.nav-pages a {
+    font-weight: 500;
+    padding: 5px 0;
+}
+
+.nav-login-register a {
+    padding: 10px;
+}
+
 .nav-pages a:hover {
     color: #585858;
 }
@@ -34,9 +77,6 @@ a {
     padding: 10px;
     gap: 10px;
 }
-.nav-login-register a {
-    padding: 10px;
-}
 #register {
     border: 1px solid black;
     border-radius: 30px;
@@ -44,6 +84,7 @@ a {
 .cta {
     background-color: #26b64a;
     border-radius: 30px;
+    color: #fff;
 }
 .cta:hover {
     background-color: #1f8337;
@@ -177,7 +218,7 @@ input[type='submit'].btn:hover {
 a {
     font-family: 'Roboto', sans-serif;
     color: #34db4d;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 a:hover {
