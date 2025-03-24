@@ -2,33 +2,36 @@ import Site from '../models/site.mjs';
 
 async function GetSite(req, res) {
   const { query, country } = req.query;
-  if (!query) {
-    Site.find()
-      .limit(20)
-      .then((sites) => {
-        return res.render('search', { results: sites, query: null });
-      });
-  } else {
-    Site.find(
-      {
-        $or: [{ $text: { $search: query } }],
-      },
-      { score: { $meta: 'textScore' } }
-    )
-      .sort({ score: { $meta: 'textScore' } })
-      .then((sites) => {
-        if (!country) {
-          return res.render('search', { results: sites, query });
-        }
-        console.log(sites);
-        const countrySites = sites.filter((site) =>
-          site.country.includes(country)
-        );
-        return res.render('search', { results: countrySites, query });
-      })
-      .catch((err) => {
-        return res.status(500).json({ error: err.message });
-      });
+
+  // Construction de la requête
+  const searchConditions = {};
+
+  // Si un pays est défini, on ajoute un filtre sur le pays
+  if (country) {
+    searchConditions.country = { $in: [country] };
+  }
+
+  // Si une query de texte est définie, on l'ajoute
+  if (query) {
+    searchConditions.$text = { $search: query };
+  }
+
+  // Ajout de la limite pour éviter trop de résultats
+  const limit = 20;
+
+  try {
+    // Exécution de la requête avec ou sans filtre de texte, et avec ou sans pays
+    const sites = await Site.find(searchConditions)
+      .limit(limit)
+      .sort(query ? { score: { $meta: 'textScore' } } : {}); // Si query, on trie par score, sinon pas de tri particulier
+
+    return res.render('search', {
+      results: sites,
+      query: query || null,
+      country: country || null,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 }
 
