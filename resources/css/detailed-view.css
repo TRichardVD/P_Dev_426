@@ -4,11 +4,11 @@
   --text-color: #333;
   --background-color: #f5f6fa;
   --border-radius: 8px;
-  --shadow: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: "Segoe UI", system-ui, sans-serif;
   line-height: 1.6;
   color: var(--text-color);
   background-color: var(--background-color);
@@ -114,11 +114,11 @@ section {
   main {
     padding: 1rem;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   section {
     padding: 1rem;
   }
@@ -128,8 +128,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Roboto';
-  border-bottom: 1px solid black;
+  font-family: "Roboto";
 }
 
 a {
@@ -155,4 +154,70 @@ a {
 }
 .nav-login-register a {
   padding: 10px;
+}
+
+.comments-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  background-color: #f9f9f9;
+}
+
+.comments-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.comments-section div {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.comments-section img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.comments-section input[type="text"] {
+  flex: 1;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  margin-right: 0.5rem;
+}
+
+.comments-section button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.comments-section button:hover {
+  background-color: var(--secondary-color);
+}
+
+.like-dislike {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.like-dislike button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.like-dislike span {
+  font-size: 1rem;
+  color: #555;
 }
