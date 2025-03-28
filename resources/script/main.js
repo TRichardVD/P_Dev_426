@@ -1,20 +1,28 @@
 let map;
-
+const pinBuilder = new Cesium.PinBuilder();
+// Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.  CesiumWidget
+const viewer = new Cesium.Viewer("cesiumContainer", {
+  //terrain: Cesium.Terrain.fromWorldTerrain(),
+  timeline: false,
+  animation: false,
+});
+let i = 0;
+/*
 function initMap() {
-  map = L.map('map').setView([0, 0], 2);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  map = L.map("map").setView([0, 0], 2);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-  fetch('../world-heritage-list.json')
+  fetch("../world-heritage-list.json")
     .then((response) => response.json())
     .then((data) => {
       data.forEach((site) => {
         const lat = site.coordinates.lat;
         const lon = site.coordinates.lon;
         const name = site.site;
-        const link = './api/site/' + calculateCustomId(site);
+        const link = "./api/site/" + calculateCustomId(site);
 
         // Créer un pop-up avec un lien cliquable
         const popupContent = `<b>${name}</b><br><a href="${link}">Voir plus</a>`;
@@ -24,15 +32,41 @@ function initMap() {
       });
     })
     .catch((error) =>
-      console.error('Error loading or processing data:', error)
+      console.error("Error loading or processing data:", error)
     );
-}
+}*/
 
 navigator.geolocation.watchPosition((pos) => {
-  map.setView([pos.coords.latitude, pos.coords.longitude], 12);
+  //map.setView([pos.coords.latitude, pos.coords.longitude], 12);
+  //fly to custumer location
+  if (i == 0) {
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(
+        [pos.coords.longitude],
+        [pos.coords.latitude],
+        20000
+      ),
+    });
+
+    const CostomerPos = Promise.resolve(
+      pinBuilder.fromMakiIconId("triangle", Cesium.Color.RED, 48),
+    ).then(function (canvas) {
+      return viewer.entities.add({
+        name: "You",
+        position: Cesium.Cartesian3.fromDegrees([pos.coords.longitude], [pos.coords.latitude]),
+        billboard: {
+          image: canvas.toDataURL(),
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        },
+      });
+    });
+
+    i++;
+  }
 });
 
-initMap();
+//initMap();
+init3dMap();
 
 function calculateCustomId(site) {
   try {
@@ -45,9 +79,61 @@ function calculateCustomId(site) {
       return null;
     }
 
-    return `${coordinates.lat}_${coordinates.lon}`.replace(/\./g, '_'); // replace . with _
+    return `${coordinates.lat}_${coordinates.lon}`.replace(/\./g, "_"); // replace . with _
   } catch (error) {
-    console.error('Error calculating custom ID:', error);
+    console.error("Error calculating custom ID:", error);
     throw error;
   }
+}
+
+async function init3dMap() {
+  // Your access token can be found at: https://ion.cesium.com/tokens.
+  // This is the default access token from your ion account
+
+
+  Cesium.Ion.defaultAccessToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhODUxNWEzNy1lYjkxLTQyMjUtYjIwYS00OGVlYzEwNTRmN2IiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDMxNjYyMzh9.DiCViUqiY8bfqjpLdNtcKLZO5RHs6JVUH3UjEQJfssY";
+
+
+
+    fetch("../world-heritage-list.json")
+    .then((response) => response.json())
+    .then((data) => {
+      data.forEach((site) => {
+        const lat = site.coordinates.lat;
+        const lon = site.coordinates.lon;
+        const name = site.site;
+        const letter = name.charAt(0);
+        const link = "./api/site/" + calculateCustomId(site);
+        let color;
+        if (site.category == "Cultural") {
+          color = Cesium.Color.YELLOW;
+        } 
+        else if (site.category == "Natural") {
+          color = Cesium.Color.GREEN;
+        } else {
+          color = Cesium.Color.ROYALBLUE;
+        }
+
+        const Pin = viewer.entities.add({
+          name: name,
+          description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}">Voir plus</a>`,
+          position: Cesium.Cartesian3.fromDegrees( lon, lat),
+          billboard: {
+            image: pinBuilder.fromText(letter,color, 48).toDataURL(),
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          },
+        });
+
+
+      });
+    })
+    .catch((error) =>
+      console.error("Error loading or processing data:", error)
+    );
+
+
+  // Add Cesium OSM Buildings, a global 3D buildings layer.
+  //const buildingTileset = await Cesium.createOsmBuildingsAsync();
+  //viewer.scene.primitives.add(buildingTileset);
 }
