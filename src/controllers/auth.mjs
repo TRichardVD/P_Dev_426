@@ -126,6 +126,43 @@ async function Login(req, res) {
         });
 }
 
+const Logout = async (req, res) => {
+    if (!req.user.session_id) {
+        return res.status(401).json({ message: 'Non autorisé' });
+    }
+    verifyToken(token)
+        .then(async (decoded) => {
+            try {
+                const user = await User.findOne({ _id: decoded.sub });
+                if (!user) {
+                    return res.status(401).json({ message: 'Non autorisé' });
+                }
+
+                // Supprimer le token de la liste des sessions de l'utilisateur
+                user.sessions = user.sessions.filter(
+                    (session) => session !== decoded.jti
+                );
+                user.save();
+
+                return res
+                    .status(200)
+                    .clearCookie('token')
+                    .json({ message: 'Déconnexion réussie' });
+            } catch (err) {
+                console.error(err);
+                return res
+                    .status(500)
+                    .json({ message: 'Erreur interne du serveur' });
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            return res
+                .status(500)
+                .json({ message: 'Erreur interne du serveur' });
+        });
+};
+
 const authReq = async (req, res, next) => {
     let token = req.cookies.token;
     if (!token) {
@@ -155,6 +192,7 @@ const authReq = async (req, res, next) => {
                 req.user = {
                     username: user.username,
                     id: user._id,
+                    session_id: decoded.jti,
                 };
 
                 next();
@@ -169,4 +207,4 @@ const authReq = async (req, res, next) => {
         });
 };
 
-export { Register, Login, authReq };
+export { Register, Login, authReq, Logout };
