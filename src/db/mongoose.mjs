@@ -7,7 +7,7 @@ const connectDB = async () => {
       {}
     );
     //importData();
-    console.log('Connexion réussie à MongoDB');
+    console.log("Connexion réussie à MongoDB");
   } catch (error) {
     console.error("Erreur de connexion :", error);
     process.exit(1); // Quitte le processus si la connexion échoue

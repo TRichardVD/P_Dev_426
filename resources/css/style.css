@@ -1,6 +1,3 @@
-/* ==========================
-   IMPORTS
-   ========================== */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 /* ==========================
@@ -38,7 +35,6 @@ img {
   align-items: center;
   z-index: 2;
   animation: fadeIn 1.5s ease-in-out; /* Apparition progressive */
-  position: relative;
   overflow: hidden;
 }
 
@@ -133,6 +129,10 @@ p {
   color: white;
   font-weight: 300;
 }
+
+h1 {
+  font-family: "Montserrat";
+  margin: 20px 0px;
 
 title {
   font-size: 2.5em;
