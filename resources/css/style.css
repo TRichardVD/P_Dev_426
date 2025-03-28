@@ -1,227 +1,268 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: 'Roboto';
-    border-bottom: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Roboto";
+  border-bottom: 1px solid black;
 }
 
 /* Base link styles */
 a {
-    font-family: 'Roboto', sans-serif;
-    color: #2c3e50;
-    text-decoration: none;
-    position: relative;
-    transition: color 0.3s ease;
+  font-family: "Roboto", sans-serif;
+  color: #2c3e50;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
 }
 
 /* Link hover effect with underline animation */
 a:not(.btn):not(.nav-login-register a):after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background-color: #26b64a;
-    transition: width 0.3s ease;
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #26b64a;
+  transition: width 0.3s ease;
 }
 
 a:not(.btn):not(.nav-login-register a):hover:after {
-    width: 100%;
+  width: 100%;
 }
 
 a:not(.btn):not(.nav-login-register a):hover {
-    color: #26b64a;
+  color: #26b64a;
 }
 
 /* Login/Register form link specific styles */
 .connexionBox a {
-    display: inline-block;
-    margin-top: 15px;
-    font-size: 0.9rem;
-    color: #26b64a;
+  display: inline-block;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #26b64a;
 }
 
 /* Navigation link specific styles - keeping existing styles but updating colors */
 .nav-pages a {
-    font-weight: 500;
-    padding: 5px 0;
+  font-weight: 500;
+  padding: 5px 0;
 }
 
 .nav-login-register a {
-    padding: 10px;
+  padding: 10px;
 }
 
 .nav-pages a:hover {
-    color: #585858;
+  color: #585858;
 }
 
 .nav-pages {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .nav-login-register {
-    display: flex;
-    padding: 10px;
-    gap: 10px;
+  display: flex;
+  padding: 10px;
+  gap: 10px;
 }
 #register {
-    border: 1px solid black;
-    border-radius: 30px;
+  border: 1px solid black;
+  border-radius: 30px;
 }
 .cta {
-    background-color: #26b64a;
-    border-radius: 30px;
-    color: #fff;
+  background-color: #26b64a;
+  border-radius: 30px;
+  color: #fff;
 }
 .cta:hover {
-    background-color: #1f8337;
+  background-color: #1f8337;
 }
 #register:hover {
-    background-color: #9fa09f;
+  background-color: #9fa09f;
 }
 h1 {
-    font-family: 'Montserrat';
-    margin: 20px 0px;
+  font-family: "Montserrat";
+  margin: 20px 0px;
 }
 main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .image-gallery {
-    display: flex;
-    gap: 10px;
-    margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
 }
 
 .thumbnail {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    cursor: pointer;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 .thumbnail:hover {
-    border: 2px solid #26b64a;
+  border: 2px solid #26b64a;
 }
 
 /* Modern minimalist form style */
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin: 20px auto;
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    color: #2c3e50;
-    font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: #2c3e50;
+  font-family: "Montserrat", sans-serif;
 }
 
 /* Modern minimalist container for login form */
 .connexionBox,
 .connectionBox {
-    margin: 60px auto;
-    padding: 20px;
-    max-width: 400px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    align-items: center;
-    text-align: center;
+  margin: 60px auto;
+  padding: 20px;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  text-align: center;
 }
 
 /* Minimalist label style */
 label {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: #2c3e50;
-    letter-spacing: 0.5px;
-    margin-bottom: 2px;
-    margin-top: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  margin-top: 10px;
 }
 
 /* Modern input style with underline effect */
-input[type='text'],
-input[type='email'],
-input[type='password'] {
-    padding: 12px;
-    border: none;
-    border-bottom: 1px solid #ddd;
-    font-size: 1rem;
-    width: 90%;
-    transition: border-color 0.3s;
-    font-family: 'Montserrat', sans-serif;
-    color: #2c3e50;
-    background-color: #f8f9fa;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 12px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+  width: 90%;
+  transition: border-color 0.3s;
+  font-family: "Montserrat", sans-serif;
+  color: #2c3e50;
+  background-color: #f8f9fa;
 }
 
-input[type='text']:focus,
-input[type='email']:focus,
-input[type='password']:focus {
-    outline: none;
-    border-bottom-color: #26b64a;
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-bottom-color: #26b64a;
 }
 
-input[type='text']::placeholder,
-input[type='email']::placeholder,
-input[type='password']::placeholder {
-    color: #95a5a6;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+  color: #95a5a6;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
 }
 
 /* Modern minimalist submit button */
-input[type='submit'].btn {
-    padding: 12px;
-    background-color: #26b64a;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+input[type="submit"].btn {
+  padding: 12px;
+  background-color: #26b64a;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
-input[type='submit'].btn:hover {
-    background-color: #1f8337;
+input[type="submit"].btn:hover {
+  background-color: #1f8337;
 }
 
 /* Style pour les messages d'erreur */
 .error-message {
-    color: #e74c3c;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+  color: #e74c3c;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* Style pour les champs de formulaire avec une ligne */
+.form-field {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-field input {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #ddd; /* Ligne sous le champ */
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  z-index: 1;
+  position: relative;
+}
+
+.form-field input:focus {
+  border-bottom-color: #3498db; /* Change la couleur de la ligne au focus */
+}
+
+.form-field input:focus + .field-background {
+  transform: translateY(-10px); /* Soulève le champ */
+  background-color: #f0f8ff; /* Fond coloré */
+}
+
+.form-field .field-background {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 0;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 a {
-    font-family: 'Roboto', sans-serif;
-    color: #34db4d;
-    text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  color: #34db4d;
+  text-decoration: none;
 }
 
 a:hover {
-    color: #26b64a;
-    transition: 0.2s;
+  color: #26b64a;
+  transition: 0.2s;
 }

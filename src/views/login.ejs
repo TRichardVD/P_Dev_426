@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Page de login</title>
-        <link rel="stylesheet" href="css/style.css" />
-    </head>
-    <body>
-        <div class="connexionBox">
-            <h1>Connexion</h1>
-            <form action="/api/user/login" method="POST">
-                <% if (typeof error !== 'undefined' && error) { %>
-                <div class="error-message"><%= error %></div>
-                <% } %>
-                <label for="username">Nom d'utilisateur</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Nom d'utilisateur"
-                />
-                <label for="password">Mot de passe</label>
-                <input
-                    id="username"
-                    type="password"
-                    name="password"
-                    placeholder="Mot de passe"
-                />
-                <input type="submit" class="btn" value="Se connecter" />
-            </form>
-            <a href="/register">Je n'ai pas de compte</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page de login</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="connexionBox">
+      <h1>Connexion</h1>
+      <form class="login-form" action="/api/user/login" method="POST">
+        <% if (typeof error !== 'undefined' && error) { %>
+        <div class="error-message"><%= error %></div>
+        <% } %>
+        <div class="form-field">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Nom d'utilisateur"
+          />
+          <div class="field-background"></div>
         </div>
-    </body>
+        <div class="form-field">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Mot de passe"
+          />
+          <div class="field-background"></div>
+        </div>
+        <input type="submit" class="btn" value="Se connecter" />
+      </form>
+      <a href="/register">Je n'ai pas de compte</a>
+    </div>
+  </body>
 </html>
