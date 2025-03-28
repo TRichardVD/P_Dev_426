@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import User from '../models/user.mjs';
 import { createToken, verifyToken } from '../helper/jwt.mjs';
+import { randomBytes } from 'crypto';
 
 //register
 async function Register(req, res) {
@@ -86,8 +87,19 @@ async function Login(req, res) {
                     });
                 }
 
+                // Générer l'id du token de session
+                const tokenId = randomBytes(16).toString('hex'); // Permet de générer un id pour le token de session vraiment alératoire de 16 caractères
+
+                // Ajouter le token à la liste des sessions de l'utilisateur
+                user.sessions.push(tokenId);
+                user.save();
+
                 // Création du token JWT
-                createToken({ username: user.username })
+                createToken({
+                    username: user.username,
+                    jti: tokenId,
+                    sub: user._id,
+                })
                     .then((token) => {
                         return res
                             .status(200)
@@ -126,9 +138,30 @@ const authReq = async (req, res, next) => {
         return res.status(401).json({ message: 'Non autorisé' });
     }
     verifyToken(token)
-        .then((decoded) => {
-            req.user = decoded;
-            next();
+        .then(async (decoded) => {
+            // Vérifier si l'utilisateur existe dans la base de données
+            try {
+                const user = await User.findOne({ _id: decoded.sub });
+                if (!user) {
+                    return res.status(401).json({ message: 'Non autorisé' });
+                }
+
+                // Vérification si le token est toujours valide
+                if (!user.sessions || !user.sessions.includes(decoded.jti)) {
+                    return res.status(401).json({ message: 'Non autorisé' });
+                }
+
+                // Ajouter les infos utiles de l'utilisateur à la requête
+                req.user = {
+                    username: user.username,
+                    id: user._id,
+                };
+
+                next();
+            } catch (err) {
+                console.error(err);
+                return res.status(401).json({ message: 'Non autorisé' });
+            }
         })
         .catch((err) => {
             console.error(err);

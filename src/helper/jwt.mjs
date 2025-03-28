@@ -43,7 +43,6 @@ const createToken = function (data) {
  */
 const verifyToken = function (token) {
     return new Promise((resolve, reject) => {
-        console.log('Dans verifyToken TOKEN : ', token);
         // Vérification du token JWT
         jwt.verify(token, privateKey, (err, decoded) => {
             if (err) {
