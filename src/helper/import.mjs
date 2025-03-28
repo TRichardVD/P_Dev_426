@@ -13,10 +13,10 @@ export const importData = async () => {
       address: site.location,
       description: site.short_description,
       country: site.states,
-      coordinates: {
-        lat: site.latitude,
-        lon: site.longitude,
-      },
+      'coordinates.coordinates':
+        site.longitude != '' && site.latitude != ''
+          ? [site.longitude, site.latitude]
+          : [0, 0],
     });
     newSite.save();
   });
