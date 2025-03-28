@@ -21,12 +21,30 @@ const SiteSchema = new Schema({
   likes_count: { type: Number, default: 0 }, // Nombre de likes pour ce site
   comments: [CommentSchema], // Liste des commentaires associés au site,
   coordinates: {
-    lat: { type: Number },
-    lon: { type: Number },
+    type: {
+      type: String,
+      default: 'Point',
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
   },
 });
+
+SiteSchema.index({ coordinates: '2dsphere' }); // Index pour la recherche géospatiale
+// Index pour la recherche textuelle
 SiteSchema.index({ name: 'text', description: 'text', country: 'text' });
 // Modèle Mongoose pour le site
 const Site = mongoose.model('Site', SiteSchema);
+
+Site.on('index', function (err) {
+  if (err) {
+    console.log('Error creating index:', err);
+  } else {
+    console.log('Index created successfully');
+  }
+});
 
 export default Site;
