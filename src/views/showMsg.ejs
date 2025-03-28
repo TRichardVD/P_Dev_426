@@ -1,0 +1,33 @@
+<aside>
+    <p id="success-query" role="alert"></p>
+    <p id="error-query" role="alert"></p>
+</aside>
+
+<script>
+    const currentUrl = window.location.href;
+    const urlObj = new URL(currentUrl);
+    const params = urlObj.searchParams;
+    if (params.has('err')) {
+        // Récupéré le message d'erreur et l'afficher
+        const msg = params.get('err');
+        const errorElement = document.getElementById('error-query');
+        errorElement.textContent = msg;
+    }
+    if (params.has('success')) {
+        // Récupéré le message de succès et l'afficher
+        const msg = params.get('success');
+        const successElement = document.getElementById('success-query');
+        successElement.textContent = msg;
+    }
+
+    // Enlerver les messages de la barre d'adresse
+    window.history.replaceState({}, document.title, currentUrl.split('?')[0]);
+
+    // Supprimer les messages après 5 secondes
+    setTimeout(() => {
+        const errorElement = document.getElementById('error-query');
+        const successElement = document.getElementById('success-query');
+        errorElement.textContent = '';
+        successElement.textContent = '';
+    }, 5000);
+</script>
