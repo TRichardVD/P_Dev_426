@@ -1,10 +1,13 @@
-import https from "https";
-import express from "express";
-import cookieParser from "cookie-parser";
-import fs from "fs";
-import path from "path";
-import connectDB from "./db/mongoose.mjs";
-import { siteRouter } from "./routes/sites.mjs";
+
+import https from 'https';
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import fs from 'fs';
+import path from 'path';
+import connectDB from './db/mongoose.mjs';
+import { userRouter } from './routes/user.mjs';
+import { siteRouter } from './routes/sites.mjs';
+
 const app = express();
 
 // middlewares principaux
@@ -25,7 +28,9 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.use("/api/site", siteRouter);
+app.use('/api/user', userRouter);
+app.use('/api/site', siteRouter);
+
 // Démarrage du serveur
 https.createServer(credentials, app).listen(443, () => {
   connectDB();

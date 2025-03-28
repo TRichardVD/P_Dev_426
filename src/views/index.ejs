@@ -4,29 +4,41 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <title>Page-Accueil</title>
+    <title>Page d'Accueil</title>
   </head>
   <body>
-    <header>
-      <nav>
-        <a href="#" id="logo"
-          ><img src="./resources/images/logo.png" alt="" style="width: 50px"
+    <header class="home-header">
+      <div class="nav-logo-container">
+        <nav class="home-nav">
+          <a href="/login" class="classic-button">Connexion</a>
+          <a href="/profile" class="profile-icon"
+            ><img
+              src="/images/icons/profile-white-icon.png"
+              alt="icone profile"
+          /></a>
+        </nav>
+        <a href="/"
+          ><img
+            src="/images/logos/BSI_WhiteLogo.png"
+            alt="logo"
+            class="big-logo"
         /></a>
-        <div class="nav-pages">
-          <a href="">Accueil</a>
-          <a href="./api/site">Monuments</a>
-        </div>
-        <div class="nav-login-register">
-          <a href="" class="cta">Se connecter</a>
-          <a href="" id="register">Créer un compte</a>
-        </div>
-      </nav>
+      </div>
+      <div class="home-header-content">
+        <h1>Explorez les trésors de l'humanité !</h1>
+        <p>
+          Explorez une carte interactive des monuments classés par
+          L'<span>UNESCO</span>, un voyage virtuel à travers les merveilles
+          culturelles et naturelles de notre planète.
+        </p>
+        <button class="classic-button">Explorer les monuments</button>
+      </div>
     </header>
     <main>
       <h1>Carte interactive</h1>
-      <div id="map" style="height: 600px; width: 1440px"></div>
+      <div id="map" style="height: 60em; width: 90%"></div>
     </main>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script type="module" src="/script/main.js"></script>

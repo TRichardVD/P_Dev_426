@@ -1,0 +1,29 @@
+name: 'Fonctionnalité'
+description: 'Suggérez une nouvelle fonctionnalité ou amélioration'
+labels: ['enhancement']
+body:
+    - type: markdown
+      attributes:
+          value: '## Description'
+    - type: textarea
+      id: description
+      attributes:
+          label: 'Décrivez votre demande'
+          description: 'Expliquez clairement votre besoin.'
+          placeholder: "En tant que...\nAfin de...\nJe souhaite..."
+          value: "En tant que...\nAfin de...\nJe souhaite..."
+      validations:
+          required: true
+
+    - type: markdown
+      attributes:
+          value: "## Tests d'acceptance"
+    - type: textarea
+      id: tests_acceptance
+      attributes:
+          label: "Définissez les critères d'acceptation"
+          description: 'Listez les tests qui valideraient cette fonctionnalité.'
+          placeholder: "- [ ] <NomDuTest>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et...\n\n- [ ] <NomDuTest2>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et..."
+          value: "- [ ] <NomDuTest>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et...\n\n- [ ] <NomDuTest2>\n\n(Given) Étant donné...\n(When) Quand...\n(Then) Alors...\n(And) Et..."
+      validations:
+          required: false
