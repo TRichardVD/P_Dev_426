@@ -9,6 +9,7 @@
     <body>
         <div class="connexionBox">
             <h1>Connexion</h1>
+            <%- include("showMsg") %>
             <form action="/api/user/login" method="POST">
                 <% if (typeof error !== 'undefined' && error) { %>
                 <div class="error-message"><%= error %></div>
