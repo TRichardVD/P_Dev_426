@@ -2,14 +2,22 @@ import bcrypt from 'bcrypt';
 import User from '../models/user.mjs';
 import { createToken, verifyToken } from '../helper/jwt.mjs';
 import { randomBytes } from 'crypto';
+import { type } from 'os';
 
 //register
 async function Register(req, res) {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
+    const { username, email, password, confirmPassword } = req.body;
+    if (!username || !email || !password || !confirmPassword) {
         return res.redirect(
             `/register?err=${encodeURIComponent(
                 'Tous les champs doivent être spécifiés'
+            )}`
+        );
+    }
+    if (password !== confirmPassword) {
+        return res.redirect(
+            `/register?err=${encodeURIComponent(
+                'Les mots de passe ne correspondent pas.'
             )}`
         );
     }

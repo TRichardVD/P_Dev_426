@@ -7,6 +7,18 @@
         <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
+        <script>
+            const verifyPassword = () => {
+                if (
+                    document.getElementById('confirmPassword').value !==
+                    document.getElementById('password').value
+                ) {
+                    alert('Les mots de passe ne correspondent pas.');
+                    return false;
+                }
+                return true;
+            };
+        </script>
         <div class="connexionBox">
             <h1>Inscription</h1>
             <%- include("showMsg") %>
@@ -17,6 +29,8 @@
                     type="text"
                     name="username"
                     placeholder="Nom d'utilisateur"
+                    minlength="3"
+                    required
                 />
                 <label for="email">Email</label>
                 <input
@@ -24,6 +38,7 @@
                     type="email"
                     name="email"
                     placeholder="Email d'utilisateur"
+                    required
                 />
                 <label for="password">Mot de passe</label>
                 <input
@@ -31,8 +46,23 @@
                     type="password"
                     name="password"
                     placeholder="Mot de passe"
+                    minlength="6"
+                    required
                 />
-                <input type="submit" class="btn" value="S'inscrire" />
+                <label for="confirmPassword">Confirmer le mot de passe</label>
+                <input
+                    id="confirmPassword"
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Mot de passe confirmé"
+                    required
+                />
+                <input
+                    type="submit"
+                    class="btn"
+                    value="S'inscrire"
+                    onclick="verifyPassword()"
+                />
             </form>
             <a href="/login">J'ai déja un compte</a>
         </div>
