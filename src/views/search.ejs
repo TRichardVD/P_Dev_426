@@ -24,9 +24,21 @@
       </header>
     <div class="search-container"></div>
     <form action="/api/site" method="GET">
+        <input type="text" hidden name="lat" id="lat">
+        <input type="text" hidden name="lon" id="lon">
         <input type="text" name="query" placeholder="Chercher" value="<%= query || "" %>">
         <button type="submit">Rechercher</button>
         <input type="text" name="country" value="<%= country || "" %>" placeholder="Pays">
+        <label for="sortField">Trier par:</label>
+        <select name="sortField" id="sortField" value="<%= sortField || "" %>">
+            <option value="">Sélectionnez un champ</option>
+            <option value="pertinence" <%= sortField === "pertinence" ? "selected" : "" %>>Pertinence</option>
+            <option value="proximite" <%= sortField === "proximite" ? "selected" : "" %> id="proximite">Proximité</option>
+        </select>
+        <select name="sortOrder" id="sortOrder" value="<%= sortOrder || "" %>">
+            <option value="asc" <%= sortOrder === "asc" ? "selected" : "" %>>Ordre croissant</option>
+            <option value="desc" <%= sortOrder === "desc" ? "selected" : "" %>>Ordre décroissant</option>
+        </select>
     </form>
     
         <div class="search-results"></div>
@@ -45,6 +57,21 @@
         </div>
     </div>
     <script>
+        const selected = document.getElementById("sortField");
+        selected.addEventListener("change", () => {
+            const lat = document.getElementById("lat");
+            const lon = document.getElementById("lon");
+
+            if (selected.value === "proximite") {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    console.log(pos.coords.latitude, pos.coords.longitude);
+                    lat.value = pos.coords.latitude;
+                    lon.value = pos.coords.longitude;
+                }, (err) => {
+                    console.error("Geolocation error:", err);
+                });
+            }
+        });
     </script>
 </body>
 </html>
