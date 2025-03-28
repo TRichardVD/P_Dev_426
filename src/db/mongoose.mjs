@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import { importData } from '../helper/import.mjs';
+import mongoose from "mongoose";
+import { importData } from "../helper/import.mjs";
 const connectDB = async () => {
     try {
         await mongoose.connect(
