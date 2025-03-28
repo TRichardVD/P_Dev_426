@@ -6,9 +6,8 @@ const connectDB = async () => {
       "mongodb://root:admin@localhost:27017/db_unesco?authSource=admin",
       {}
     );
-    importData();
-
-    console.log("Connexion réussie à MongoDB");
+    //importData();
+    console.log('Connexion réussie à MongoDB');
   } catch (error) {
     console.error("Erreur de connexion :", error);
     process.exit(1); // Quitte le processus si la connexion échoue
