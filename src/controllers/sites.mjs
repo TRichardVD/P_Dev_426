@@ -1,36 +1,109 @@
 import Site from '../models/site.mjs';
 
 async function GetSite(req, res) {
-  const { query, country } = req.query;
+  const { query, country, sortField, sortOrder, lat, lon } = req.query;
 
-  // Construction de la requête
-  const searchConditions = {};
+  // Préparation du pipeline d'agrégation
+  const pipeline = [];
 
-  // Si un pays est défini, on ajoute un filtre sur le pays
+  // Gérer d'abord la requête géospatiale si nécessaire (doit être la première étape du pipeline)
+  if (sortField === 'proximite' && lat && lon) {
+    pipeline.push({
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [parseFloat(lon), parseFloat(lat)], // Longitude, Latitude
+        },
+        distanceField: 'distance',
+        spherical: true,
+        query: {}, // On ajoutera d'autres conditions ici si nécessaire
+      },
+    });
+  }
+
+  // Construction des conditions de correspondance
+  const matchConditions = {};
+
+  // Ajouter le filtre de pays si fourni
   if (country) {
-    searchConditions.country = { $in: [country] };
+    matchConditions.country = { $in: [country] };
   }
 
-  // Si une query de texte est définie, on l'ajoute
+  // Ajouter la recherche textuelle si fournie
   if (query) {
-    searchConditions.$text = { $search: query };
+    matchConditions.$text = { $search: query };
   }
 
-  // Ajout de la limite pour éviter trop de résultats
-  const limit = 20;
+  // Ajouter l'étape de correspondance si nous avons des conditions
+  if (Object.keys(matchConditions).length > 0) {
+    // Si nous avons déjà $geoNear, ajouter ces conditions à sa requête
+    if (pipeline.some((stage) => stage.$geoNear)) {
+      pipeline[0].$geoNear.query = matchConditions;
+    } else {
+      pipeline.push({ $match: matchConditions });
+    }
+  }
+
+  // Si recherche textuelle, ajouter le champ de score
+  if (query) {
+    pipeline.push({
+      $addFields: {
+        score: { $meta: 'textScore' },
+      },
+    });
+  }
+
+  // Ajouter l'étape de tri
+  let needsSortStage = true;
+  if (sortField === 'proximite' && pipeline.some((stage) => stage.$geoNear)) {
+    // Si on utilise $geoNear pour la proximité, les résultats sont déjà triés par distance
+    needsSortStage = false;
+  }
+
+  if (needsSortStage) {
+    const sortStage = { $sort: {} };
+
+    if (sortField) {
+      switch (sortField) {
+        case 'date':
+          sortStage.$sort.date = sortOrder === 'asc' ? 1 : -1;
+          break;
+        case 'pertinence':
+          sortStage.$sort.likes_count = sortOrder === 'asc' ? 1 : -1;
+          break;
+        case 'proximite':
+          // Gérer le cas où la proximité est demandée mais lat/lon n'ont pas été fournis
+          sortStage.$sort.coordinates = 1;
+          break;
+      }
+    } else if (query) {
+      // Si pas de sortField mais recherche textuelle, trier par score
+      sortStage.$sort.score = -1; // Score plus élevé = plus pertinent
+    }
+
+    // Ajouter l'étape de tri seulement si nous avons des critères de tri
+    if (Object.keys(sortStage.$sort).length > 0) {
+      pipeline.push(sortStage);
+    }
+  }
+
+  // Ajouter l'étape de limite
+  pipeline.push({ $limit: 20 });
 
   try {
-    // Exécution de la requête avec ou sans filtre de texte, et avec ou sans pays
-    const sites = await Site.find(searchConditions)
-      .limit(limit)
-      .sort(query ? { score: { $meta: 'textScore' } } : {}); // Si query, on trie par score, sinon pas de tri particulier
+    // Exécution du pipeline d'agrégation
+    const sites = await Site.aggregate(pipeline);
 
+    // Rendu des résultats
     return res.render('search', {
       results: sites,
       query: query || null,
       country: country || null,
+      sortField: sortField || null,
+      sortOrder: sortOrder || null,
     });
   } catch (err) {
+    // Gestion des erreurs
     return res.status(500).json({ error: err.message });
   }
 }
@@ -49,7 +122,6 @@ async function GetSiteById(req, res) {
     if (!site) {
       return res.status(404).json({ error: 'Site not found' });
     }
-    console.log(site);
     return res.status(200).json(site);
   } catch (err) {
     console.log(err);
@@ -88,7 +160,6 @@ async function findByCustomId(customId) {
       lat: Number(`${splitId[0]}.${splitId[1]}`),
       lon: Number(`${splitId[2]}.${splitId[3]}`),
     };
-    console.log(coordinates);
 
     const site = await Site.findOne({
       'coordinates.lat': coordinates.lat,
