@@ -28,6 +28,7 @@
                 <%- include("input", { name: "password", label: "Mot de passe", type: "password", other: "required", errors: errors.password || null, }) %>
                 <%- include("input", { name: "confirmPassword", label: "Confirmer le mot de passe", other: "required", type: "password", errors: errors.confirmPassword || null, }) %>
                 <input
+                    class="btn"
                     type="submit"
                     value="S'inscrire"
                     onclick="return verifyPassword()"
