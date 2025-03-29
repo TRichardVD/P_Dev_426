@@ -1,0 +1,18 @@
+<!-- Composant qui gère les erreurs pour chaque champs donc il peut prendre en paramètre `errors` -->
+<!-- Liste de tous les paramètres : type, label, name, errors, other  -->
+<div class="form-field" id="<%= name %>-box">
+    <label for="<%= name %>"><%= label %></label>
+
+    <% if(type === 'textarea') { %>
+
+    <textarea name="<%= name %>" id="<%= name %>" <%= !!errors && !!errors.value ? `value=${errors.value}` : '' %></textarea>
+
+    <% } else { %>
+
+    <input type="<%= type %>" id="<%= name %>" name="<%= name %>" <%= !!errors && !!errors.value ? `value=${errors.value}` : '' %> <%= other%> />
+
+    <% } %> 
+    <% if(errors) { %> 
+            <p class="error-message"><%= errors.message %></p>
+    <% } %>
+</div>

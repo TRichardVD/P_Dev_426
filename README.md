@@ -20,6 +20,7 @@ l'UNESCO de manière interactive.
 
 -   [Git](https://git-scm.com/downloads)
 -   [Node.js](https://nodejs.org/) (version 16 ou ultérieure recommandée)
+-   [Docker](https://docker.com) (Si vous n'avez pas de base de données mongodb installé)
 
 ### 1. Cloner le projet
 
@@ -32,7 +33,7 @@ git clone https://github.com/TRichardVD/P_Dev_426.git
 Naviguez vers le répertoire du projet :
 
 ```bash
-cd P_Dev_426  # Attention à la casse du nom du dossier
+cd P_Dev_426
 ```
 
 ### 2. Configuration des certificats HTTPS
@@ -79,7 +80,32 @@ Installez tous les packages nécessaires définis dans package.json :
 npm install
 ```
 
-### 4. Lancement de l'application
+### 4. Lancer un serveur mongodb
+
+```bash
+docker run -d -p 27017:27017 --name mongodb-container -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
+
+```
+
+### 5. Configuration du dotenv
+
+Copier le `.env.example` sous le nom `.env`
+
+```bash
+CP .env.example .env
+```
+
+Compléter le `.env`
+
+```dotenv
+JWT_SECRET=123hfvjasgf68qtio16
+
+DB_USER=admin
+DB_PASSWORD=secret
+
+```
+
+### 6. Lancement de l'application
 
 Pour lancer l'application en mode production :
 

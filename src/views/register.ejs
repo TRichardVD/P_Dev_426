@@ -10,10 +10,10 @@
         <script>
             const verifyPassword = () => {
                 if (
-                    document.getElementById('confirmPassword').value !==
-                    document.getElementById('password').value
+                    document.getElementById("confirmPassword").value !==
+                    document.getElementById("password").value
                 ) {
-                    alert('Les mots de passe ne correspondent pas.');
+                    alert("Les mots de passe ne correspondent pas.");
                     return false;
                 }
                 return true;
@@ -22,46 +22,15 @@
         <div class="connexionBox">
             <h1>Inscription</h1>
             <%- include("showMsg") %>
-            <form action="/api/user/register" method="POST">
-                <label for="username">Nom d'utilisateur</label>
-                <input
-                    id="username"
-                    type="text"
-                    name="username"
-                    placeholder="Nom d'utilisateur"
-                    minlength="3"
-                    required
-                />
-                <label for="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    placeholder="Email d'utilisateur"
-                    required
-                />
-                <label for="password">Mot de passe</label>
-                <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    placeholder="Mot de passe"
-                    minlength="6"
-                    required
-                />
-                <label for="confirmPassword">Confirmer le mot de passe</label>
-                <input
-                    id="confirmPassword"
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Mot de passe confirmé"
-                    required
-                />
+            <form action="/register" method="POST">
+                <%- include("input", { name: "username", label: "Nom d'utilisateur", type: "text", other: "required", errors: errors.username || null}) %>
+                <%- include("input", { name: "email", label: "Email", type: "email", other: "required",  errors: errors.email || null, }) %>
+                <%- include("input", { name: "password", label: "Mot de passe", type: "password", other: "required", errors: errors.password || null, }) %>
+                <%- include("input", { name: "confirmPassword", label: "Confirmer le mot de passe", other: "required", type: "password", errors: errors.confirmPassword || null, }) %>
                 <input
                     type="submit"
-                    class="btn"
                     value="S'inscrire"
-                    onclick="verifyPassword()"
+                    onclick="return verifyPassword()"
                 />
             </form>
             <a href="/login">J'ai déja un compte</a>
