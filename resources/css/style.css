@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 /* ==========================
    GLOBAL STYLES
@@ -11,24 +11,15 @@
 
 /* Base link styles */
 a {
-<<<<<<< HEAD
   font-family: "Roboto", sans-serif;
   text-decoration: none;
   position: relative;
   transition: color 0.3s ease;
   opacity: 1;
-=======
-    font-family: 'Roboto', sans-serif;
-    text-decoration: none;
-    position: relative;
-    transition: color 0.3s ease;
-    opacity: 1;
->>>>>>> 34e7d5868eaf1e5715768c45596e21acd114533b
 }
 
 /* Link hover effect with underline animation */
 a:not(.btn):not(.nav-login-register a):after {
-<<<<<<< HEAD
   content: "";
   position: absolute;
   width: 0;
@@ -36,15 +27,6 @@ a:not(.btn):not(.nav-login-register a):after {
   bottom: -2px;
   left: 0;
   transition: width 0.3s ease;
-=======
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    transition: width 0.3s ease;
->>>>>>> 34e7d5868eaf1e5715768c45596e21acd114533b
 }
 
 a:not(.btn):not(.register-link)::after {
@@ -108,13 +90,8 @@ a:not(.btn):not(.nav-login-register a):hover:after {
 }
 
 h1 {
-<<<<<<< HEAD
   font-family: "Montserrat";
   margin: 20px 0px;
-=======
-    font-family: 'Montserrat';
-    margin: 20px 0px;
->>>>>>> 34e7d5868eaf1e5715768c45596e21acd114533b
 }
 main {
   display: flex;
@@ -141,23 +118,12 @@ main {
 
 /* Modern minimalist form style */
 form {
-<<<<<<< HEAD
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin: 20px auto;
-  padding: 30px;
+  gap: 1em;
   color: #2c3e50;
   font-family: "Montserrat", sans-serif;
-=======
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin: 20px auto;
-    padding: 30px;
-    color: #2c3e50;
-    font-family: 'Montserrat', sans-serif;
->>>>>>> 34e7d5868eaf1e5715768c45596e21acd114533b
+  width: 80%;
 }
 
 /* Modern minimalist container for login form */
@@ -185,6 +151,18 @@ label {
   letter-spacing: 0.5px;
   margin-bottom: 2px;
   margin-top: 10px;
+  margin-left: 10px;
+  opacity: 1;
+  position: absolute;
+  transform: translateX(-320px);
+  transition: transform 0.3s ease, font-size 0.3s ease;
+  z-index: 1;
+}
+
+.form-field input:focus + label {
+  transform: translateY(-2.1em);
+  transform: translateX(-320px);
+  font-size: 0.8rem;
 }
 
 /* Modern input style with underline effect */
@@ -299,11 +277,11 @@ input[type="submit"].btn:hover {
   font-family: "Roboto", sans-serif;
   color: #333;
   opacity: 1;
+  transition: background-color 0.5s ease-in-out;
 }
 
-.form-field input:focus ::placeholder {
-  bottom: 1.7em;
-  left: 0.5em;
+.form-field input:focus {
+  background-color: #9bbcd3;
 }
 
 /* Lien "Mot de passe oublié" */
