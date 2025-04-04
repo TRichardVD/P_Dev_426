@@ -38,6 +38,7 @@
             <option value="desc" <%= sortOrder === "desc" ? "selected" : "" %>>Ordre décroissant</option>
         </select>
     </form>
+    <button id="reset">Réinitialiser</button>
     
         <div class="search-results"></div>
             <% if (results && results.length > 0) { %>
@@ -55,6 +56,18 @@
         </div>
     </div>
     <script>
+        const resetButton = document.getElementById('reset');
+        resetButton.addEventListener('click', () => {
+            const searchInput = document.querySelector('input[name="query"]');
+            const countryInput = document.querySelector('input[name="country"]');
+            const sortFieldSelect = document.getElementById('sortField');
+            const sortOrderSelect = document.getElementById('sortOrder');
+
+            searchInput.value = '';
+            countryInput.value = '';
+            sortFieldSelect.selectedIndex = 0;
+            sortOrderSelect.selectedIndex = 0;
+        });
     </script>
 </body>
 </html>
