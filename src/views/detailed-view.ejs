@@ -11,21 +11,33 @@
     <%- include('partials/header'); -%>
     <main>
       <h1><%= site.name %></h1>
-      <% const images = ["photo1.jpg", "photo2.jpg", "photo3.jpg"]; %> <% let
-      selectedImage = "photo1.jpg"; %>
+      <% const images = ["red", "blue", "green", "yellow"]; %>
+      <% let selectedImage = "red"; %>
+      
+      
 
-      <img
-        id="selected-image"
-        src="<%= selectedImage %>"
-        alt="selected image"
-      />
-      <div class="image-gallery">
-        <% images.forEach(image => { %>
-        <img class="thumbnail" src="<%= image %>" alt="<%= image %>" />
+      <div class="gallery-container">
+        <div class="gallery-main">
+          <img
+            src="<%= selectedImage %>"
+            
+            class="main-img"
+          />
+          <div class="like-button">❤️ <span>13</span></div>
+        </div>
+
+        <div class="gallery-thumbnails">
+        <% images.forEach(color => { %>
+          <div 
+        class="color-box" 
+        style="background-color: <%= color %>;" 
+        tabindex="0"
+        onclick="document.querySelector('.main-img').style.backgroundColor = '<%= color %>';" 
+          ></div>
         <% }); %>
       </div>
 
-      <section>
+      <section class="history-section">
         <h2>Histoire</h2>
         <p><%= site.description %>.</p>
       </section>
@@ -37,8 +49,8 @@
 
       <section class="comments-section">
         <h2><%= site.comments.length %> Commentaires</h2>
-        <div>
-          <img src="user1.jpg" alt="user1" />
+        <div class="comment-form">
+          <img src="/resources/images/profile-icon.png" alt="user1" />
           <div>
             <input type="text" placeholder="Ajoutez un commentaire..." />
             <button>Envoyer</button>
