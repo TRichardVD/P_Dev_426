@@ -13,20 +13,42 @@ const CommentSchema = new Schema({
 });
 
 // Schéma pour le site
-const SiteSchema = new Schema({
-  name: { type: String, required: true },
-  address: { type: String },
-  description: { type: String },
-  country: [{ type: String }],
-  likes_count: { type: Number, default: 0 }, // Nombre de likes pour ce site
-  comments: [CommentSchema], // Liste des commentaires associés au site,
-  coordinates: {
-    lat: { type: Number },
-    lon: { type: Number },
+const SiteSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    address: { type: String },
+    description: { type: String },
+    country: [{ type: String }],
+    likes_count: { type: Number, default: 0 }, // Nombre de likes pour ce site
+    comments: [CommentSchema], // Liste des commentaires associés au site,
+    coordinates: {
+      type: {
+        type: String,
+        default: 'Point',
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+      },
+    },
   },
-});
-SiteSchema.index({ name: 'text', description: 'text', country: 'text' });
+  { defaultLanguage: 'french' }
+);
+// Index pour la recherche textuelle
+SiteSchema.index(
+  { name: 'text', description: 'text', country: 'text' },
+  { default_language: 'french' }
+);
 // Modèle Mongoose pour le site
 const Site = mongoose.model('Site', SiteSchema);
+
+Site.on('index', function (err) {
+  if (err) {
+    console.log('Error creating index:', err);
+  } else {
+    console.log('Index created successfully');
+  }
+});
 
 export default Site;

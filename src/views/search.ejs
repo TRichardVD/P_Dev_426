@@ -9,9 +9,21 @@
     <%- include('partials/header'); -%>
     <div class="search-container"></div>
     <form action="/api/site" method="GET">
-        <input type="text" name="query" placeholder="Search..." required>
+        <input type="text" name="query" placeholder="Chercher" value="<%= query || "" %>">
         <button type="submit">Rechercher</button>
+        <input type="text" name="country" value="<%= country || "" %>" placeholder="Pays">
+        <label for="sortField">Trier par:</label>
+        <select name="sortField" id="sortField" value="<%= sortField || "" %>">
+            <option value="">Sélectionnez un champ</option>
+            <option value="pertinence" <%= sortField === "pertinence" ? "selected" : "" %>>Pertinence</option>
+            <option value="alphabetique" <%= sortField === "alphabetique" ? "selected" : "" %> id="alphabetique">Alphabétique</option>
+        </select>
+        <select name="sortOrder" id="sortOrder" value="<%= sortOrder || "" %>">
+            <option value="asc" <%= sortOrder === "asc" ? "selected" : "" %>>Ordre croissant</option>
+            <option value="desc" <%= sortOrder === "desc" ? "selected" : "" %>>Ordre décroissant</option>
+        </select>
     </form>
+    <button id="reset">Réinitialiser</button>
     
         <div class="search-results"></div>
             <% if (results && results.length > 0) { %>
@@ -29,6 +41,18 @@
         </div>
     </div>
     <script>
+        const resetButton = document.getElementById('reset');
+        resetButton.addEventListener('click', () => {
+            const searchInput = document.querySelector('input[name="query"]');
+            const countryInput = document.querySelector('input[name="country"]');
+            const sortFieldSelect = document.getElementById('sortField');
+            const sortOrderSelect = document.getElementById('sortOrder');
+
+            searchInput.value = '';
+            countryInput.value = '';
+            sortFieldSelect.selectedIndex = 0;
+            sortOrderSelect.selectedIndex = 0;
+        });
     </script>
     <%- include('partials/footer'); -%>
 </body>
