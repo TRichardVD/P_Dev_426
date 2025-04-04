@@ -5,6 +5,7 @@
   --background-color: #f5f6fa;
   --border-radius: 8px;
   --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 
 body {
@@ -106,6 +107,7 @@ a {
 .nav-login-register a {
   padding: 10px;
 }
+
 
 .comments-section {
   margin-top: 2rem;
