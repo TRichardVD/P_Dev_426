@@ -14,6 +14,113 @@ Mettre en place une plateforme en ligne qui permettra aux utilisateurs de
 découvrir, d'explorer et de suivre les sites du patrimoine mondial de
 l'UNESCO de manière interactive.
 
+## Installation
+
+### Prérequis
+
+-   [Git](https://git-scm.com/downloads)
+-   [Node.js](https://nodejs.org/) (version 16 ou ultérieure recommandée)
+-   [Docker](https://docker.com) (Si vous n'avez pas de base de données mongodb installé)
+
+### 1. Cloner le projet
+
+Récupérez le code source depuis GitHub :
+
+```bash
+git clone https://github.com/TRichardVD/P_Dev_426.git
+```
+
+Naviguez vers le répertoire du projet :
+
+```bash
+cd P_Dev_426
+```
+
+### 2. Configuration des certificats HTTPS
+
+> **Note importante** : Ces commandes doivent être exécutées dans un terminal Git Bash sous Windows ou dans un terminal standard sous macOS/Linux.
+
+Créez un dossier pour stocker les certificats :
+
+```bash
+mkdir certificates
+cd certificates
+```
+
+Générez une clé privée RSA de 2048 bits :
+
+```bash
+openssl genrsa -out server.key 2048
+```
+
+Créez une demande de signature de certificat (CSR) :
+
+```bash
+openssl req -new -key server.key -out server.csr
+# Vous serez invité à fournir des informations comme le pays, l'organisation, etc. mais ce n'est pas obligatoire.
+```
+
+Générez un certificat auto-signé valide pour 365 jours :
+
+```bash
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+```
+
+Revenez au répertoire principal du projet :
+
+```bash
+cd ..
+```
+
+### 3. Installation des dépendances
+
+Installez tous les packages nécessaires définis dans package.json :
+
+```bash
+npm install
+```
+
+### 4. Lancer un serveur mongodb
+
+```bash
+docker run -d -p 27017:27017 --name mongodb-container -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
+
+```
+
+### 5. Configuration du dotenv
+
+Copier le `.env.example` sous le nom `.env`
+
+```bash
+CP .env.example .env
+```
+
+Compléter le `.env`
+
+```dotenv
+JWT_SECRET=123hfvjasgf68qtio16
+
+DB_USER=admin
+DB_PASSWORD=secret
+
+```
+
+### 6. Lancement de l'application
+
+Pour lancer l'application en mode production :
+
+```bash
+npm run start
+```
+
+Pour le développement avec rechargement automatique :
+
+```bash
+npm run dev
+```
+
+Une fois démarré, accédez à l'application via https://localhost/ dans votre navigateur.
+
 ## Comment collaborer ?
 
 Rendez-vous sur le document [`collaborate.md`](./doc/collaborate.md)
