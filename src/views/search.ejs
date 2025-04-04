@@ -4,24 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Page</title>
-    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-          <a href="/" id="logo"
-            ><img src="./resources/images/logo.png" alt="" style="width: 50px"
-          /></a>
-          <div class="nav-pages">
-            <a href="/">Accueil</a>
-            <a href="/api/site">Monuments</a>
-          </div>
-          <div class="nav-login-register">
-            <a href="" class="cta">Se connecter</a>
-            <a href="" id="register">Créer un compte</a>
-          </div>
-        </nav>
-      </header>
+    <%- include('partials/header'); -%>
     <div class="search-container"></div>
     <form action="/api/site" method="GET">
         <input type="text" name="query" placeholder="Chercher" value="<%= query || "" %>">
@@ -69,5 +54,6 @@
             sortOrderSelect.selectedIndex = 0;
         });
     </script>
+    <%- include('partials/footer'); -%>
 </body>
 </html>

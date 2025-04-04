@@ -6,25 +6,44 @@ import path from 'path';
 import connectDB from './db/mongoose.mjs';
 import { userRouter } from './routes/user.mjs';
 import { siteRouter } from './routes/sites.mjs';
+import { Register, Login, Logout } from './controllers/auth.mjs';
+import { authReq } from './controllers/auth.mjs';
+
 const app = express();
 
 // middlewares principaux
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('./resources'));
 
 app.set('view engine', 'ejs'); // Utilisation du moteur de rendu EJS
-app.set('views', path.resolve('src/views')); // Définition du dossier des vues
+app.set('views', path.resolve('./src/views')); // Définition du dossier des vues
 
 const credentials = {
     key: fs.readFileSync('./certificates/server.key'), // Clé privée
     cert: fs.readFileSync('./certificates/server.crt'), // Certificat public
 };
 
-// Routes principales
+// Routes d'affichages des pages d'accueil et de connexion
 app.get('/', (req, res) => {
     res.render('index');
 });
+
+app.get('/register', (req, res) => {
+    return res.render('auth/register', {
+        errors: {},
+    });
+});
+app.get('/login', (req, res) => {
+    return res.render('auth/login');
+});
+
+// Routes API de l'authentification
+app.post('/register', Register);
+app.post('/login', Login);
+app.post('/logout', authReq, Logout);
+
 app.use('/api/user', userRouter);
 app.use('/api/site', siteRouter);
 // Démarrage du serveur

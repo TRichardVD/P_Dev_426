@@ -4,16 +4,7 @@
   --text-color: #333;
   --background-color: #f5f6fa;
   --border-radius: 8px;
-  --shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  line-height: 1.6;
-  color: var(--text-color);
-  background-color: var(--background-color);
-  margin: 0;
-  padding: 0;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 main {
@@ -114,11 +105,11 @@ section {
   main {
     padding: 1rem;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   section {
     padding: 1rem;
   }
@@ -128,7 +119,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   border-bottom: 1px solid black;
 }
 

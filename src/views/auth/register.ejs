@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>page d'inscription</title>
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <script>
+            const verifyPassword = () => {
+                if (
+                    document.getElementById("confirmPassword").value !==
+                    document.getElementById("password").value
+                ) {
+                    alert("Les mots de passe ne correspondent pas.");
+                    return false;
+                }
+                return true;
+            };
+        </script>
+        <div class="connexionBox">
+            <h1>Inscription</h1>
+            <%- include("../components/showMsg") %>
+            <form action="/register" method="POST">
+                <%- include("../input", { name: "username", label: "Nom d'utilisateur", placeholder: "username", type: "text", other: "required", errors: errors.username || null}) %>
+                <%- include("../input", { name: "email", label: "Email", type: "email", placeholder: "example@example.com", other: "required",  errors: errors.email || null, }) %>
+                <%- include("../input", { name: "password", label: "Mot de passe", type: "password", placeholder: "", other: "required", errors: errors.password || null, }) %>
+                <%- include("../input", { name: "confirmPassword", label: "Confirmer le mot de passe", placeholder: "", other: "required", type: "password", errors: errors.confirmPassword || null, }) %>
+                <input
+                    class="btn"
+                    type="submit"
+                    value="S'inscrire"
+                    onclick="return verifyPassword()"
+                />
+            </form>
+            <a href="/login">J'ai déja un compte</a>
+        </div>
+    </body>
+</html>
