@@ -1,5 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* ==========================
+   GLOBAL STYLES
+   ========================== */
 * {
   padding: 0;
   margin: 0;
@@ -7,15 +11,24 @@
 
 /* Base link styles */
 a {
+<<<<<<< HEAD
   font-family: "Roboto", sans-serif;
   text-decoration: none;
   position: relative;
   transition: color 0.3s ease;
   opacity: 1;
+=======
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+    opacity: 1;
+>>>>>>> 34e7d5868eaf1e5715768c45596e21acd114533b
 }
 
 /* Link hover effect with underline animation */
 a:not(.btn):not(.nav-login-register a):after {
+<<<<<<< HEAD
   content: "";
   position: absolute;
   width: 0;
@@ -23,6 +36,15 @@ a:not(.btn):not(.nav-login-register a):after {
   bottom: -2px;
   left: 0;
   transition: width 0.3s ease;
+=======
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    transition: width 0.3s ease;
+>>>>>>> 34e7d5868eaf1e5715768c45596e21acd114533b
 }
 
 a:not(.btn):not(.register-link)::after {
@@ -84,9 +106,15 @@ a:not(.btn):not(.nav-login-register a):hover:after {
 #register:hover {
   background-color: #9fa09f;
 }
+
 h1 {
+<<<<<<< HEAD
   font-family: "Montserrat";
   margin: 20px 0px;
+=======
+    font-family: 'Montserrat';
+    margin: 20px 0px;
+>>>>>>> 34e7d5868eaf1e5715768c45596e21acd114533b
 }
 main {
   display: flex;
@@ -113,6 +141,7 @@ main {
 
 /* Modern minimalist form style */
 form {
+<<<<<<< HEAD
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -120,6 +149,15 @@ form {
   padding: 30px;
   color: #2c3e50;
   font-family: "Montserrat", sans-serif;
+=======
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px auto;
+    padding: 30px;
+    color: #2c3e50;
+    font-family: 'Montserrat', sans-serif;
+>>>>>>> 34e7d5868eaf1e5715768c45596e21acd114533b
 }
 
 /* Modern minimalist container for login form */
