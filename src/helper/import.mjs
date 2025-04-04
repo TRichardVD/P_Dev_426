@@ -8,11 +8,12 @@ export const importData = async () => {
   const data = fs.readFileSync(filePath, 'utf-8');
   const heritageSites = JSON.parse(data);
   heritageSites.forEach((site) => {
+    const countries = site.states.split(',').map((country) => country.trim());
     const newSite = new Site({
       name: site.site,
       address: site.location,
       description: site.short_description,
-      country: site.states,
+      country: countries,
       'coordinates.coordinates':
         site.longitude != '' && site.latitude != ''
           ? [site.longitude, site.latitude]
