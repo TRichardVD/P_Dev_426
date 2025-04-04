@@ -1,8 +1,5 @@
-import express from 'express';
-import { Register, Login } from '../controllers/auth.mjs';
-const userRouter = express();
+import express from "express";
 
-userRouter.post('/register', Register);
-userRouter.post('/login', Login);
+const userRouter = express();
 
 export { userRouter };
