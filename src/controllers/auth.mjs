@@ -1,7 +1,7 @@
-import bcrypt from "bcrypt";
-import User from "../models/user.mjs";
-import { createToken, verifyToken } from "../helper/jwt.mjs";
-import { randomBytes } from "crypto";
+import bcrypt from 'bcrypt';
+import User from '../models/user.mjs';
+import { createToken, verifyToken } from '../helper/jwt.mjs';
+import { randomBytes } from 'crypto';
 
 //register
 async function Register(req, res) {
@@ -10,7 +10,7 @@ async function Register(req, res) {
     if (!username || !email || !password || !confirmPassword) {
         return res.redirect(
             `/register?err=${encodeURIComponent(
-                "Tous les champs doivent être spécifiés"
+                'Tous les champs doivent être spécifiés'
             )}`
         );
     } else {
@@ -32,13 +32,13 @@ async function Register(req, res) {
             if (password.length < 8) {
                 errors.password = {
                     message:
-                        "Le mot de passe doit contenir au moins 8 caractères.",
+                        'Le mot de passe doit contenir au moins 8 caractères.',
                     value: password,
                 };
             }
             if (password !== confirmPassword) {
                 errors.confirmPassword = {
-                    message: "Les mots de passe ne correspondent pas.",
+                    message: 'Les mots de passe ne correspondent pas.',
                     value: confirmPassword,
                 };
             }
@@ -52,13 +52,13 @@ async function Register(req, res) {
                 await user.save();
                 return res.redirect(
                     `/login?success=${encodeURIComponent(
-                        "Le compte a été crée avec succès"
+                        'Le compte a été crée avec succès'
                     )}`
                 );
             }
 
             // Rafficher la page avec les erreurs
-            return res.render("register", { errors });
+            return res.render('auth/register', { errors });
         } catch (err) {
             console.error(err);
             if (err.errors) {
@@ -69,10 +69,10 @@ async function Register(req, res) {
                     };
                 }
                 console.error(errors);
-                return res.render("register", { errors });
+                return res.render('register', { errors });
             }
             return res.redirect(
-                `/register?err=${encodeURIComponent("Une erreur est survenue")}`
+                `/register?err=${encodeURIComponent('Une erreur est survenue')}`
             );
         }
     }
@@ -84,7 +84,7 @@ async function Login(req, res) {
     if (!username || !password) {
         return res.redirect(
             `/login?err=${encodeURIComponent(
-                "Tous les champs doivent être spécifiés"
+                'Tous les champs doivent être spécifiés'
             )}`
         );
     }
@@ -105,7 +105,7 @@ async function Login(req, res) {
                 )}`
             );
         }
-        const tokenId = randomBytes(16).toString("hex");
+        const tokenId = randomBytes(16).toString('hex');
         user.sessions.push(tokenId);
         await user.save();
         const token = await createToken({
@@ -113,46 +113,46 @@ async function Login(req, res) {
             jti: tokenId,
             sub: user._id,
         });
-        res.cookie("token", token, {
+        res.cookie('token', token, {
             httpOnly: true,
             secure: true,
-            sameSite: "none",
+            sameSite: 'none',
         });
         return res.redirect(
-            `/?success=${encodeURIComponent("Connexion réussie.")}`
+            `/?success=${encodeURIComponent('Connexion réussie.')}`
         );
     } catch (err) {
         console.error(err);
         return res.redirect(
-            `/login?err=${encodeURIComponent("Erreur interne du serveur")}`
+            `/login?err=${encodeURIComponent('Erreur interne du serveur')}`
         );
     }
 }
 
 const Logout = async (req, res) => {
     if (!req.user.session_id) {
-        return res.redirect(`/login?err=${encodeURIComponent("Non autorisé")}`);
+        return res.redirect(`/login?err=${encodeURIComponent('Non autorisé')}`);
     }
     try {
         const decoded = await verifyToken(req.cookies.token);
         const user = await User.findOne({ _id: decoded.sub });
         if (!user) {
             return res.redirect(
-                `/login?err=${encodeURIComponent("Non autorisé")}`
+                `/login?err=${encodeURIComponent('Non autorisé')}`
             );
         }
         user.sessions = user.sessions.filter(
             (session) => session !== decoded.jti
         );
         await user.save();
-        res.clearCookie("token");
+        res.clearCookie('token');
         return res.redirect(
-            `/login?success=${encodeURIComponent("Déconnexion réussie")}`
+            `/login?success=${encodeURIComponent('Déconnexion réussie')}`
         );
     } catch (err) {
         console.error(err);
         return res.redirect(
-            `/login?err=${encodeURIComponent("Erreur interne du serveur")}`
+            `/login?err=${encodeURIComponent('Erreur interne du serveur')}`
         );
     }
 };
@@ -160,20 +160,20 @@ const Logout = async (req, res) => {
 const authReq = async (req, res, next) => {
     let token = req.cookies.token;
     if (!token) {
-        const authHeader = req.get("authorization");
-        if (authHeader && authHeader.startsWith("Bearer ")) {
-            token = authHeader.split(" ")[1];
+        const authHeader = req.get('authorization');
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.split(' ')[1];
         }
     }
     if (!token) {
-        return res.redirect(`/login?err=${encodeURIComponent("Non autorisé")}`);
+        return res.redirect(`/login?err=${encodeURIComponent('Non autorisé')}`);
     }
     try {
         const decoded = await verifyToken(token);
         const user = await User.findOne({ _id: decoded.sub });
         if (!user || !user.sessions || !user.sessions.includes(decoded.jti)) {
             return res.redirect(
-                `/login?err=${encodeURIComponent("Non autorisé")}`
+                `/login?err=${encodeURIComponent('Non autorisé')}`
             );
         }
         req.user = {
@@ -184,7 +184,7 @@ const authReq = async (req, res, next) => {
         next();
     } catch (err) {
         console.error(err);
-        return res.redirect(`/login?err=${encodeURIComponent("Non autorisé")}`);
+        return res.redirect(`/login?err=${encodeURIComponent('Non autorisé')}`);
     }
 };
 

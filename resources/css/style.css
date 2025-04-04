@@ -1,5 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* ==========================
+   GLOBAL STYLES
+   ========================== */
 * {
     padding: 0;
     margin: 0;
@@ -7,7 +11,7 @@
 
 /* Base link styles */
 a {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-decoration: none;
     position: relative;
     transition: color 0.3s ease;
@@ -16,7 +20,7 @@ a {
 
 /* Link hover effect with underline animation */
 a:not(.btn):not(.nav-login-register a):after {
-    content: "";
+    content: '';
     position: absolute;
     width: 0;
     height: 2px;
@@ -84,8 +88,9 @@ a:not(.btn):not(.nav-login-register a):hover:after {
 #register:hover {
     background-color: #9fa09f;
 }
+
 h1 {
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     margin: 20px 0px;
 }
 main {
@@ -119,7 +124,7 @@ form {
     margin: 20px auto;
     padding: 30px;
     color: #2c3e50;
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* Modern minimalist container for login form */
@@ -140,7 +145,7 @@ form {
 
 /* Minimalist label style */
 label {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 0.9rem;
     color: #2c3e50;
@@ -150,37 +155,37 @@ label {
 }
 
 /* Modern input style with underline effect */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+input[type='text'],
+input[type='email'],
+input[type='password'] {
     padding: 12px;
     border: none;
     border-bottom: 1px solid #ddd;
     font-size: 1rem;
     width: 90%;
     transition: border-color 0.3s;
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #2c3e50;
     background-color: #f8f9fa;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus {
     outline: none;
     border-bottom-color: #9bbcd3;
 }
 
-input[type="text"]::placeholder,
-input[type="email"]::placeholder,
-input[type="password"]::placeholder {
+input[type='text']::placeholder,
+input[type='email']::placeholder,
+input[type='password']::placeholder {
     color: #95a5a6;
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 300;
 }
 
 /* Modern minimalist submit button */
-input[type="submit"].btn {
+input[type='submit'].btn {
     padding: 12px;
     background-color: #9bbcd3;
     color: #fff;
@@ -189,27 +194,27 @@ input[type="submit"].btn {
     cursor: pointer;
     font-size: 0.9rem;
     transition: background-color 0.3s;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
-input[type="submit"].btn:hover {
+input[type='submit'].btn:hover {
     background-color: #1f8337;
 }
 
 /* Style pour les messages d'erreur */
 .error-message {
     color: #e74c3c;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 0.9rem;
     margin-bottom: 10px;
 }
 /* Style pour les messages de succès */
 .success-message {
     color: #2ecc71;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 0.9rem;
     margin-bottom: 10px;
 }
@@ -229,7 +234,7 @@ input[type="submit"].btn:hover {
     background: transparent;
     outline: none;
     transition: border-color 0.3s ease, transform 0.3s ease;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: #333;
     z-index: 1;
     position: relative;
@@ -261,7 +266,7 @@ input[type="submit"].btn:hover {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url("/images/backgrounds/login-bg.jpg");
+    background-image: url('/images/backgrounds/login-bg.jpg');
     background-size: cover;
 }
 
@@ -278,7 +283,7 @@ input[type="submit"].btn:hover {
 
 /* Titre du formulaire */
 .connexionBox h1 {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 2rem;
     color: #31332f;
     margin-bottom: 1.5rem;
@@ -300,7 +305,7 @@ input[type="submit"].btn:hover {
     background: transparent;
     outline: none;
     transition: border-color 0.3s ease;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: #333;
     opacity: 1;
 }
@@ -319,7 +324,7 @@ input[type="submit"].btn:hover {
 }
 
 /* Bouton de soumission */
-input[type="submit"].btn {
+input[type='submit'].btn {
     width: 100%;
     padding: 0.8rem;
     background-color: #9bbcd3;
@@ -328,12 +333,12 @@ input[type="submit"].btn {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
-input[type="submit"].btn:hover {
+input[type='submit'].btn:hover {
     background-color: #9bbcd3;
 }
 

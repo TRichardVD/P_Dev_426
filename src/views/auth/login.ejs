@@ -10,10 +10,10 @@
         <div class="login-container">
             <div class="connexionBox">
                 <h1>Connexion</h1>
-                <%- include("showMsg") %>
+                <%- include("../components/showMsg") %>
                 <form action="/login" method="POST">
-                        <%- include("input", { name: "username", label: "Username", type: "text", other: "required", errors: null}) %>
-                        <%- include("input", { name: "password", label: "Mot de passe", type: "password", other: "required", errors: null}) %>
+                        <%- include("../input", { name: "username", label: "Username", placeholder: "", type: "text", other: "required", errors: null}) %>
+                        <%- include("../input", { name: "password", label: "Mot de passe", placeholder: "", type: "password", other: "required", errors: null}) %>
                         <a href="#" class="forgot-password"
                             >Mot de passe oublié ?</a
                         >

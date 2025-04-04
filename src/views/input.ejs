@@ -1,5 +1,5 @@
 <!-- Composant qui gère les erreurs pour chaque champs donc il peut prendre en paramètre `errors` -->
-<!-- Liste de tous les paramètres : type, label, name, errors, other  -->
+<!-- Liste de tous les paramètres : type, label, name, placeholder, errors, other  -->
 <div class="form-field" id="<%= name %>-box">
     <label for="<%= name %>"><%= label %></label>
 
@@ -9,7 +9,7 @@
 
     <% } else { %>
 
-    <input type="<%= type %>" id="<%= name %>" name="<%= name %>" <%= !!errors && !!errors.value ? `value=${errors.value}` : '' %> <%= other%> />
+    <input type="<%= type %>" id="<%= name %>" name="<%= name %>" placeholder="<%= placeholder %>" <%= !!errors && !!errors.value ? `value=${errors.value}` : '' %> <%= other%> />
 
     <% } %> 
     <% if(errors) { %> 
