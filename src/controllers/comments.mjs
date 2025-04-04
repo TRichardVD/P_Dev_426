@@ -1,4 +1,4 @@
-import Comment from "../models/user.mjs";
+import Comment from "../models/comment.mjs";
 
 async function addComment(req, res) {
   const comment = req.body;
