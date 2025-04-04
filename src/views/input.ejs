@@ -9,7 +9,7 @@
 
     <% } else { %>
 
-    <input type="<%= type %>" id="<%= name %>" name="<%= name %>" <%= !!errors && !!errors.value ? `value=${errors.value}` : '' %> <%= other%> />
+    <input type="<%= type %>" id="<%= name %>" name="<%= name %>" placeholder="<%= placeholder %>" <%= !!errors && !!errors.value ? `value=${errors.value}` : '' %> <%= other%> />
 
     <% } %> 
     <% if(errors) { %> 
