@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 // Schéma pour le commentaire
 const CommentSchema = new Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   }, // Référence à l'utilisateur
   comment: { type: String, required: true }, // Le commentaire de l'utilisateur
@@ -18,15 +18,16 @@ const SiteSchema = new Schema({
   address: { type: String },
   description: { type: String },
   country: [{ type: String }],
-  likes_count: { type: Number, default: 0 }, // Nombre de likes pour ce site
+  likes: [{ type: Array }],
   comments: [CommentSchema], // Liste des commentaires associés au site,
   coordinates: {
     lat: { type: Number },
     lon: { type: Number },
   },
 });
-SiteSchema.index({ name: 'text', description: 'text', country: 'text' });
+SiteSchema.index({ name: "text", description: "text", country: "text" });
 // Modèle Mongoose pour le site
-const Site = mongoose.model('Site', SiteSchema);
+const Site = mongoose.model("Site", SiteSchema);
+const Comment = mongoose.model("Comment", CommentSchema);
 
-export default Site;
+export default { Site, Comment };

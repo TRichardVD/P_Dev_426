@@ -46,7 +46,7 @@
 
       <section>
         <h2>Localisation</h2>
-        <div id="map" style="height: 400px; width: 100%;"></div>
+        <div id="map" style="height: 400px; width: 100%"></div>
       </section>
 
       <section>
@@ -80,23 +80,24 @@
         </div>
       </section>
     </main>
-    
+
     <!-- Déplacer le script de Leaflet ici -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    
+
     <script>
       function initMap() {
         // Initialiser la carte avec une vue par défaut
-        var map = L.map('map').setView([0, 0], 2);
+        var map = L.map("map").setView([0, 0], 2);
 
         // Ajouter le layer OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
 
         // Vérifier si les coordonnées existent et sont valides
-        const lat = <%= site.coordinates.lat %>;
-        const lon = <%= site.coordinates.lon %>;
+        const lat = site.coordinates.lat;
+        const lon = site.coordinates.lon;
 
         if (lat && lon) {
           // Créer un pop-up avec un lien cliquable
@@ -111,7 +112,7 @@
       }
 
       // Appeler la fonction d'initialisation de la carte une fois que le script est chargé
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         initMap();
       });
     </script>
