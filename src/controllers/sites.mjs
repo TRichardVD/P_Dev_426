@@ -1,100 +1,48 @@
 import Site from '../models/site.mjs';
 
 async function GetSite(req, res) {
-  const { query, country, sortField, sortOrder, lat, lon } = req.query;
+  const { query, country, sortField, sortOrder } = req.query;
+  let mongoSort = {};
+  const filter = {};
 
-  // Préparation du pipeline d'agrégation
-  const pipeline = [];
-
-  // Gérer d'abord la requête géospatiale si nécessaire (doit être la première étape du pipeline)
-  if (sortField === 'proximite' && lat && lon) {
-    pipeline.push({
-      $geoNear: {
-        near: {
-          type: 'Point',
-          coordinates: [parseFloat(lon), parseFloat(lat)], // Longitude, Latitude
-        },
-        distanceField: 'distance',
-        spherical: true,
-        query: {}, // On ajoutera d'autres conditions ici si nécessaire
-      },
-    });
-  }
-
-  // Construction des conditions de correspondance
-  const matchConditions = {};
-
-  // Ajouter le filtre de pays si fourni
   if (country) {
-    matchConditions.country = { $in: [country] };
+    filter.country = { $in: [country] };
   }
 
-  // Ajouter la recherche textuelle si fournie
+  const projection = {};
   if (query) {
-    matchConditions.$text = { $search: query };
+    filter.$text = { $search: query, $language: 'french' };
+    projection.score = { $meta: 'textScore' };
+
+    mongoSort = { score: { $meta: 'textScore' } };
   }
 
-  // Ajouter l'étape de correspondance si nous avons des conditions
-  if (Object.keys(matchConditions).length > 0) {
-    // Si nous avons déjà $geoNear, ajouter ces conditions à sa requête
-    if (pipeline.some((stage) => stage.$geoNear)) {
-      pipeline[0].$geoNear.query = matchConditions;
-    } else {
-      pipeline.push({ $match: matchConditions });
-    }
-  }
+  console.log('MongoDB sort:', mongoSort);
 
-  // Si recherche textuelle, ajouter le champ de score
-  if (query) {
-    pipeline.push({
-      $addFields: {
-        score: { $meta: 'textScore' },
-      },
-    });
-  }
-
-  // Ajouter l'étape de tri
-  let needsSortStage = true;
-  if (sortField === 'proximite' && pipeline.some((stage) => stage.$geoNear)) {
-    // Si on utilise $geoNear pour la proximité, les résultats sont déjà triés par distance
-    needsSortStage = false;
-  }
-
-  if (needsSortStage) {
-    const sortStage = { $sort: {} };
+  try {
+    const sites = await Site.find(filter, projection).sort(mongoSort).limit(20);
 
     if (sortField) {
       switch (sortField) {
-        case 'date':
-          sortStage.$sort.date = sortOrder === 'asc' ? 1 : -1;
-          break;
         case 'pertinence':
-          sortStage.$sort.likes_count = sortOrder === 'asc' ? 1 : -1;
+          sites.sort((a, b) => {
+            return sortOrder === 'asc'
+              ? a.likes_count - b.likes_count
+              : b.likes_count - a.likes_count;
+          });
           break;
-        case 'proximite':
-          // Gérer le cas où la proximité est demandée mais lat/lon n'ont pas été fournis
-          sortStage.$sort.coordinates = 1;
+        case 'alphabetique':
+          sites.sort((a, b) => {
+            if (sortOrder === 'asc') {
+              return a.name.localeCompare(b.name);
+            } else {
+              return b.name.localeCompare(a.name);
+            }
+          });
           break;
       }
-    } else if (query) {
-      // Si pas de sortField mais recherche textuelle, trier par score
-      sortStage.$sort.score = -1; // Score plus élevé = plus pertinent
     }
 
-    // Ajouter l'étape de tri seulement si nous avons des critères de tri
-    if (Object.keys(sortStage.$sort).length > 0) {
-      pipeline.push(sortStage);
-    }
-  }
-
-  // Ajouter l'étape de limite
-  pipeline.push({ $limit: 20 });
-
-  try {
-    // Exécution du pipeline d'agrégation
-    const sites = await Site.aggregate(pipeline);
-
-    // Rendu des résultats
     return res.render('search', {
       results: sites,
       query: query || null,
@@ -103,7 +51,6 @@ async function GetSite(req, res) {
       sortOrder: sortOrder || null,
     });
   } catch (err) {
-    // Gestion des erreurs
     return res.status(500).json({ error: err.message });
   }
 }
