@@ -47,7 +47,7 @@ app.post('/logout', authReq, Logout);
 app.use('/api/user', userRouter);
 app.use('/api/site', siteRouter);
 // Démarrage du serveur
-https.createServer(credentials, app).listen(443, () => {
+https.createServer(credentials, app).listen(process.env.PORT || 443, () => {
     connectDB();
     console.log('Server running on port 443 https://localhost:443');
 });
