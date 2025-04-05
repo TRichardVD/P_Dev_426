@@ -11,7 +11,7 @@
     <header>
       <nav>
         <a href="#" id="logo"
-          ><img src="./resources/images/logo.png" alt="" style="width: 50px"
+          ><img src="./resources/images/logo.png" alt="Logo" style="width: 50px"
         /></a>
         <div class="nav-pages">
           <a href="/">Accueil</a>
@@ -50,12 +50,14 @@
       </section>
 
       <section>
-        <h2><%= site.comments.length %> Commentaires</h2>
+        <h2><%= site.comments.length || 0 %> Commentaires</h2>
         <div>
           <img src="user1.jpg" alt="user1" />
           <div>
-            <input type="text" placeholder="Ajoutez un commentaire..." />
-            <button>Envoyer</button>
+            <form action="/api/site/<%= site._id %>/comment" method="post">
+              <input type="text" name="comment" placeholder="Ajoutez un commentaire..." />
+              <button type="submit">Envoyer</button>
+            </form>
           </div>
         </div>
         <div>
@@ -63,8 +65,8 @@
           <div>
             <img src="user1.jpg" alt="user1" />
             <div>
-              <p><%= comment.user.name %></p>
-              <p><%= comment.content %></p>
+              <p><%= comment.user_id %></p>
+              <p><%= comment.comment %></p>
             </div>
           </div>
           <div class="like-dislike">

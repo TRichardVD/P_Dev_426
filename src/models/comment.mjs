@@ -1,16 +1,16 @@
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
+const { Schema, Types } = mongoose;
 
 // Schéma pour le commentaire
 const CommentSchema = new Schema({
     user_id: {
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'User',
         required: true,
     }, // Référence à l'utilisateur
     comment: { type: String, required: true }, // Le commentaire de l'utilisateur
     site_id: {
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'Site',
         required: true,
     },
