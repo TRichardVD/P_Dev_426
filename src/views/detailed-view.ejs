@@ -25,7 +25,7 @@
     </header>
     <main>
       <h1><%= site.name %></h1>
-      <% const images = ["photo1.jpg", "photo2.jpg", "photo3.jpg"]; %> <% let
+      <!-- <% const images = []; %> <% let
       selectedImage = "photo1.jpg"; %>
 
       <img
@@ -37,7 +37,7 @@
         <% images.forEach(image => { %>
         <img class="thumbnail" src="<%= image %>" alt="<%= image %>" />
         <% }); %>
-      </div>
+      </div> -->
 
       <section>
         <h2>Histoire</h2>
@@ -53,7 +53,7 @@
         <h2><%= site.comments.length || 0 %> Commentaires</h2>
         <div class="comment-section">
           <div class="comment new-comment">
-            <img src="/resources/images/default-avatar.png" alt="Your avatar" />
+            <img src="/images/profile-icon.png" alt="Your avatar" />
             <div class="comment-content">
               <form action="/api/site/<%= site._id %>/comment" method="post">
                 <input type="text" name="comment" placeholder="Partagez votre avis..." required />
@@ -63,18 +63,18 @@
           </div>
           
           <% site.comments.forEach(comment => { %>
-          <div class="comment">
-            <img src="/resources/images/default-avatar.png" alt="Avatar de <%= comment.user_username %>" />
+          <div class="comment" id="comment-<%= comment._id %>" data-comment-id="<%= comment._id %>">
+            <img src="/images/profile-icon.png" alt="Avatar de <%= comment.user_username %>" />
             <div class="comment-content">
               <p class="username"><%= comment.user_username %></p>
               <p class="comment-text"><%= comment.comment %></p>
               <div class="like-dislike">
-                <form action="/api/comment/<%= comment._id %>/like" method="POST" class="like-form">
-                  <button type="submit">👍 <span><%= comment.likes || 0 %></span></button>
-                </form>
-                <form action="/api/comment/<%= comment._id %>/dislike" method="POST" class="dislike-form">
-                  <button type="submit">👎 <span><%= comment.dislikes || 0 %></span></button>
-                </form>
+                <button class="like-btn" data-comment-id="<%= comment._id %>">
+                  👍 <span class="like-count"><%= comment.likes || 0 %></span>
+                </button>
+                <button class="dislike-btn" data-comment-id="<%= comment._id %>">
+                  👎 <span class="dislike-count"><%= comment.dislikes || 0 %></span>
+                </button>
               </div>
             </div>
           </div>
@@ -116,6 +116,49 @@
       // Appeler la fonction d'initialisation de la carte une fois que le script est chargé
       document.addEventListener("DOMContentLoaded", function () {
         initMap();
+      });
+
+      // Like/Dislike handling
+      document.addEventListener('DOMContentLoaded', function() {
+        const handleVote = async (commentId, action) => {
+          try {
+            const response = await fetch(`/api/comment/${commentId}/${action}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+
+            if (!response.ok) {
+              const error = await response.json();
+              if (response.status === 401) {
+                window.location.href = '/login';
+                return;
+              }
+              throw new Error(error.message);
+            }
+
+            const data = await response.json();
+            const comment = document.querySelector(`[data-comment-id="${commentId}"]`);
+            comment.querySelector('.like-count').textContent = data.likes;
+            comment.querySelector('.dislike-count').textContent = data.dislikes;
+          } catch (error) {
+            console.error('Error:', error);
+            alert(error.message);
+          }
+        };
+
+        document.querySelectorAll('.like-btn').forEach(button => {
+          button.addEventListener('click', () => {
+            handleVote(button.dataset.commentId, 'like');
+          });
+        });
+
+        document.querySelectorAll('.dislike-btn').forEach(button => {
+          button.addEventListener('click', () => {
+            handleVote(button.dataset.commentId, 'dislike');
+          });
+        });
       });
     </script>
   </body>

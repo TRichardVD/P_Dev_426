@@ -37,7 +37,10 @@ async function addComment(req, res) {
     try {
         await commentCreated.save();
         place.comments.push(commentCreated._id);
-        place.save();
+        await place.save();
+        return res.redirect(
+            `/api/site/${place_id}#comment-${commentCreated._id}`
+        );
     } catch (err) {
         console.error("Error saving comment:", err);
         return res.status(500).json({
@@ -45,10 +48,52 @@ async function addComment(req, res) {
             error: err.message,
         });
     }
-    return res.status(201).json({
-        message: "Commentaire créé avec succès",
-        comment: commentCreated,
-    });
+}
+
+async function toggleLike(req, res) {
+    if (!req.user) {
+        return res.status(401).json({ message: "Authentication required" });
+    }
+
+    try {
+        const comment = await Comment.findById(req.params.id);
+        if (!comment) {
+            return res.status(404).json({ message: "Comment not found" });
+        }
+
+        await comment.toggleLike(req.user.id);
+        return res.json({
+            likes: comment.likes.length,
+            dislikes: comment.dislikes.length,
+            score: comment.score,
+        });
+    } catch (err) {
+        console.error("Error toggling like:", err);
+        return res.status(500).json({ message: "Server error" });
+    }
+}
+
+async function toggleDislike(req, res) {
+    if (!req.user) {
+        return res.status(401).json({ message: "Authentication required" });
+    }
+
+    try {
+        const comment = await Comment.findById(req.params.id);
+        if (!comment) {
+            return res.status(404).json({ message: "Comment not found" });
+        }
+
+        await comment.toggleDislike(req.user.id);
+        return res.json({
+            likes: comment.likes.length,
+            dislikes: comment.dislikes.length,
+            score: comment.score,
+        });
+    } catch (err) {
+        console.error("Error toggling dislike:", err);
+        return res.status(500).json({ message: "Server error" });
+    }
 }
 
 const getCommentsBySiteId = async (site_id) => {
@@ -56,13 +101,17 @@ const getCommentsBySiteId = async (site_id) => {
     try {
         const comments = await Comment.find({ site_id: siteId })
             .populate("user_id", "username")
+            .sort({ score: -1 }) // Sort by score in descending order
             .exec();
         const result = comments.map((comment) => ({
-            id: comment._id,
+            _id: comment._id,
             user_id: comment.user_id._id,
             user_username: comment.user_username,
             comment: comment.comment,
             date: comment.date,
+            likes: comment.likes.length,
+            dislikes: comment.dislikes.length,
+            score: comment.score,
         }));
         console.log("result", result);
         return result;
@@ -72,4 +121,4 @@ const getCommentsBySiteId = async (site_id) => {
     }
 };
 
-export { addComment, getCommentsBySiteId };
+export { addComment, getCommentsBySiteId, toggleLike, toggleDislike };

@@ -6,10 +6,12 @@ import { addComment } from "../controllers/comments.mjs";
 
 const siteRouter = express();
 siteRouter.set("views", path.resolve("src/views"));
-siteRouter.get("/", GetSite);
 
+// Site routes
+siteRouter.get("/", GetSite);
 siteRouter.get("/:id", GetSiteById);
 
+// Comment routes
 siteRouter.post("/:id/comment", authReq, addComment);
 
 export { siteRouter };

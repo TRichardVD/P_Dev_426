@@ -34,22 +34,35 @@ async function GetSiteById(req, res) {
 
     try {
         const site = await Site.findOne({ _id: id });
-        const comments = await getCommentsBySiteId(id);
         if (!site) {
             return res.status(404).json({ error: "Site not found" });
         }
+
+        const comments = await getCommentsBySiteId(id);
+
+        const enhancedComments = comments.map((comment) => ({
+            ...comment,
+            userHasLiked: req.user
+                ? comment.likes.includes(req.user.id)
+                : false,
+            userHasDisliked: req.user
+                ? comment.dislikes.includes(req.user.id)
+                : false,
+        }));
+
         const result = {
             _id: site._id,
             name: site.name,
             description: site.description,
             coordinates: site.coordinates,
             images: site.images,
-            comments: comments,
+            comments: enhancedComments,
+            user: req.user ? { id: req.user.id } : null,
         };
-        console.log(result);
+
         return res.render("detailed-view", { site: result });
     } catch (err) {
-        console.log(err);
+        console.error("Error in GetSiteById:", err);
         return res.status(500).json({ error: err.message });
     }
 }
