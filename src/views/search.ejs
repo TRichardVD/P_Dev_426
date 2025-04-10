@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Page</title>
+    <link rel="stylesheet" href="/css/search.css">
 </head>
 <body>
     <%- include('partials/header'); -%>
@@ -22,24 +23,30 @@
             <option value="asc" <%= sortOrder === "asc" ? "selected" : "" %>>Ordre croissant</option>
             <option value="desc" <%= sortOrder === "desc" ? "selected" : "" %>>Ordre décroissant</option>
         </select>
+        <button type="button" id="reset">Réinitialiser</button>
     </form>
-    <button id="reset">Réinitialiser</button>
     
         <div class="search-results"></div>
             <% if (results && results.length > 0) { %>
+                <% if (query) { %>
                 <h2>Résultats de recherche pour "<%= query %>":</h2>
-                <ul>
-                    <% results.forEach(result => { %>
-                        <li>
-                            <strong><%= result.name %></strong>: <%= result.description %>
-                        </li>
-                    <% }) %>
-                </ul>
-            <% } else if (query) { %>
-                <p>Aucun résultat trouvé pour "<%= query %>".</p>
-            <% } %>
-        </div>
+                <% } %>
+            <div class="search-results">
+                <% results.forEach(result => { %>
+                    <div class="result-card">
+                        <a href="/api/site/<%= result._id %>">
+                            <strong><%= result.name %></strong>
+                            <p><%= result.description %></p>
+                        </a>
+                    </div>
+                <% }) %>
+                <% } else if (query) { %>
+                    <p class="no-results">Aucun résultat trouvé pour "<%= query %>"</p>
+                <% } %>
+            </div>
+
     </div>
+    
     <script>
         const resetButton = document.getElementById('reset');
         resetButton.addEventListener('click', () => {
