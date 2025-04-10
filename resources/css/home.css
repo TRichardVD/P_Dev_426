@@ -1,0 +1,203 @@
+/* Style pour la page d'accueil */
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --text-color: #333;
+    --background-color: #f5f6fa;
+    --border-radius: 0.5rem;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+.home-header {
+    background: linear-gradient(
+            to bottom,
+            rgba(44, 62, 80, 0.85),
+            rgba(44, 62, 80, 0.75)
+        ),
+        url("/images/backgrounds/home-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: clamp(2rem, 5vw, 4rem) 1rem;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.home-header .nav-logo-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 4rem;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.nav-logo-container img.big-logo {
+    height: clamp(50px, 8vw, 80px);
+    width: auto;
+    transition: var(--transition);
+}
+
+.nav-logo-container img.big-logo:hover {
+    transform: scale(1.05);
+}
+
+.profile-icon img {
+    height: 2rem;
+    width: 2rem;
+    transition: var(--transition);
+}
+
+.profile-icon:hover img {
+    transform: scale(1.1);
+}
+
+.home-header .home-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+}
+
+.home-header .home-nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: var(--transition);
+    padding: 0.5rem 1rem;
+}
+
+.home-header .home-nav a.classic-button {
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius);
+}
+
+.home-header .home-nav a.classic-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.home-header-content {
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 4rem;
+    width: 90%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.home-header-content h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.home-header-content p {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.home-header-content a.classic-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--secondary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    transition: var(--transition);
+    transform: translateY(0);
+}
+
+.home-header-content a.classic-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+main {
+    width: 90%;
+    max-width: 1440px;
+    margin: 3rem auto;
+    padding: 0 4rem;
+    text-align: center;
+}
+
+main h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+#map {
+    width: 100%;
+    height: min(600px, 80vh);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+@media (max-width: 768px) {
+    .home-header {
+        padding-top: 1rem;
+        min-height: 70vh;
+    }
+
+    .home-header .nav-logo-container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .home-header-content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding: 2rem 1rem;
+        text-align: center;
+    }
+
+    main {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    #map {
+        height: 70vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-header .nav-logo-container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .home-header-content {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    main {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .home-nav a.classic-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
