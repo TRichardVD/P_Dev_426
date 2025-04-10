@@ -4,30 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Page</title>
+    <link rel="stylesheet" href="/css/search.css">
 </head>
 <body>
     <%- include('partials/header'); -%>
-    <div class="search-container"></div>
-    <form action="/api/site" method="GET">
-        <input type="text" name="query" placeholder="Search..." required>
-        <button type="submit">Rechercher</button>
-    </form>
-    
-        <div class="search-results"></div>
-            <% if (results && results.length > 0) { %>
-                <h2>Résultats de recherche pour "<%= query %>":</h2>
-                <ul>
-                    <% results.forEach(result => { %>
-                        <li>
-                            <strong><%= result.name %></strong>: <%= result.description %>
-                        </li>
-                    <% }) %>
-                </ul>
-            <% } else if (query) { %>
-                <p>Aucun résultat trouvé pour "<%= query %>".</p>
+    <div class="search-container">
+        <form action="/api/site" method="GET">
+            <input type="text" name="query" placeholder="Search..." required>
+            <button type="submit">Rechercher</button>
+        </form>
+        
+        <% if (results && results.length > 0) { %>
+            <% if (query) { %>
+                <h2>Résultats de recherche pour "<%= query %>"</h2>
             <% } %>
-        </div>
+            <div class="search-results">
+                <% results.forEach(result => { %>
+                    <div class="result-card">
+                        <a href="/api/site/<%= result._id %>">
+                            <strong><%= result.name %></strong>
+                            <p><%= result.description %></p>
+                        </a>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else if (query) { %>
+            <p class="no-results">Aucun résultat trouvé pour "<%= query %>"</p>
+        <% } %>
     </div>
+    
     <script>
     </script>
     <%- include('partials/footer'); -%>
