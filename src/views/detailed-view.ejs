@@ -6,23 +6,11 @@
     <title>Vue détaillée</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="/css/detailed-view.css" />
+    <link rel="stylesheet" href="/css/header-footer.css" />
   </head>
   <body>
-    <header>
-      <nav>
-        <a href="#" id="logo"
-          ><img src="./resources/images/logo.png" alt="Logo" style="width: 50px"
-        /></a>
-        <div class="nav-pages">
-          <a href="/">Accueil</a>
-          <a href="/api/site">Monuments</a>
-        </div>
-        <div class="nav-login-register">
-          <a href="/login" class="cta">Se connecter</a>
-          <a href="/register" id="register">Créer un compte</a>
-        </div>
-      </nav>
-    </header>
+    <%- include('partials/header') %>
+    
     <main>
       <h1><%= site.name %></h1>
       <div class="site-actions">
@@ -89,7 +77,8 @@
       </section>
     </main>
 
-    <!-- Déplacer le script de Leaflet ici -->
+    <%- include('partials/footer') %>
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
