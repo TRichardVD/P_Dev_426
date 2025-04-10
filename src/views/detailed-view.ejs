@@ -33,13 +33,14 @@
         <% }); %>
       </div> -->
 
-      <section>
+      <section class="history-section">
         <h2>Histoire</h2>
         <p><%= site.description %>.</p>
       </section>
 
       <section>
         <h2>Localisation</h2>
+        <div id="map" style="height: 400px; width: 100%"></div>
         <div id="map" style="height: 400px; width: 100%"></div>
       </section>
 
@@ -80,6 +81,7 @@
     <%- include('partials/footer') %>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 
     <script>
       function initMap() {

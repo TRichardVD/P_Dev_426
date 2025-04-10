@@ -1,3 +1,4 @@
+/* Variables et reset ou styles de base */
 :root {
     --primary-color: #2c3e50;
     --secondary-color: #3498db;
@@ -7,16 +8,29 @@
     --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Corps principal */
+body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* Conteneur principal */
 main {
-    max-width: 1200px;
+    max-width: 1200px; /* Fusion : on conserve la largeur 1200px, ajustez si besoin */
     margin: 0 auto;
     padding: 2rem;
 }
 
+/* Titres */
 h1 {
     font-size: 2.5rem;
     color: var(--primary-color);
     margin-bottom: 2rem;
+    text-align: center; /* On fusionne pour avoir le centrage du h1 venant de main */
 }
 
 h2 {
@@ -25,6 +39,7 @@ h2 {
     margin: 2rem 0 1rem;
 }
 
+/* Sections principales */
 section {
     background: white;
     padding: 2rem;
@@ -33,6 +48,7 @@ section {
     margin-bottom: 2rem;
 }
 
+/* Galerie d’images (si utilisée) */
 #selected-image {
     width: 100%;
     height: 400px;
@@ -61,72 +77,26 @@ section {
     transform: scale(1.05);
 }
 
+/* Carte */
 #map {
     border-radius: var(--border-radius);
     overflow: hidden;
 }
 
-.comments-section input {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    margin-bottom: 1rem;
-}
-
-.comments-section button {
-    background-color: var(--secondary-color);
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.comments-section button:hover {
-    background-color: #2980b9;
-}
-
-.like-dislike {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
-}
-
-.like-dislike button {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    main {
-        padding: 1rem;
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    section {
-        padding: 1rem;
-    }
-}
-
+/* Barre de navigation */
 nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-family: "Roboto";
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid black; /* Conserve le style HEAD si souhaité */
 }
 
 a {
     color: black;
     text-decoration: none;
 }
+
 .nav-pages a:hover {
     color: #585858;
 }
@@ -139,16 +109,18 @@ a {
     left: 50%;
     transform: translateX(-50%);
 }
+
 .nav-login-register {
     display: flex;
     padding: 10px;
     gap: 10px;
 }
+
 .nav-login-register a {
     padding: 10px;
 }
 
-/* Style moderne pour les commentaires */
+/* Section commentaire */
 .comment-section {
     margin: 20px 0;
     padding: 20px;
@@ -238,6 +210,7 @@ a {
     transform: translateY(-2px);
 }
 
+/* Like / Dislike */
 .like-dislike {
     display: flex;
     align-items: center;
@@ -268,6 +241,7 @@ a {
     color: #333;
 }
 
+/* Bouton Like du site */
 .site-actions {
     margin: 20px 0;
     display: flex;
@@ -302,4 +276,130 @@ a {
 #site-likes-count {
     font-weight: bold;
     font-size: 1.1rem;
+}
+
+/* Autre style pour la section commentaires (si nécessaire) */
+.comments-section {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    background-color: #f9f9f9;
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
+.comments-section h2 {
+    font-size: 1.5rem;
+    text-align: start;
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.comments-section div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.comments-section img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.comments-section input[type="text"] {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    margin-right: 0.5rem;
+}
+
+.comments-section button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.comments-section button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Galerie avancée (si besoin) */
+.gallery-container {
+    text-align: center;
+    margin: 40px;
+}
+
+.gallery-main {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 1000px;
+    height: 600px;
+}
+
+.main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.like-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.like-button span {
+    color: black;
+}
+
+.gallery-thumbnails {
+    display: flex;
+    justify-content: center;
+    margin: 25px;
+    gap: 10px;
+}
+
+.color-box {
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.color-box:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.color-box:focus {
+    transform: translateY(-10px);
+}
+
+/* Section Histoire alignée à gauche */
+.history-section {
+    text-align: start;
 }

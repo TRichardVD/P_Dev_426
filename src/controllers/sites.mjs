@@ -2,27 +2,59 @@ import Site from "../models/site.mjs";
 import { getCommentsBySiteId } from "./comments.mjs";
 
 async function GetSite(req, res) {
-    const { query } = req.query;
-    if (!query) {
-        Site.find()
-            .limit(20)
-            .then((sites) => {
-                return res.render("search", { results: sites, query: null });
-            });
-    } else {
-        Site.find(
-            {
-                $or: [{ $text: { $search: query } }],
-            },
-            { score: { $meta: "textScore" } }
-        )
-            .sort({ score: { $meta: "textScore" } })
-            .then((sites) => {
-                return res.render("search", { results: sites, query });
-            })
-            .catch((err) => {
-                return res.status(500).json({ error: err.message });
-            });
+    const { query, country, sortField, sortOrder } = req.query;
+    let mongoSort = {};
+    const filter = {};
+
+    if (country) {
+        filter.country = { $in: [country] };
+    }
+
+    const projection = {};
+    if (query) {
+        filter.$text = { $search: query, $language: "french" };
+        projection.score = { $meta: "textScore" };
+
+        mongoSort = { score: { $meta: "textScore" } };
+    }
+
+    console.log("MongoDB sort:", mongoSort);
+
+    try {
+        const sites = await Site.find(filter, projection)
+            .sort(mongoSort)
+            .limit(20);
+
+        if (sortField) {
+            switch (sortField) {
+                case "pertinence":
+                    sites.sort((a, b) => {
+                        return sortOrder === "asc"
+                            ? a.likes_count - b.likes_count
+                            : b.likes_count - a.likes_count;
+                    });
+                    break;
+                case "alphabetique":
+                    sites.sort((a, b) => {
+                        if (sortOrder === "asc") {
+                            return a.name.localeCompare(b.name);
+                        } else {
+                            return b.name.localeCompare(a.name);
+                        }
+                    });
+                    break;
+            }
+        }
+
+        return res.render("search", {
+            results: sites,
+            query: query || null,
+            country: country || null,
+            sortField: sortField || null,
+            sortOrder: sortOrder || null,
+        });
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
     }
 }
 
