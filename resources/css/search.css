@@ -39,6 +39,42 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
+select {
+    padding: 0.8rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+label[for="sortField"] {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+}
+
+#reset {
+    padding: 0.8rem 1.5rem;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#reset:hover {
+    background-color: #c82333;
+}
+
 .search-results {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
