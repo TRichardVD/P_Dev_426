@@ -25,6 +25,12 @@
     </header>
     <main>
       <h1><%= site.name %></h1>
+      <div class="site-actions">
+        <button id="like-site-btn" data-site-id="<%= site._id %>">
+          ❤️ <span id="site-likes-count"><%= site.likes || 0 %></span>
+        </button>
+      </div>
+
       <!-- <% const images = []; %> <% let
       selectedImage = "photo1.jpg"; %>
 
@@ -159,6 +165,38 @@
             handleVote(button.dataset.commentId, 'dislike');
           });
         });
+      });
+
+      // Site like handling
+      document.addEventListener('DOMContentLoaded', function() {
+        const likeSiteBtn = document.getElementById('like-site-btn');
+        if (likeSiteBtn) {
+          likeSiteBtn.addEventListener('click', async () => {
+            try {
+              const response = await fetch(`/api/site/${likeSiteBtn.dataset.siteId}/like`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+
+              if (!response.ok) {
+                const error = await response.json();
+                if (response.status === 401) {
+                  window.location.href = '/login';
+                  return;
+                }
+                throw new Error(error.message);
+              }
+
+              const data = await response.json();
+              document.getElementById('site-likes-count').textContent = data.likes;
+            } catch (error) {
+              console.error('Error:', error);
+              alert(error.message);
+            }
+          });
+        }
       });
     </script>
   </body>

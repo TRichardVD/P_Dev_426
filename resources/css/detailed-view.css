@@ -267,3 +267,39 @@ a {
     font-family: "Roboto", sans-serif;
     color: #333;
 }
+
+.site-actions {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#like-site-btn {
+    background: white;
+    border: 2px solid #ff4757;
+    border-radius: 50px;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#like-site-btn:hover {
+    background: #ff4757;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+}
+
+#like-site-btn:active {
+    transform: translateY(0);
+}
+
+#site-likes-count {
+    font-weight: bold;
+    font-size: 1.1rem;
+}

@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import { GetSite, GetSiteById } from "../controllers/sites.mjs";
+import { GetSite, GetSiteById, toggleLike } from "../controllers/sites.mjs";
 import { authReq } from "../controllers/auth.mjs";
 import { addComment } from "../controllers/comments.mjs";
 
@@ -10,6 +10,7 @@ siteRouter.set("views", path.resolve("src/views"));
 // Site routes
 siteRouter.get("/", GetSite);
 siteRouter.get("/:id", GetSiteById);
+siteRouter.post("/:id/like", authReq, toggleLike);
 
 // Comment routes
 siteRouter.post("/:id/comment", authReq, addComment);

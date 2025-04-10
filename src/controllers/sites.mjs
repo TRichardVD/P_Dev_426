@@ -57,6 +57,7 @@ async function GetSiteById(req, res) {
             coordinates: site.coordinates,
             images: site.images,
             comments: enhancedComments,
+            likes: site.likes.length,
             user: req.user ? { id: req.user.id } : null,
         };
 
@@ -67,4 +68,24 @@ async function GetSiteById(req, res) {
     }
 }
 
-export { GetSite, GetSiteById };
+async function toggleLike(req, res) {
+    if (!req.user) {
+        return res.status(401).json({ message: "Authentication required" });
+    }
+
+    try {
+        const site = await Site.findById(req.params.id);
+        if (!site) {
+            return res.status(404).json({ message: "Site not found" });
+        }
+
+        const likesCount = await site.toggleLike(req.user.id);
+        site.save();
+        return res.json({ likes: likesCount });
+    } catch (err) {
+        console.error("Error toggling site like:", err);
+        return res.status(500).json({ message: "Server error" });
+    }
+}
+
+export { GetSite, GetSiteById, toggleLike };
