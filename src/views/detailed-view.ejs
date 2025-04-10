@@ -104,8 +104,8 @@
         }).addTo(map);
 
         // Vérifier si les coordonnées existent et sont valides
-        const lat = "<%= site.coordinates.lat %>";
-        const lon = "<%= site.coordinates.lon %>";
+        const lat = "<%= site.coordinates.coordinates[0] %>";
+        const lon = "<%= site.coordinates.coordinates[1] %>";
 
         if (lat && lon) {
           // Créer un pop-up avec un lien cliquable (exemple minimal)

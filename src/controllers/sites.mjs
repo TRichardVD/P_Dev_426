@@ -92,7 +92,7 @@ async function GetSiteById(req, res) {
             likes: site.likes.length,
             user: req.user ? { id: req.user.id } : null,
         };
-
+        console.log("Site details:", result);
         return res.render("detailed-view", { site: result });
     } catch (err) {
         console.error("Error in GetSiteById:", err);

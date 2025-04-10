@@ -21,5 +21,8 @@ export const importData = async () => {
                     ? [site.longitude, site.latitude]
                     : [0, 0],
         });
+        newSite.save().catch((error) => {
+            console.error("Erreur lors de l'importation du site :", error);
+        });
     });
 };
