@@ -51,32 +51,32 @@
 
       <section>
         <h2><%= site.comments.length || 0 %> Commentaires</h2>
-        <div>
-          <img src="user1.jpg" alt="user1" />
-          <div>
-            <form action="/api/site/<%= site._id %>/comment" method="post">
-              <input type="text" name="comment" placeholder="Ajoutez un commentaire..." />
-              <button type="submit">Envoyer</button>
-            </form>
-          </div>
-        </div>
-        <div>
-          <% site.comments.forEach(comment => { %>
-          <div>
-            <img src="user1.jpg" alt="user1" />
-            <div>
-              <p><%= comment.user_id %></p>
-              <p><%= comment.comment %></p>
+        <div class="comment-section">
+          <div class="comment new-comment">
+            <img src="/resources/images/default-avatar.png" alt="Your avatar" />
+            <div class="comment-content">
+              <form action="/api/site/<%= site._id %>/comment" method="post">
+                <input type="text" name="comment" placeholder="Partagez votre avis..." required />
+                <button type="submit">Publier</button>
+              </form>
             </div>
           </div>
-          <div class="like-dislike">
-            <form action="/like" method="POST">
-              <button type="submit">👍</button>
-              <span><%= comment.likes %></span>
-            </form>
-            <form action="/dislike" method="POST">
-              <button type="submit">👎</button>
-            </form>
+          
+          <% site.comments.forEach(comment => { %>
+          <div class="comment">
+            <img src="/resources/images/default-avatar.png" alt="Avatar de <%= comment.user_username %>" />
+            <div class="comment-content">
+              <p class="username"><%= comment.user_username %></p>
+              <p class="comment-text"><%= comment.comment %></p>
+              <div class="like-dislike">
+                <form action="/api/comment/<%= comment._id %>/like" method="POST" class="like-form">
+                  <button type="submit">👍 <span><%= comment.likes || 0 %></span></button>
+                </form>
+                <form action="/api/comment/<%= comment._id %>/dislike" method="POST" class="dislike-form">
+                  <button type="submit">👎 <span><%= comment.dislikes || 0 %></span></button>
+                </form>
+              </div>
+            </div>
           </div>
           <% }); %>
         </div>
@@ -98,8 +98,8 @@
         }).addTo(map);
 
         // Vérifier si les coordonnées existent et sont valides
-        const lat = site.coordinates.lat;
-        const lon = site.coordinates.lon;
+        const lat = "<%= site.coordinates.lat %>";
+        const lon = "<%= site.coordinates.lon %>";
 
         if (lat && lon) {
           // Créer un pop-up avec un lien cliquable
