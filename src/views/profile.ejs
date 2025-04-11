@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil - <%= user.username %></title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Profil de <%= user.username %></h1>
+      <a href="/logout">Déconnexion</a>
+    </header>
+
+    <section class="profile-info">
+      <h2>Informations</h2>
+      <p><strong>Nom :</strong> <%= user.fullName %></p>
+      <p><strong>Email :</strong> <%= user.email %></p>
+      <p>
+        <strong>Date d'inscription :</strong> <%=
+        user.registrationDate.toLocaleDateString('fr-FR') %>
+      </p>
+    </section>
+
+    <section class="places">
+      <h2>Lieux enregistrés</h2>
+      <% if (user.savedPlaces.length > 0) { %>
+      <ul>
+        <% user.savedPlaces.forEach(place => { %>
+        <li>
+          <a href="/places/<%= place.id %>"><%= place.name %></a> - <%=
+          place.country %>
+        </li>
+        <% }); %>
+      </ul>
+      <% } else { %>
+      <p>Aucun lieu enregistré.</p>
+      <% } %>
+    </section>
+
+    <section class="visited-places">
+      <h2>Lieux visités</h2>
+      <% if (user.visitedPlaces.length > 0) { %>
+      <ul>
+        <% user.visitedPlaces.forEach(place => { %>
+        <li>
+          <a href="/places/<%= place.id %>"><%= place.name %></a> - <%=
+          place.country %>
+        </li>
+        <% }); %>
+      </ul>
+      <% } else { %>
+      <p>Aucun lieu visité.</p>
+      <% } %>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<head>
+  <link rel="stylesheet" href="/css/header-footer.css" />
+</head>
+<header>
+  <nav>
+    <div>
+      <a href="/">Accueil</a>
+      <a href="/api/site">Monuments</a>
+    </div>
+
+    <img src="/images/BSI_BlackLogo.png" alt="BSI Logo" />
+
+    <div>
+      <form action="/logout" method="POST" style="margin: 0;">
+        <button type="submit" style="background: none; border: none; padding: 0; font: inherit; font-weight: bold; position: relative; cursor: pointer;" 
+          onmouseover="this.querySelector('.underline').style.width='100%'" 
+          onmouseout="this.querySelector('.underline').style.width='0'">
+          Déconnexion
+          <span class="underline" style="content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: black; transition: width 0.3s;"></span>
+        </button>
+      </form>
+      <img src="/images/profile-icon.png" alt="Icone Profile" />
+    </div>
+  </nav>
+</header>

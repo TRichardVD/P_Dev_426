@@ -37,8 +37,10 @@ function initMap() {
 }*/
 
 
+
 //fly to custumer location
 navigator.geolocation.watchPosition((pos) => {
+
   if (i == 0) {
     viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(

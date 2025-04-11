@@ -1,89 +1,123 @@
-import Site from '../models/site.mjs';
-import mongoose from 'mongoose';
+import Site from "../models/site.mjs";
+import { getCommentsBySiteId } from "./comments.mjs";
+
 async function GetSite(req, res) {
-  const { query } = req.query;
-  if (!query) {
-    Site.find()
-      .limit(20)
-      .then((sites) => {
-        return res.render('search', { results: sites, query: null });
-      });
-  } else {
-    Site.find({
-      $or: [
-        { name: { $regex: query, $options: 'i' } },
-        { country: { $regex: query, $options: 'i' } },
-      ],
-    })
-      .then((sites) => {
-        return res.render('search', { results: sites, query });
-      })
-      .catch((err) => {
+    const { query, country, sortField, sortOrder } = req.query;
+    let mongoSort = {};
+    const filter = {};
+
+    if (country) {
+        filter.country = { $in: [country] };
+    }
+
+    const projection = {};
+    if (query) {
+        filter.$text = { $search: query, $language: "french" };
+        projection.score = { $meta: "textScore" };
+
+        mongoSort = { score: { $meta: "textScore" } };
+    }
+
+    console.log("MongoDB sort:", mongoSort);
+
+    try {
+        const sites = await Site.find(filter, projection)
+            .sort(mongoSort)
+            .limit(20);
+
+        if (sortField) {
+            switch (sortField) {
+                case "pertinence":
+                    sites.sort((a, b) => {
+                        return sortOrder === "asc"
+                            ? a.likes_count - b.likes_count
+                            : b.likes_count - a.likes_count;
+                    });
+                    break;
+                case "alphabetique":
+                    sites.sort((a, b) => {
+                        if (sortOrder === "asc") {
+                            return a.name.localeCompare(b.name);
+                        } else {
+                            return b.name.localeCompare(a.name);
+                        }
+                    });
+                    break;
+            }
+        }
+
+        return res.render("search", {
+            results: sites,
+            query: query || null,
+            country: country || null,
+            sortField: sortField || null,
+            sortOrder: sortOrder || null,
+        });
+    } catch (err) {
         return res.status(500).json({ error: err.message });
-      });
-  }
+    }
 }
 
 async function GetSiteById(req, res) {
-  const { id } = req.params;
-  const idPattern = /^-?\d+_\d+_-?\d+_\d+$/;
-  if (!idPattern.test(id)) {
-    return res.status(400).json({
-      error: 'Invalid site ID format. Expected format: lat_dec_lon_dec',
-    });
-  }
-
-  try {
-    const site = await findByCustomId(id);
-    if (!site) {
-      return res.status(404).json({ error: 'Site not found' });
-    }
-    console.log(site);
-    return res.status(200).json(site);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ error: err.message });
-  }
-}
-
-async function calculateCustomId(id) {
-  try {
-    const site = await Site.findById(id).exec();
-
-    if (!site) {
-      return null;
+    const { id } = req.params;
+    if (!id) {
+        return res.status(400).json({ error: "Site ID is required" });
     }
 
-    const { coordinates } = site;
-    if (!coordinates || !coordinates.lat || !coordinates.lon) {
-      return null;
+    try {
+        const site = await Site.findOne({ _id: id });
+        if (!site) {
+            return res.status(404).json({ error: "Site not found" });
+        }
+
+        const comments = await getCommentsBySiteId(id);
+
+        const enhancedComments = comments.map((comment) => ({
+            ...comment,
+            userHasLiked: req.user
+                ? comment.likes.includes(req.user.id)
+                : false,
+            userHasDisliked: req.user
+                ? comment.dislikes.includes(req.user.id)
+                : false,
+        }));
+
+        const result = {
+            _id: site._id,
+            name: site.name,
+            description: site.description,
+            coordinates: site.coordinates,
+            images: site.images,
+            comments: enhancedComments,
+            likes: site.likes.length,
+            user: req.user ? { id: req.user.id } : null,
+        };
+        console.log("Site details:", result);
+        return res.render("detailed-view", { site: result });
+    } catch (err) {
+        console.error("Error in GetSiteById:", err);
+        return res.status(500).json({ error: err.message });
+    }
+}
+
+async function toggleLike(req, res) {
+    if (!req.user) {
+        return res.status(401).json({ message: "Authentication required" });
     }
 
-    return `${coordinates.lat}_${coordinates.lon}`.replace(/\./g, '_'); // replace . with _
-  } catch (error) {
-    console.error('Error calculating custom ID:', error);
-    throw error;
-  }
+    try {
+        const site = await Site.findById(req.params.id);
+        if (!site) {
+            return res.status(404).json({ message: "Site not found" });
+        }
+
+        const likesCount = await site.toggleLike(req.user.id);
+        site.save();
+        return res.json({ likes: likesCount });
+    } catch (err) {
+        console.error("Error toggling site like:", err);
+        return res.status(500).json({ message: "Server error" });
+    }
 }
 
-async function findByCustomId(customId) {
-  try {
-    const splitId = customId.split('_');
-    const coordinates = {
-      lat: Number(`${splitId[0]}.${splitId[1]}`),
-      lon: Number(`${splitId[2]}.${splitId[3]}`),
-    };
-    console.log(coordinates);
-
-    const site = await Site.findOne({
-      'coordinates.lat': coordinates.lat,
-      'coordinates.lon': coordinates.lon,
-    });
-    return site;
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
-}
-
-export { GetSite, GetSiteById, calculateCustomId, findByCustomId };
+export { GetSite, GetSiteById, toggleLike };

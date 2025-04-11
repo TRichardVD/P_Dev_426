@@ -4,31 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Page</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/css/search.css">
 </head>
 <body>
+    <%- include('partials/header'); -%>
     <div class="search-container"></div>
     <form action="/api/site" method="GET">
-        <input type="text" name="query" placeholder="Search..." required>
+        <input type="text" name="query" placeholder="Chercher" value="<%= query || "" %>">
         <button type="submit">Rechercher</button>
+        <input type="text" name="country" value="<%= country || "" %>" placeholder="Pays">
+        <label for="sortField">Trier par:</label>
+        <select name="sortField" id="sortField" value="<%= sortField || "" %>">
+            <option value="">Sélectionnez un champ</option>
+            <option value="pertinence" <%= sortField === "pertinence" ? "selected" : "" %>>Pertinence</option>
+            <option value="alphabetique" <%= sortField === "alphabetique" ? "selected" : "" %> id="alphabetique">Alphabétique</option>
+        </select>
+        <select name="sortOrder" id="sortOrder" value="<%= sortOrder || "" %>">
+            <option value="asc" <%= sortOrder === "asc" ? "selected" : "" %>>Ordre croissant</option>
+            <option value="desc" <%= sortOrder === "desc" ? "selected" : "" %>>Ordre décroissant</option>
+        </select>
+        <button type="button" id="reset">Réinitialiser</button>
     </form>
     
         <div class="search-results"></div>
             <% if (results && results.length > 0) { %>
+                <% if (query) { %>
                 <h2>Résultats de recherche pour "<%= query %>":</h2>
-                <ul>
-                    <% results.forEach(result => { %>
-                        <li>
-                            <strong><%= result.name %></strong>: <%= result.description %>
-                        </li>
-                    <% }) %>
-                </ul>
-            <% } else if (query) { %>
-                <p>Aucun résultat trouvé pour "<%= query %>".</p>
-            <% } %>
-        </div>
+                <% } %>
+            <div class="search-results">
+                <% results.forEach(result => { %>
+                    <div class="result-card">
+                        <a href="/api/site/<%= result._id %>">
+                            <strong><%= result.name %></strong>
+                            <p><%= result.description %></p>
+                        </a>
+                    </div>
+                <% }) %>
+                <% } else if (query) { %>
+                    <p class="no-results">Aucun résultat trouvé pour "<%= query %>"</p>
+                <% } %>
+            </div>
+
     </div>
+    
     <script>
+        const resetButton = document.getElementById('reset');
+        resetButton.addEventListener('click', () => {
+            const searchInput = document.querySelector('input[name="query"]');
+            const countryInput = document.querySelector('input[name="country"]');
+            const sortFieldSelect = document.getElementById('sortField');
+            const sortOrderSelect = document.getElementById('sortOrder');
+
+            searchInput.value = '';
+            countryInput.value = '';
+            sortFieldSelect.selectedIndex = 0;
+            sortOrderSelect.selectedIndex = 0;
+        });
     </script>
+    <%- include('partials/footer'); -%>
 </body>
 </html>
