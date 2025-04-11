@@ -9,6 +9,7 @@ import {
 import { authReq } from '../controllers/auth.mjs';
 import { addComment } from '../controllers/comments.mjs';
 
+
 const siteRouter = express();
 siteRouter.set('views', path.resolve('src/views'));
 

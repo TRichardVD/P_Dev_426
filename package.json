@@ -9,6 +9,7 @@
     },
     "dependencies": {
         "bcrypt": "^5.1.1",
+        "cesium": "^1.127.0",
         "cookie-parser": "^1.4.7",
         "dotenv": "^16.4.7",
         "ejs": "^3.1.10",
