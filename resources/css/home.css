@@ -16,7 +16,7 @@
             rgba(44, 62, 80, 0.85),
             rgba(44, 62, 80, 0.75)
         ),
-        url("/images/backgrounds/home-bg.jpg");
+        url('/images/backgrounds/home-bg.jpg');
     background-size: cover;
     background-position: center;
     color: white;
@@ -200,4 +200,8 @@ main h1 {
         padding: 0.4rem 0.8rem;
         font-size: 0.9rem;
     }
+}
+
+.cesium-credit-wrapper {
+    display: none !important;
 }
