@@ -30,8 +30,8 @@ async function GetSite(req, res) {
                 case 'pertinence':
                     sites.sort((a, b) => {
                         return sortOrder === 'asc'
-                            ? a.likes_count - b.likes_count
-                            : b.likes_count - a.likes_count;
+                            ? a.likes.length - b.likes.length
+                            : b.likes.length - a.likes.length;
                     });
                     break;
                 case 'alphabetique':
