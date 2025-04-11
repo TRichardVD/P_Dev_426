@@ -1,5 +1,5 @@
-import Site from "../models/site.mjs";
-import { getCommentsBySiteId } from "./comments.mjs";
+import Site from '../models/site.mjs';
+import { getCommentsBySiteId } from './comments.mjs';
 
 async function GetSite(req, res) {
     const { query, country, sortField, sortOrder } = req.query;
@@ -12,13 +12,13 @@ async function GetSite(req, res) {
 
     const projection = {};
     if (query) {
-        filter.$text = { $search: query, $language: "french" };
-        projection.score = { $meta: "textScore" };
+        filter.$text = { $search: query, $language: 'french' };
+        projection.score = { $meta: 'textScore' };
 
-        mongoSort = { score: { $meta: "textScore" } };
+        mongoSort = { score: { $meta: 'textScore' } };
     }
 
-    console.log("MongoDB sort:", mongoSort);
+    console.log('MongoDB sort:', mongoSort);
 
     try {
         const sites = await Site.find(filter, projection)
@@ -27,16 +27,16 @@ async function GetSite(req, res) {
 
         if (sortField) {
             switch (sortField) {
-                case "pertinence":
+                case 'pertinence':
                     sites.sort((a, b) => {
-                        return sortOrder === "asc"
+                        return sortOrder === 'asc'
                             ? a.likes_count - b.likes_count
                             : b.likes_count - a.likes_count;
                     });
                     break;
-                case "alphabetique":
+                case 'alphabetique':
                     sites.sort((a, b) => {
-                        if (sortOrder === "asc") {
+                        if (sortOrder === 'asc') {
                             return a.name.localeCompare(b.name);
                         } else {
                             return b.name.localeCompare(a.name);
@@ -46,7 +46,7 @@ async function GetSite(req, res) {
             }
         }
 
-        return res.render("search", {
+        return res.render('search', {
             results: sites,
             query: query || null,
             country: country || null,
@@ -58,16 +58,36 @@ async function GetSite(req, res) {
     }
 }
 
+async function getSitesApi(req, res) {
+    try {
+        const sites = await Site.find();
+
+        const result = sites.map((site) => ({
+            id: site._id,
+            name: site.name,
+            description: site.description,
+            coordinates: site.coordinates,
+            images: site.images,
+            likes: site.likes.length,
+        }));
+
+        return res.json(result);
+    } catch (err) {
+        console.error('Error fetching sites:', err);
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 async function GetSiteById(req, res) {
     const { id } = req.params;
     if (!id) {
-        return res.status(400).json({ error: "Site ID is required" });
+        return res.status(400).json({ error: 'Site ID is required' });
     }
 
     try {
         const site = await Site.findOne({ _id: id });
         if (!site) {
-            return res.status(404).json({ error: "Site not found" });
+            return res.status(404).json({ error: 'Site not found' });
         }
 
         const comments = await getCommentsBySiteId(id);
@@ -92,32 +112,32 @@ async function GetSiteById(req, res) {
             likes: site.likes.length,
             user: req.user ? { id: req.user.id } : null,
         };
-        console.log("Site details:", result);
-        return res.render("detailed-view", { site: result });
+        console.log('Site details:', result);
+        return res.render('detailed-view', { site: result });
     } catch (err) {
-        console.error("Error in GetSiteById:", err);
+        console.error('Error in GetSiteById:', err);
         return res.status(500).json({ error: err.message });
     }
 }
 
 async function toggleLike(req, res) {
     if (!req.user) {
-        return res.status(401).json({ message: "Authentication required" });
+        return res.status(401).json({ message: 'Authentication required' });
     }
 
     try {
         const site = await Site.findById(req.params.id);
         if (!site) {
-            return res.status(404).json({ message: "Site not found" });
+            return res.status(404).json({ message: 'Site not found' });
         }
 
         const likesCount = await site.toggleLike(req.user.id);
         site.save();
         return res.json({ likes: likesCount });
     } catch (err) {
-        console.error("Error toggling site like:", err);
-        return res.status(500).json({ message: "Server error" });
+        console.error('Error toggling site like:', err);
+        return res.status(500).json({ message: 'Server error' });
     }
 }
 
-export { GetSite, GetSiteById, toggleLike };
+export { GetSite, GetSiteById, toggleLike, getSitesApi };

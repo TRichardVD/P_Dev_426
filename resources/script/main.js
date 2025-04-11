@@ -7,14 +7,15 @@ function initMap() {
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
-    fetch('../world-heritage-list.json')
+    fetch('./api/site/sites')
         .then((response) => response.json())
         .then((data) => {
+            console.log(data);
             data.forEach((site) => {
-                const lat = site.latitude;
-                const lon = site.longitude;
-                const name = site.site;
-                const link = './api/site/' + site;
+                const lat = site.coordinates.coordinates[1];
+                const lon = site.coordinates.coordinates[0];
+                const name = site.name;
+                const link = './api/site/' + site.id;
 
                 // Créer un pop-up avec un lien cliquable
                 const popupContent = `<b>${name}</b><br><a href="${link}">Voir plus</a>`;
