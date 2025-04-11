@@ -71,37 +71,19 @@ navigator.geolocation.watchPosition((pos) => {
 //initMap();
 init3dMap();
 
-function calculateCustomId(site) {
-    try {
-        if (!site) {
-            return null;
-        }
-
-        const { coordinates } = site;
-        if (!coordinates || !coordinates.lat || !coordinates.lon) {
-            return null;
-        }
-
-        return `${coordinates.lat}_${coordinates.lon}`.replace(/\./g, '_'); // replace . with _
-    } catch (error) {
-        console.error('Error calculating custom ID:', error);
-        throw error;
-    }
-}
-
 async function init3dMap() {
     Cesium.Ion.defaultAccessToken =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhODUxNWEzNy1lYjkxLTQyMjUtYjIwYS00OGVlYzEwNTRmN2IiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDMxNjYyMzh9.DiCViUqiY8bfqjpLdNtcKLZO5RHs6JVUH3UjEQJfssY';
 
-    fetch('../world-heritage-list.json')
+    fetch('./api/site/sites')
         .then((response) => response.json())
         .then((data) => {
             data.forEach((site) => {
-                const lat = site.coordinates.lat;
-                const lon = site.coordinates.lon;
-                const name = site.site;
+                const lat = site.coordinates.coordinates[1];
+                const lon = site.coordinates.coordinates[0];
+                const name = site.name;
                 //const letter = name.charAt(0);
-                const link = './api/site/' + calculateCustomId(site);
+                const link = './api/site/' + site.id;
                 let color;
                 let marker;
                 if (site.category == 'Cultural') {
@@ -121,7 +103,7 @@ async function init3dMap() {
                     .then(function (canvas) {
                         viewer.entities.add({
                             name: name,
-                            description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}">Voir plus</a>`,
+                            description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}" target="_blank">Voir plus</a>`,
                             position: Cesium.Cartesian3.fromDegrees(lon, lat),
                             billboard: {
                                 image: canvas.toDataURL(),
