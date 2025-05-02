@@ -11,7 +11,9 @@ const UserSchema = new Schema({
     unique: true,
     match: [/^\S+@\S+\.\S+$/, "Please use a valid email address"],
   },
-  likedSites: [{ type: Types.ObjectId, ref: "Site", default: [] }], // Liste des sites aimés par l'utilisateur
+  likedSites: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Site", default: [] },
+  ],
   comments: [
     {
       type: Types.ObjectId,

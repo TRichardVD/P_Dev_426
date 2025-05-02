@@ -1,4 +1,5 @@
 import User from "../models/user.mjs";
+import bcrypt from "bcrypt";
 
 async function GetUserProfile(req, res) {
   try {
@@ -38,4 +39,42 @@ async function GetUserProfile(req, res) {
   }
 }
 
-export { GetUserProfile };
+async function renderEditProfile(req, res) {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).send("Utilisateur non trouvé");
+    }
+    res.render("edit-profile", { user });
+  } catch (err) {
+    console.error("Erreur lors du rendu de la page d'édition :", err);
+    res.status(500).send("Erreur serveur");
+  }
+}
+
+// Mettre à jour les données du profil
+async function updateProfile(req, res) {
+  try {
+    const { username, email, password } = req.body;
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).send("Utilisateur non trouvé");
+    }
+
+    if (username) user.username = username;
+    if (email) user.email = email;
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
+
+    await user.save();
+    res.redirect("/profile");
+  } catch (err) {
+    console.error("Erreur lors de la mise à jour du profil :", err);
+    res.status(500).send("Erreur serveur");
+  }
+}
+
+export { GetUserProfile, renderEditProfile, updateProfile };

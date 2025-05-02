@@ -15,15 +15,17 @@
       <section class="profile-info">
         <div class="profile-header">
           <img
-            src="/images/default-profile.png"
+            src="/images/profile-img.png"
             alt="Photo de profil"
             class="profile-picture"
           />
           <div class="profile-details">
             <p><strong>Prénom :</strong> <%= user.username %></p>
             <p><strong>Email :</strong> <%= user.email %></p>
+            <p><strong>Mot de passe :</strong> ********</p>
+            <!-- <a href="/reset-password" class="reset-password-button">Réinitialiser le mot de passe</a> -->
           </div>
-          <a href="/edit-profile" class="edit-button">✏️</a>
+          <a href="/api/user/edit-profile" class="edit-button">✏️</a>
         </div>
       </section>
 
@@ -34,7 +36,14 @@
         <div class="sites-grid">
           <% user.likedSites.forEach((site) => { %>
           <div class="site-card">
+            <% if (site.images && site.images.length > 0) { %>
             <img src="<%= site.images[0] %>" alt="<%= site.name %>" />
+            <% } else { %>
+            <img
+              src="/images/backgrounds/login-bg.jpg"
+              alt="Image par défaut"
+            />
+            <% } %>
             <div class="site-info">
               <h3><%= site.name %></h3>
               <p><%= site.description %></p>
