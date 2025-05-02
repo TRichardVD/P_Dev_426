@@ -98,6 +98,9 @@
 
     
     <script>
+      Cesium.Ion.defaultAccessToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NmI2ZDljYS0zYWM1LTRhMzktOGM4MC0zYzhmNGQ2YjNhZTYiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDYxOTI0NzN9.eFzZGEIVPfubhi7owpQzIaroqHJ2dX8vAtbr-kteQnM';
+
 const pinBuilder = new Cesium.PinBuilder();
 const viewer = new Cesium.Viewer('cesiumContainer', {
     timeline: false,
@@ -108,12 +111,7 @@ const viewer = new Cesium.Viewer('cesiumContainer', {
 
 
 async function init3dMap() {
-  let i = 0;
-    Cesium.Ion.defaultAccessToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NmI2ZDljYS0zYWM1LTRhMzktOGM4MC0zYzhmNGQ2YjNhZTYiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDYxOTI0NzN9.eFzZGEIVPfubhi7owpQzIaroqHJ2dX8vAtbr-kteQnM';
-
-
-        
+  let i = 0;      
     fetch('/api/site/sites')
         .then((response) => response.json())
         .then((data) => {
