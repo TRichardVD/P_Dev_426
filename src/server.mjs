@@ -22,22 +22,22 @@ app.set("view engine", "ejs"); // Utilisation du moteur de rendu EJS
 app.set("views", path.resolve("./src/views")); // Définition du dossier des vues
 
 const credentials = {
-    key: fs.readFileSync("./certificates/server.key"), // Clé privée
-    cert: fs.readFileSync("./certificates/server.crt"), // Certificat public
+  key: fs.readFileSync("./certificates/server.key"), // Clé privée
+  cert: fs.readFileSync("./certificates/server.crt"), // Certificat public
 };
 
 // Routes d'affichages des pages d'accueil et de connexion
 app.get("/", (req, res) => {
-    res.render("index");
+  res.render("index");
 });
 
 app.get("/register", (req, res) => {
-    return res.render("auth/register", {
-        errors: {},
-    });
+  return res.render("auth/register", {
+    errors: {},
+  });
 });
 app.get("/login", (req, res) => {
-    return res.render("auth/login");
+  return res.render("auth/login");
 });
 
 // Routes API de l'authentification
@@ -55,6 +55,6 @@ app.use("/api/site", siteRouter);
 
 // Démarrage du serveur
 https.createServer(credentials, app).listen(process.env.PORT || 443, () => {
-    connectDB();
-    console.log("Server running on port 443 https://localhost:443");
+  connectDB();
+  console.log("Server running on port 443 https://localhost:443");
 });
