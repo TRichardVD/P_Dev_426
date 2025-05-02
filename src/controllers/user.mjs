@@ -36,7 +36,12 @@ async function insertList(req, res) {
   );
 }
 function dropList(req, res) {
-  const listid = req.params.listId;
+  const listId = req.params.listId;
+  if (!listId) {
+    return res.redirect(
+      `/list?err=${encodeURIComponent("L'id de la liste doit être spécifiés.")}`
+    );
+  }
   List.deleteOne({
     _id: listId,
   })
@@ -58,6 +63,11 @@ function dropList(req, res) {
 
 function modifyList(req, res) {
   const listId = req.params.listId;
+  if (!listId) {
+    return res.redirect(
+      `/list?err=${encodeURIComponent("L'id de la liste doit être spécifiés.")}`
+    );
+  }
   const { name, color } = req.body;
   List.updateOne(
     {
@@ -87,6 +97,13 @@ function modifyList(req, res) {
 function insertSiteToList(req, res) {
   const listId = req.params.listId;
   const siteId = req.params.siteId;
+  if (!listId || !siteId) {
+    return res.redirect(
+      `/list?err=${encodeURIComponent(
+        "L'id de la liste et l'id du site doivent être spécifiés."
+      )}`
+    );
+  }
 
   List.updateone(
     {
