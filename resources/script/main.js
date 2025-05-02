@@ -1,4 +1,4 @@
-let map;
+// let map;
 const pinBuilder = new Cesium.PinBuilder();
 // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.  CesiumWidget
 const viewer = new Cesium.Viewer('cesiumContainer', {

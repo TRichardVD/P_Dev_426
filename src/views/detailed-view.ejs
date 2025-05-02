@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="/css/detailed-view.css" />
     <link rel="stylesheet" href="/css/header-footer.css" />
+      <script src="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Cesium.js"></script>
+    <link
+      href="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Widgets/widgets.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <%- include('partials/header') %>
@@ -45,7 +50,7 @@
 
       <section>
         <h2>Localisation</h2>
-        <div id="map" style="height: 400px; width: 100%;"></div>
+        <div id="cesiumContainer" style="height: 400px; width: 100%;"></div>
       </section>
 
       <section>
@@ -91,34 +96,111 @@
 
     <%- include('partials/footer') %>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
     <script>
-      function initMap() {
-        // Initialiser la carte avec une vue par défaut
-        var map = L.map("map").setView([0, 0], 2);
+const pinBuilder = new Cesium.PinBuilder();
+const viewer = new Cesium.Viewer('cesiumContainer', {
+    timeline: false,
+    animation: false,
+});
 
-        // Ajouter le layer OpenStreetMap
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map);
 
-        // Vérifier si les coordonnées existent et sont valides
-        const lat = "<%= site.coordinates.coordinates[0] %>";
-        const lon = "<%= site.coordinates.coordinates[1] %>";
 
-        if (lat && lon) {
-          // Créer un pop-up avec un lien cliquable (exemple minimal)
-          const popupContent = `<b><%= site.name %></b>`;
-          L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
-          map.setView([lat, lon], 13);
-        } else {
-          console.error("Les coordonnées ne sont pas valides.");
-        }
-      }
+
+async function init3dMap() {
+  let i = 0;
+    Cesium.Ion.defaultAccessToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NmI2ZDljYS0zYWM1LTRhMzktOGM4MC0zYzhmNGQ2YjNhZTYiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDYxOTI0NzN9.eFzZGEIVPfubhi7owpQzIaroqHJ2dX8vAtbr-kteQnM';
+
+
+        
+    fetch('/api/site/sites')
+        .then((response) => response.json())
+        .then((data) => {
+        const siteFound = data.find((site) => site.id === '<%= site._id %>');
+
+        console.log(siteFound);
+
+	      viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(
+                [siteFound.coordinates.coordinates[0]],
+                [siteFound.coordinates.coordinates[1]],
+                20000
+            ),
+        });
+
+
+	data.forEach((site) => {
+		const lat = site.coordinates.coordinates[1];
+		const lon = site.coordinates.coordinates[0];
+		const name = site.name;
+		//const letter = name.charAt(0);
+		const link = './api/site/' + site.id;
+		let color;
+		let marker;
+		if (site.id === siteFound.id) {
+      color = Cesium.Color.RED;
+      marker = 'star-stroked';
+    }
+    else if (site.category == 'Cultural') {
+			color = Cesium.Color.YELLOW;
+			marker = 'museum';
+		} else if (site.category == 'Natural') {
+			color = Cesium.Color.GREEN;
+			marker = 'park';
+		} else {
+			color = Cesium.Color.ROYALBLUE;
+			marker = 'zoo';
+		}
+
+		//afficher sur la carte
+	pinBuilder
+		.fromMakiIconId(marker, color, 48)
+		.then(function (canvas) {
+			viewer.entities.add({
+				name: name,
+				description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}" target="_blank">Voir plus</a>`,
+				position: Cesium.Cartesian3.fromDegrees(lon, lat),
+				billboard: {
+					image: canvas.toDataURL(),
+					verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+				},
+			});
+		});
+	})
+})
+        .catch((error) =>
+            console.error('Error loading or processing data:', error)
+        );
+}
+
+
+      // function initMap() {
+      //   // Initialiser la carte avec une vue par défaut
+      //   var map = L.map("map").setView([0, 0], 2);
+
+      //   // Ajouter le layer OpenStreetMap
+      //   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      //     attribution:
+      //       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      //   }).addTo(map);
+
+      //   // Vérifier si les coordonnées existent et sont valides
+      //   const lat = "<%= site.coordinates.coordinates[0] %>";
+      //   const lon = "<%= site.coordinates.coordinates[1] %>";
+
+      //   if (lat && lon) {
+      //     // Créer un pop-up avec un lien cliquable (exemple minimal)
+      //     const popupContent = `<b><%= site.name %></b>`;
+      //     L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
+      //     map.setView([lat, lon], 13);
+      //   } else {
+      //     console.error("Les coordonnées ne sont pas valides.");
+      //   }
+      // }
 
       document.addEventListener("DOMContentLoaded", function () {
-        initMap();
+        init3dMap();
       });
 
       // Gestion Like/Dislike sur les commentaires
