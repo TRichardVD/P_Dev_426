@@ -47,6 +47,7 @@ async function GetSite(req, res) {
         }
 
         return res.render('search', {
+            isLoggedIn: req.isLoggedIn,
             results: sites,
             query: query || null,
             country: country || null,
@@ -113,7 +114,10 @@ async function GetSiteById(req, res) {
             user: req.user ? { id: req.user.id } : null,
         };
         console.log('Site details:', result);
-        return res.render('detailed-view', { site: result });
+        return res.render('detailed-view', {
+            site: result,
+            isLoggedIn: req.isLoggedIn,
+        });
     } catch (err) {
         console.error('Error in GetSiteById:', err);
         return res.status(500).json({ error: err.message });
