@@ -16,7 +16,7 @@ siteRouter.set('views', path.resolve('src/views'));
 siteRouter.get('/', GetSite);
 siteRouter.get('/sites', getSitesApi);
 siteRouter.get('/:id', GetSiteById);
-siteRouter.post('/:id/like', authReq, toggleLike);
+siteRouter.post('/:id/like', toggleLike);
 
 // Comment routes
 siteRouter.post('/:id/comment', authReq, addComment);

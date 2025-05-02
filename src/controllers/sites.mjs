@@ -125,7 +125,7 @@ async function GetSiteById(req, res) {
 }
 
 async function toggleLike(req, res) {
-    if (!req.user) {
+    if (!req.isLoggedIn) {
         return res.status(401).json({ message: 'Authentication required' });
     }
 
