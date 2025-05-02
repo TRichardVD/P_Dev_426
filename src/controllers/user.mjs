@@ -36,7 +36,7 @@ async function insertList(req, res) {
   );
 }
 function dropList(req, res) {
-  const listid = req.params.id;
+  const listid = req.params.listId;
   List.deleteOne({
     _id: listId,
   })
@@ -57,7 +57,7 @@ function dropList(req, res) {
 }
 
 function modifyList(req, res) {
-  const listId = req.params.id;
+  const listId = req.params.listId;
   const { name, color } = req.body;
   List.updateOne(
     {
@@ -84,4 +84,63 @@ function modifyList(req, res) {
     });
 }
 
-export { insertList, dropList, modifyList };
+function insertSiteToList(req, res) {
+  const listId = req.params.listId;
+  const siteId = req.params.siteId;
+
+  List.updateone(
+    {
+      _id: listId,
+    },
+    {
+      $push: {
+        sites: siteId,
+      },
+    }
+  )
+    .then((_) => {
+      res.redirect(
+        `/list?success=${encodeURIComponent(
+          "Le site a été ajouté avec succès"
+        )}`
+      );
+    })
+    .catch((_) => {
+      return res.redirect(
+        `/list?err=${encodeURIComponent(
+          "Une erreur est survenue lors de l'ajout du site."
+        )}`
+      );
+    });
+}
+
+function dropSiteFromList(req, res) {
+  const listId = req.params.listId;
+  const siteId = req.params.siteId;
+  List.updateone(
+    {
+      _id: listId,
+    },
+    {
+      $pull: {
+        sites: siteId,
+      },
+    }
+  )
+    .then((_) => {
+      res.redirect(
+        `/list?success=${encodeURIComponent(
+          "Le site a été retiré avec succès"
+        )}`
+      );
+    })
+    .catch((_) => {
+      return res.redirect(
+        `/list?err=${encodeURIComponent(
+          "Une erreur est survenue lors du retrait du site."
+        )}`
+      );
+    });
+}
+
+export { insertList, dropList, modifyList, insertSiteToList };
