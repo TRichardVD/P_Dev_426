@@ -56,6 +56,32 @@ function dropList(req, res) {
     });
 }
 
-function modifyList(req, res) {}
+function modifyList(req, res) {
+  const listId = req.params.id;
+  const { name, color } = req.body;
+  List.updateOne(
+    {
+      _id: listId,
+    },
+    {
+      name: name,
+      color: color,
+    }
+  )
+    .then((_) => {
+      res.redirect(
+        `/list?success=${encodeURIComponent(
+          "La liste a été modifiée avec succès"
+        )}`
+      );
+    })
+    .catch((_) => {
+      return res.redirect(
+        `/list?err=${encodeURIComponent(
+          "Une erreur est survenue lors de la modification de la liste."
+        )}`
+      );
+    });
+}
 
 export { insertList, dropList, modifyList };
