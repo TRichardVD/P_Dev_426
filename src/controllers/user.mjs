@@ -143,4 +143,4 @@ function dropSiteFromList(req, res) {
     });
 }
 
-export { insertList, dropList, modifyList, insertSiteToList };
+export { insertList, dropList, modifyList, insertSiteToList, dropSiteFromList };

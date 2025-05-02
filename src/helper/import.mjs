@@ -26,21 +26,3 @@ export const importData = async () => {
     });
   });
 };
-export const importList = async () => {
-  const user = new User({
-    username: "popo",
-    password: "pepepepe",
-    email: "popo@pepe.com",
-  });
-  await user.save().catch((error) => {
-    console.error("erreur lors de l'importation de l'utilisateur", error);
-  });
-  const list = new List({
-    name: "pppp",
-    color: "#cccccc",
-    user: user?.id,
-  });
-  await list.save().catch((error) => {
-    console.error("erreur lors de l'importation de la liste", error);
-  });
-};
