@@ -24,7 +24,13 @@ async function insertList(req, res) {
     color: color,
     user: userId,
   });
-  await list.save();
+  await list.save().catch((_) => {
+    return res.redirect(
+      `/list?err=${encodeURIComponent(
+        "Une erreur est survenue lors de la création de la liste."
+      )}`
+    );
+  });
   return res.redirect(
     `/list?success=${encodeURIComponent("La liste a été crée avec succès")}`
   );
@@ -33,9 +39,23 @@ function dropList(req, res) {
   const listid = req.params.id;
   List.deleteOne({
     _id: listId,
-  }).then((_)=> {
-    res.
   })
+    .then((_) => {
+      res.redirect(
+        `/list?success=${encodeURIComponent(
+          "La liste a été supprimée avec succès"
+        )}`
+      );
+    })
+    .catch((_) => {
+      return res.redirect(
+        `/list?err=${encodeURIComponent(
+          "Une erreur est survenue lors de la suppression de la liste."
+        )}`
+      );
+    });
 }
 
-export { insertList, dropList };
+function modifyList(req, res) {}
+
+export { insertList, dropList, modifyList };
