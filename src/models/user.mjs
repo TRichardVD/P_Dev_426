@@ -21,6 +21,7 @@ const UserSchema = new Schema({
       default: [],
     },
   ],
+  lists: [{ type: mongoose.Schema.Types.ObjectId, ref: "List", default: [] }],
   sessions: [{ type: String, default: [] }], // Liste des sessions de l'utilisateur
   password: { type: String, required: true, minlength: 6 }, // Le mot de passe avec une validation de longueur
 });

@@ -5,6 +5,11 @@ import {
   GetUserProfile,
   renderEditProfile,
   updateProfile,
+  insertList,
+  dropList,
+  modifyList,
+  insertSiteToList,
+  dropSiteFromList,
 } from "../controllers/user.mjs";
 
 const userRouter = express();
@@ -17,5 +22,11 @@ userRouter.get("/edit-profile", authReq, renderEditProfile);
 
 // Route pour mettre à jour les données du profil
 userRouter.post("/edit-profile", authReq, updateProfile);
+
+userRouter.post("/list", insertList);
+userRouter.delete("/list/:listId", dropList);
+userRouter.put("/list/:listId", modifyList);
+userRouter.post("/list/:listId/site/:siteId", insertSiteToList);
+userRouter.delete("/list/:listId/site/:siteId", dropSiteFromList);
 
 export { userRouter };
