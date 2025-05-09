@@ -10,12 +10,22 @@ const getImagesBySite = async (site) => {
     if (!site) {
         throw new Error('Site is required');
     }
-    const siteName = encodeURIComponent(site.name);
 
-    const url = `${BASE_URL}/search/photos?query=${siteName}&client_id=${accessKey}&per_page=10&lang=fr`;
+    const siteName = site.name
+        .toLowerCase()
+        .split(',')[0]
+        .replace(/[^a-zA-Z0-9 ]/g, '')
+        .trim();
+    console.log('siteName', siteName);
+
+    const keywords = [siteName].filter(Boolean).join(' ');
+
+    const query = encodeURIComponent(keywords);
+
+    const url = `${BASE_URL}/search/photos?query=${query}&client_id=${accessKey}&per_page=10&lang=fr`;
     const response = await fetch(url);
     const data = await response.json();
-
+    console.log(query);
     if (!response.ok) {
         throw new Error(`Error fetching images: ${data.errors}`);
     }
