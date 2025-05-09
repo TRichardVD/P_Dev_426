@@ -1,0 +1,40 @@
+<!-- site-list.ejs -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= list.name %> - Liste de Sites</title>
+  <link rel="stylesheet" href="/styles.css"> <!-- Ajouter votre feuille de style ici -->
+</head>
+<body>
+  <main>
+    <section class="list">
+      <h2><%= list.name %> - Sites</h2>
+
+      <% if (list.sites && list.sites.length > 0) { %>
+        <div class="sites-grid">
+          <% list.sites.forEach((site) => { %>
+            <div class="site-card">
+              <div class="site-info">
+                <h3><%= site.name %></h3>
+                <p><%= site.url %></p>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p>Aucun site dans cette liste.</p>
+      <% } %>
+
+      <a href="/api/site" class="add-site-button">Ajouter un site</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 VotreSite. Tous droits réservés.</p>
+  </footer>
+
+</body>
+</html>

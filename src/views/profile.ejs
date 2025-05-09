@@ -57,15 +57,23 @@
         <% } %>
       </section>
 
-      <section class="favorite-sites">
+     <section class="list">
         <h2>Vos listes de sites</h2>
         <% user.lists.forEach((list) => { %>
-          <h3><%= list.name %></h3>
-
-          <% }); %>
+        <a href="/api/user/list/<%= list.id %>" class="list-card">
+          <div class="list-info">
+            <h3><%= list.name %></h3>
+          </div>
+        </a>
+        <% }); %>
+        <a href="/create-list" class="create-list-button">Créer une liste</a>
       </section>
+
 
       <%- include("partials/footer") %>
     </main>
   </body>
 </html>
+<style>
+ 
+</style>

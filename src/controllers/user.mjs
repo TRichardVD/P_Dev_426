@@ -37,7 +37,9 @@ async function insertList(req, res) {
     await user.save();
 
     return res.redirect(
-      `/list?success=${encodeURIComponent("La liste a été créée avec succès")}`
+      `/api/user/profile?success=${encodeURIComponent(
+        "La liste a été créée avec succès"
+      )}`
     );
   } catch (err) {
     console.error("Erreur lors de la création de la liste :", err);
@@ -252,7 +254,43 @@ async function updateProfile(req, res) {
     res.status(500).send("Erreur serveur");
   }
 }
+async function getSiteList(req, res) {
+  const userId = req.user.id;
+  const { listId } = req.params;
 
+  if (!listId) {
+    return res.redirect(
+      `/list?err=${encodeURIComponent("L'id de la liste doit être spécifié.")}`
+    );
+  }
+
+  try {
+    const user = await User.findById(userId).populate("lists.sites");
+
+    if (!user) {
+      return res.redirect(
+        `/list?err=${encodeURIComponent("Utilisateur non trouvé.")}`
+      );
+    }
+
+    const list = user.lists.find((list) => list._id.toString() === listId);
+
+    if (!list) {
+      return res.redirect(
+        `/list?err=${encodeURIComponent("Liste non trouvée.")}`
+      );
+    }
+
+    return res.render("site-list", { list });
+  } catch (err) {
+    console.error("Erreur lors de la récupération de la liste :", err);
+    return res.redirect(
+      `/list?err=${encodeURIComponent(
+        "Erreur lors de la récupération de la liste."
+      )}`
+    );
+  }
+}
 export {
   insertList,
   dropList,
@@ -262,4 +300,5 @@ export {
   GetUserProfile,
   renderEditProfile,
   updateProfile,
+  getSiteList,
 };

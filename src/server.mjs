@@ -48,7 +48,9 @@ app.post("/logout", authReq, Logout);
 // Like/Dislike routes
 app.post("/api/comment/:id/like", authReq, toggleLike);
 app.post("/api/comment/:id/dislike", authReq, toggleDislike);
-
+app.get("/create-list", authReq, (req, res) => {
+  res.render("create-list");
+});
 // Routes API de l'utilisateur et des sites
 app.use("/api/user", userRouter);
 app.use("/api/site", siteRouter);

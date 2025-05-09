@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create List</title>
+</head>
+<body>
+    <%- include("components/showMsg") %>
+    <form action="/api/user/list" method="POST">
+        <label for="name">Nom de votre liste</label>
+        <input type="text" id="name" name="name" required>
+        <label for="color">Couleur de la liste</label>
+        <input type="color" id="color" name="color" required>
+        <button type="submit"></button>
+    </form>
+</body>
+</html>
