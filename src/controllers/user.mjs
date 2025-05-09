@@ -54,7 +54,6 @@ async function insertList(req, res) {
 async function dropList(req, res) {
   const userId = req.user.id;
   const { listId } = req.params;
-
   if (!listId) {
     return res.redirect(
       `/list?err=${encodeURIComponent("L'id de la liste doit être spécifié.")}`
@@ -66,11 +65,6 @@ async function dropList(req, res) {
       { _id: userId },
       { $pull: { lists: { _id: listId } } }
     );
-    res.redirect(
-      `/list?success=${encodeURIComponent(
-        "La liste a été supprimée avec succès."
-      )}`
-    );
   } catch (err) {
     res.redirect(
       `/list?err=${encodeURIComponent(
@@ -78,6 +72,11 @@ async function dropList(req, res) {
       )}`
     );
   }
+  return res.redirect(
+    `/api/user/profile?success=${encodeURIComponent(
+      "Le site a été retiré avec succès."
+    )}`
+  );
 }
 
 async function modifyList(req, res) {
@@ -135,7 +134,9 @@ async function insertSiteToList(req, res) {
       }
     );
     res.redirect(
-      `/list?success=${encodeURIComponent("Le site a été ajouté avec succès.")}`
+      `/api/site/${siteId}?success=${encodeURIComponent(
+        "Le site a été ajouté avec succès."
+      )}`
     );
   } catch (err) {
     res.redirect(
@@ -163,14 +164,16 @@ async function dropSiteFromList(req, res) {
         },
       }
     );
-    res.redirect(
-      `/list?success=${encodeURIComponent("Le site a été retiré avec succès.")}`
-    );
   } catch (err) {
     res.redirect(
       `/list?err=${encodeURIComponent("Erreur lors du retrait du site.")}`
     );
   }
+  return res.redirect(
+    `/api/user/list/${listId}?success=${encodeURIComponent(
+      "Le site a été retiré avec succès."
+    )}`
+  );
 }
 
 async function GetUserProfile(req, res) {
@@ -208,7 +211,6 @@ async function GetUserProfile(req, res) {
       })),
       sessions: user.sessions, // Liste des sessions
     };
-    console.log(userData);
     // Rendre la vue `profile`
     return res.render("profile", { user: userData });
   } catch (err) {

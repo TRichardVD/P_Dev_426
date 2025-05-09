@@ -1,4 +1,5 @@
 import Site from "../models/site.mjs";
+import User from "../models/user.mjs";
 import { getCommentsBySiteId } from "./comments.mjs";
 
 async function GetSite(req, res) {
@@ -78,6 +79,7 @@ async function getSitesApi(req, res) {
 
 async function GetSiteById(req, res) {
   const { id } = req.params;
+  const userId = req.user.id;
   if (!id) {
     return res.status(400).json({ error: "Site ID is required" });
   }
@@ -97,7 +99,7 @@ async function GetSiteById(req, res) {
         ? comment.dislikes.includes(req.user.id)
         : false,
     }));
-
+    const user = await User.findById(userId).populate("lists"); // Peupler les commentaires
     const result = {
       _id: site._id,
       name: site.name,
@@ -106,7 +108,7 @@ async function GetSiteById(req, res) {
       images: site.images,
       comments: enhancedComments,
       likes: site.likes.length,
-      user: req.user ? { id: req.user.id } : null,
+      user: user ? user : null,
     };
     console.log("Site details:", result);
     return res.render("detailed-view", { site: result });

@@ -20,6 +20,9 @@
               <div class="site-info">
                 <h3><%= site.name %></h3>
                 <p><%= site.url %></p>
+               <form action="/api/user/list/<%= list._id %>/site/<%= site._id %>?_method=DELETE" method="POST" style="display: inline;">
+                  <button type="submit">Supprimer le site</button>
+                </form>
               </div>
             </div>
           <% }); %>
@@ -31,10 +34,6 @@
       <a href="/api/site" class="add-site-button">Ajouter un site</a>
     </section>
   </main>
-
-  <footer>
-    <p>&copy; 2025 VotreSite. Tous droits réservés.</p>
-  </footer>
 
 </body>
 </html>

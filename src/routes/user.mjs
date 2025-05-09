@@ -12,8 +12,10 @@ import {
   dropSiteFromList,
   getSiteList,
 } from "../controllers/user.mjs";
+import methodOverride from "method-override";
 
 const userRouter = express();
+userRouter.use(methodOverride("_method"));
 userRouter.set("views", path.resolve("src/views"));
 
 userRouter.get("/profile", authReq, GetUserProfile);
@@ -25,10 +27,10 @@ userRouter.get("/edit-profile", authReq, renderEditProfile);
 userRouter.post("/edit-profile", authReq, updateProfile);
 
 userRouter.post("/list", authReq, insertList);
-userRouter.delete("/list/:listId", dropList);
+userRouter.delete("/list/:listId/delete", authReq, dropList);
 userRouter.put("/list/:listId", modifyList);
-userRouter.post("/list/:listId/site/:siteId", insertSiteToList);
-userRouter.delete("/list/:listId/site/:siteId", dropSiteFromList);
+userRouter.post("/list/:listId/site/:siteId", authReq, insertSiteToList);
+userRouter.delete("/list/:listId/site/:siteId", authReq, dropSiteFromList);
 userRouter.get("/list/:listId", authReq, getSiteList);
 
 export { userRouter };
