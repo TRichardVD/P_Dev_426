@@ -57,6 +57,14 @@
         <% } %>
       </section>
 
+      <section class="favorite-sites">
+        <h2>Vos listes de sites</h2>
+        <% user.lists.forEach((list) => { %>
+          <h3><%= list.name %></h3>
+
+          <% }); %>
+      </section>
+
       <%- include("partials/footer") %>
     </main>
   </body>

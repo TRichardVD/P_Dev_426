@@ -8,7 +8,8 @@ const connectDB = async () => {
       `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@localhost:27017/db_unesco?authSource=admin`,
       {}
     );
-    //importData();importList();
+    //importData();
+    //importList();
     console.log("Connexion réussie à MongoDB");
   } catch (error) {
     console.error("Erreur de connexion :", error);

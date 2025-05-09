@@ -13,153 +13,162 @@ async function insertList(req, res) {
       )}`
     );
   }
-  const listExists = await List.findAll({ name, user: userId });
-  if (listExists) {
-    errors.list = {
-      message: "Le nom de liste est déjà utilisé, essayez-en un autre.",
-      value: name,
-    };
-  }
 
-  const list = new List({
-    name: name,
-    color: color,
-    user: userId,
-  });
-  await list.save().catch((_) => {
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.redirect(
+        `/list?err=${encodeURIComponent("Utilisateur non trouvé.")}`
+      );
+    }
+
+    const listExists = user.lists.some((list) => list.name === name);
+
+    if (listExists) {
+      return res.redirect(
+        `/list?err=${encodeURIComponent(
+          "Le nom de liste est déjà utilisé, essayez-en un autre."
+        )}`
+      );
+    }
+
+    user.lists.push({ name, color, sites: [] });
+    await user.save();
+
+    return res.redirect(
+      `/list?success=${encodeURIComponent("La liste a été créée avec succès")}`
+    );
+  } catch (err) {
+    console.error("Erreur lors de la création de la liste :", err);
     return res.redirect(
       `/list?err=${encodeURIComponent(
         "Une erreur est survenue lors de la création de la liste."
       )}`
     );
-  });
-  return res.redirect(
-    `/list?success=${encodeURIComponent("La liste a été crée avec succès")}`
-  );
-}
-function dropList(req, res) {
-  const listId = req.params.listId;
-  if (!listId) {
-    return res.redirect(
-      `/list?err=${encodeURIComponent("L'id de la liste doit être spécifiés.")}`
-    );
   }
-  List.deleteOne({
-    _id: listId,
-  })
-    .then((_) => {
-      res.redirect(
-        `/list?success=${encodeURIComponent(
-          "La liste a été supprimée avec succès"
-        )}`
-      );
-    })
-    .catch((_) => {
-      return res.redirect(
-        `/list?err=${encodeURIComponent(
-          "Une erreur est survenue lors de la suppression de la liste."
-        )}`
-      );
-    });
 }
 
-function modifyList(req, res) {
-  const listId = req.params.listId;
+async function dropList(req, res) {
+  const userId = req.user.id;
+  const { listId } = req.params;
+
   if (!listId) {
     return res.redirect(
-      `/list?err=${encodeURIComponent("L'id de la liste doit être spécifiés.")}`
+      `/list?err=${encodeURIComponent("L'id de la liste doit être spécifié.")}`
     );
   }
-  const { name, color } = req.body;
-  List.updateOne(
-    {
-      _id: listId,
-    },
-    {
-      name: name,
-      color: color,
-    }
-  )
-    .then((_) => {
-      res.redirect(
-        `/list?success=${encodeURIComponent(
-          "La liste a été modifiée avec succès"
-        )}`
-      );
-    })
-    .catch((_) => {
-      return res.redirect(
-        `/list?err=${encodeURIComponent(
-          "Une erreur est survenue lors de la modification de la liste."
-        )}`
-      );
-    });
-}
 
-function insertSiteToList(req, res) {
-  const listId = req.params.listId;
-  const siteId = req.params.siteId;
-  if (!listId || !siteId) {
-    return res.redirect(
+  try {
+    await User.updateOne(
+      { _id: userId },
+      { $pull: { lists: { _id: listId } } }
+    );
+    res.redirect(
+      `/list?success=${encodeURIComponent(
+        "La liste a été supprimée avec succès."
+      )}`
+    );
+  } catch (err) {
+    res.redirect(
       `/list?err=${encodeURIComponent(
-        "L'id de la liste et l'id du site doivent être spécifiés."
+        "Erreur lors de la suppression de la liste."
       )}`
     );
   }
-
-  List.updateone(
-    {
-      _id: listId,
-    },
-    {
-      $push: {
-        sites: siteId,
-      },
-    }
-  )
-    .then((_) => {
-      res.redirect(
-        `/list?success=${encodeURIComponent(
-          "Le site a été ajouté avec succès"
-        )}`
-      );
-    })
-    .catch((_) => {
-      return res.redirect(
-        `/list?err=${encodeURIComponent(
-          "Une erreur est survenue lors de l'ajout du site."
-        )}`
-      );
-    });
 }
 
-function dropSiteFromList(req, res) {
-  const listId = req.params.listId;
-  const siteId = req.params.siteId;
-  List.updateone(
-    {
-      _id: listId,
-    },
-    {
-      $pull: {
-        sites: siteId,
-      },
-    }
-  )
-    .then((_) => {
-      res.redirect(
-        `/list?success=${encodeURIComponent(
-          "Le site a été retiré avec succès"
-        )}`
-      );
-    })
-    .catch((_) => {
-      return res.redirect(
-        `/list?err=${encodeURIComponent(
-          "Une erreur est survenue lors du retrait du site."
-        )}`
-      );
-    });
+async function modifyList(req, res) {
+  const userId = req.user.id;
+  const { listId } = req.params;
+  const { name, color } = req.body;
+
+  if (!listId) {
+    return res.redirect(
+      `/list?err=${encodeURIComponent("L'id de la liste doit être spécifié.")}`
+    );
+  }
+
+  try {
+    await User.updateOne(
+      { _id: userId, "lists._id": listId },
+      {
+        $set: {
+          "lists.$.name": name,
+          "lists.$.color": color,
+        },
+      }
+    );
+    res.redirect(
+      `/list?success=${encodeURIComponent(
+        "La liste a été modifiée avec succès."
+      )}`
+    );
+  } catch (err) {
+    res.redirect(
+      `/list?err=${encodeURIComponent(
+        "Erreur lors de la modification de la liste."
+      )}`
+    );
+  }
+}
+
+async function insertSiteToList(req, res) {
+  const userId = req.user.id;
+  const { listId, siteId } = req.params;
+
+  if (!listId || !siteId) {
+    return res.redirect(
+      `/list?err=${encodeURIComponent("Les IDs doivent être spécifiés.")}`
+    );
+  }
+
+  try {
+    await User.updateOne(
+      { _id: userId, "lists._id": listId },
+      {
+        $addToSet: {
+          "lists.$.sites": siteId,
+        },
+      }
+    );
+    res.redirect(
+      `/list?success=${encodeURIComponent("Le site a été ajouté avec succès.")}`
+    );
+  } catch (err) {
+    res.redirect(
+      `/list?err=${encodeURIComponent("Erreur lors de l'ajout du site.")}`
+    );
+  }
+}
+
+async function dropSiteFromList(req, res) {
+  const userId = req.user.id;
+  const { listId, siteId } = req.params;
+
+  if (!listId || !siteId) {
+    return res.redirect(
+      `/list?err=${encodeURIComponent("Les IDs doivent être spécifiés.")}`
+    );
+  }
+
+  try {
+    await User.updateOne(
+      { _id: userId, "lists._id": listId },
+      {
+        $pull: {
+          "lists.$.sites": siteId,
+        },
+      }
+    );
+    res.redirect(
+      `/list?success=${encodeURIComponent("Le site a été retiré avec succès.")}`
+    );
+  } catch (err) {
+    res.redirect(
+      `/list?err=${encodeURIComponent("Erreur lors du retrait du site.")}`
+    );
+  }
 }
 
 async function GetUserProfile(req, res) {
@@ -168,7 +177,8 @@ async function GetUserProfile(req, res) {
     const userId = req.user.id; // Assurez-vous que `req.user` est défini par le middleware d'authentification
     const user = await User.findById(userId)
       .populate("likedSites") // Peupler les sites aimés
-      .populate("comments"); // Peupler les commentaires
+      .populate("comments")
+      .populate("lists"); // Peupler les commentaires
 
     if (!user) {
       return res.status(404).json({ error: "Utilisateur non trouvé" });
@@ -189,9 +199,14 @@ async function GetUserProfile(req, res) {
         content: comment.content,
         createdAt: comment.createdAt,
       })), // Liste des commentaires
+      lists: user.lists.map((list) => ({
+        id: list._id,
+        name: list.name,
+        color: list.color,
+      })),
       sessions: user.sessions, // Liste des sessions
     };
-
+    console.log(userData);
     // Rendre la vue `profile`
     return res.render("profile", { user: userData });
   } catch (err) {
