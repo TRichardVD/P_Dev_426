@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const { Schema, Types } = mongoose;
 
 // Schéma pour le site
@@ -8,18 +8,18 @@ const SiteSchema = new Schema(
         address: { type: String },
         description: { type: String },
         country: [{ type: String }],
-        likes: [{ type: Types.ObjectId, ref: "User", default: [] }],
+        likes: [{ type: Types.ObjectId, ref: 'User', default: [] }],
         comments: [
             {
                 type: Types.ObjectId,
-                ref: "Comment",
+                ref: 'Comment',
                 default: [],
             },
         ],
         coordinates: {
             type: {
                 type: String,
-                default: "Point",
+                default: 'Point',
                 required: true,
             },
             coordinates: {
@@ -28,7 +28,7 @@ const SiteSchema = new Schema(
             },
         },
     },
-    { defaultLanguage: "french" }
+    { defaultLanguage: 'french' }
 );
 SiteSchema.methods.toggleLike = async function (userId) {
     const hasLiked = this.likes.includes(userId);
@@ -41,15 +41,15 @@ SiteSchema.methods.toggleLike = async function (userId) {
     return this.likes.length;
 };
 
-SiteSchema.index({ name: "text", description: "text", country: "text" });
+SiteSchema.index({ name: 'text', description: 'text', country: 'text' });
 // Modèle Mongoose pour le site
-const Site = mongoose.model("Site", SiteSchema);
+const Site = mongoose.model('Site', SiteSchema);
 
-Site.on("index", function (err) {
+Site.on('index', function (err) {
     if (err) {
-        console.log("Error creating index:", err);
+        console.log('Error creating index:', err);
     } else {
-        console.log("Index created successfully");
+        console.log('Index created successfully');
     }
 });
 
