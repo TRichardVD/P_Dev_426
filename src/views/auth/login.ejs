@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Page de login</title>
-        <link rel="stylesheet" href="css/style.css" />
-    </head>
-    <body>
-        <div class="login-container">
-            <div class="connexionBox">
-                <h1>Connexion</h1>
-                <%- include("../components/showMsg") %>
-                <form action="/login" method="POST">
-                        <%- include("../input", { name: "username", label: "Username", placeholder: "", type: "text", other: "required", errors: null}) %>
-                        <%- include("../input", { name: "password", label: "Mot de passe", placeholder: "", type: "password", other: "required", errors: null}) %>
-                        <a href="#" class="forgot-password"
-                            >Mot de passe oublié ?</a
-                        >
-                        <input type="submit" class="btn" value="Se connecter" />
-                        <a href="/register" class="register-link">S'inscrire</a>
-                </form>
-            </div>
-        </div>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page de login</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="connexionBox">
+        <h1>Connexion</h1>
+        <%- include("../components/showMsg") %>
+        <form action="/login" method="POST">
+          <%- include("../input", { name: "username", label: "Username",
+          placeholder: "", type: "text", other: "required", errors: null}) %>
+          <%- include("../input", { name: "password", label: "Mot de passe",
+          placeholder: "", type: "password", other: "required", errors: null})
+          %>
+          <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+          <input type="submit" class="btn" value="Se connecter" />
+          <a href="/register" class="register-link">S'inscrire</a>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

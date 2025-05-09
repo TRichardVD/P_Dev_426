@@ -263,3 +263,13 @@ main {
     opacity: 1;
   }
 }
+
+/* ==========================
+   INFO MESSAGE STYLES
+   ========================== */
+.info-message {
+  color: #3498db;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}

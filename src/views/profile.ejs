@@ -20,12 +20,42 @@
             class="profile-picture"
           />
           <div class="profile-details">
-            <p><strong>Prénom :</strong> <%= user.username %></p>
-            <p><strong>Email :</strong> <%= user.email %></p>
+            <p>
+              <strong>Prénom :</strong>
+              <span id="username-display"><%= user.username %></span>
+            </p>
+            <p>
+              <strong>Email :</strong>
+              <span id="email-display"><%= user.email %></span>
+            </p>
             <p><strong>Mot de passe :</strong> ********</p>
-            <!-- <a href="/reset-password" class="reset-password-button">Réinitialiser le mot de passe</a> -->
           </div>
-          <a href="/api/user/edit-profile" class="edit-button">✏️</a>
+          <button class="edit-button">✏️ Modifier</button>
+          <button class="save-button" style="display: none">
+            💾 Sauvegarder
+          </button>
+          <button class="reset-password-button">
+            🔒 Réinitialiser le mot de passe
+          </button>
+        </div>
+
+        <!-- Formulaire de réinitialisation du mot de passe -->
+        <div id="reset-password-form" style="display: none">
+          <h3>Réinitialiser le mot de passe</h3>
+          <form id="password-reset-form" method="POST">
+            <label for="password">Nouveau mot de passe :</label>
+            <input type="password" id="password" name="password" required />
+
+            <label for="confirm-password">Confirmer le mot de passe :</label>
+            <input
+              type="password"
+              id="confirm-password"
+              name="confirmPassword"
+              required
+            />
+
+            <button type="submit" class="btn">Enregistrer</button>
+          </form>
         </div>
       </section>
 
@@ -60,12 +90,119 @@
       <section class="favorite-sites">
         <h2>Vos listes de sites</h2>
         <% user.lists.forEach((list) => { %>
-          <h3><%= list.name %></h3>
+        <h3><%= list.name %></h3>
 
-          <% }); %>
+        <% }); %>
       </section>
 
       <%- include("partials/footer") %>
     </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const editButton = document.querySelector(".edit-button");
+        const saveButton = document.querySelector(".save-button");
+        const resetPasswordButton = document.querySelector(
+          ".reset-password-button"
+        );
+        const resetPasswordForm = document.getElementById(
+          "reset-password-form"
+        );
+        const usernameDisplay = document.getElementById("username-display");
+        const emailDisplay = document.getElementById("email-display");
+
+        editButton.addEventListener("click", () => {
+          // Transform username and email into input fields
+          usernameDisplay.innerHTML = `<input type="text" id="username-input" value="${usernameDisplay.textContent}" />`;
+          emailDisplay.innerHTML = `<input type="email" id="email-input" value="${emailDisplay.textContent}" />`;
+
+          // Show the save button and hide the edit button
+          editButton.style.display = "none";
+          saveButton.style.display = "inline-block";
+        });
+
+        saveButton.addEventListener("click", async () => {
+          const usernameInput = document.getElementById("username-input").value;
+          const emailInput = document.getElementById("email-input").value;
+
+          try {
+            // Send the updated data via AJAX
+            const response = await fetch("/api/user/edit-profile", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                username: usernameInput,
+                email: emailInput,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error("Erreur lors de la mise à jour du profil.");
+            }
+
+            // Update the display with the new values
+            usernameDisplay.textContent = usernameInput;
+            emailDisplay.textContent = emailInput;
+
+            // Hide the save button and show the edit button
+            saveButton.style.display = "none";
+            editButton.style.display = "inline-block";
+          } catch (error) {
+            console.error(error);
+            alert("Une erreur est survenue lors de la mise à jour.");
+          }
+        });
+
+        resetPasswordButton.addEventListener("click", () => {
+          resetPasswordForm.style.display =
+            resetPasswordForm.style.display === "none" ? "block" : "none";
+        });
+
+        const passwordResetForm = document.getElementById(
+          "password-reset-form"
+        );
+        passwordResetForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const newPassword = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirm-password").value;
+
+          // Vérification côté client
+          if (newPassword !== confirmPassword) {
+            alert("Les mots de passe ne correspondent pas.");
+            return;
+          }
+
+          console.log("Données envoyées :", { newPassword }); // Ajoutez ce log
+
+          try {
+            const response = await fetch("/api/user/reset-password", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                newPassword,
+              }),
+            });
+
+            if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.error || "Erreur inconnue.");
+            }
+
+            alert("Mot de passe réinitialisé avec succès !");
+            resetPasswordForm.style.display = "none";
+          } catch (error) {
+            console.error(error);
+            alert(
+              error.message || "Une erreur est survenue. Veuillez réessayer."
+            );
+          }
+        });
+      });
+    </script>
   </body>
 </html>

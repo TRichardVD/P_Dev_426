@@ -69,6 +69,16 @@ header nav a {
   cursor: pointer;
 }
 
+.save-button {
+  display: inline-block; /* S'assurer qu'il est visible lorsqu'il est activé */
+  background-color: #0078d7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 /* Favorite Sites Section */
 .favorite-sites {
   margin: 20px auto;

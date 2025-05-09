@@ -206,7 +206,7 @@ async function GetUserProfile(req, res) {
       })),
       sessions: user.sessions, // Liste des sessions
     };
-    console.log(userData);
+
     // Rendre la vue `profile`
     return res.render("profile", { user: userData });
   } catch (err) {
@@ -231,7 +231,7 @@ async function renderEditProfile(req, res) {
 // Mettre à jour les données du profil
 async function updateProfile(req, res) {
   try {
-    const { username, email, password } = req.body;
+    const { username, email } = req.body;
 
     const user = await User.findById(req.user.id);
     if (!user) {
@@ -240,20 +240,77 @@ async function updateProfile(req, res) {
 
     if (username) user.username = username;
     if (email) user.email = email;
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
-    }
 
     await user.save();
-    res.redirect("/profile");
+    res.status(200).json({ message: "Profil mis à jour avec succès" });
   } catch (err) {
     console.error("Erreur lors de la mise à jour du profil :", err);
-    res.status(500).send("Erreur serveur");
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+}
+
+async function resetPassword(req, res) {
+  try {
+    const { newPassword } = req.body;
+
+    // Vérification du champ
+    if (!newPassword) {
+      return res
+        .status(400)
+        .json({ error: "Le nouveau mot de passe est requis." });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        error: "Le mot de passe doit contenir au moins 8 caractères.",
+      });
+    }
+
+    // Récupérer l'utilisateur connecté
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ error: "Utilisateur non trouvé." });
+    }
+
+    // Hacher le nouveau mot de passe
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+
+    // Supprimer toutes les sessions de l'utilisateur
+    user.sessions = [];
+    await user.save();
+
+    // Supprimer le cookie d'authentification
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true, // Assurez-vous que cette option est activée si vous utilisez HTTPS
+      sameSite: "none", // Si vous utilisez des cookies cross-origin
+    });
+
+    // Rediriger vers la page de connexion
+    return res.redirect(
+      `/login?success=${encodeURIComponent(
+        "Mot de passe réinitialisé avec succès. Veuillez vous reconnecter."
+      )}`
+    );
+  } catch (err) {
+    console.error("Erreur lors de la réinitialisation du mot de passe :", err);
+    return res.status(500).json({ error: "Erreur serveur." });
+  }
+}
+
+async function renderResetPasswordForm(req, res) {
+  try {
+    // Rendre la vue du formulaire de réinitialisation
+    res.render("auth/reset-password-form", { errors: {} });
+  } catch (err) {
+    console.error("Erreur lors du rendu du formulaire :", err);
+    return res.status(500).json({ error: "Erreur serveur." });
   }
 }
 
 export {
+  resetPassword,
   insertList,
   dropList,
   modifyList,
@@ -262,4 +319,5 @@ export {
   GetUserProfile,
   renderEditProfile,
   updateProfile,
+  renderResetPasswordForm,
 };

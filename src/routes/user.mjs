@@ -10,6 +10,8 @@ import {
   modifyList,
   insertSiteToList,
   dropSiteFromList,
+  resetPassword,
+  renderResetPasswordForm,
 } from "../controllers/user.mjs";
 
 const userRouter = express();
@@ -28,5 +30,9 @@ userRouter.delete("/list/:listId", dropList);
 userRouter.put("/list/:listId", modifyList);
 userRouter.post("/list/:listId/site/:siteId", insertSiteToList);
 userRouter.delete("/list/:listId/site/:siteId", dropSiteFromList);
+
+// Route pour réinitialiser le mot de passe
+userRouter.get("/reset-password", authReq, renderResetPasswordForm);
+userRouter.post("/reset-password", authReq, resetPassword);
 
 export { userRouter };
