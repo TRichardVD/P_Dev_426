@@ -1,54 +1,46 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/home.css" />
-    <script src="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Cesium.js"></script>
-    <link
-      href="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Widgets/widgets.css"
-      rel="stylesheet"
-    />
 
-    <title>Page-Accueil</title>
-  </head>
-  <body>
-    <header class="home-header">
-      <div class="nav-logo-container">
-        <a href="/"
-          ><img
-            src="/images/logos/BSI_WhiteLogo.png"
-            alt="logo"
-            class="big-logo"
-        /></a>
-        <nav class="home-nav">
-          <a href="/login" class="classic-button">Connexion</a>
-          <a href="/profile" class="profile-icon">
-            <img
-              src="/images/icons/profile-white-icon.png"
-              alt="icone profile"
-            />
-          </a>
-        </nav>
-      </div>
-      <div class="home-header-content">
-        <h1>Explorez les trésors de l'humanité !</h1>
-        <p>
-          Explorez une carte interactive des monuments classés par
-          L'<span>UNESCO</span>, un voyage virtuel à travers les merveilles
-          culturelles et naturelles de notre planète.
-        </p>
-        <a href="/api/site" class="classic-button">Explorer les monuments</a>
-      </div>
-    </header>
-    <%- include("components/showMsg") %>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/home.css" />
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
+
+  <title>Page-Accueil</title>
+</head>
+
+<body>
+  <header class="home-header">
+    <div class="nav-logo-container">
+      <a href="/"><img src="/images/logos/BSI_WhiteLogo.png" alt="logo" class="big-logo" /></a>
+      <nav class="home-nav">
+        <a href="/login" class="classic-button">Connexion</a>
+        <a href="/profile" class="profile-icon">
+          <img src="/images/icons/profile-white-icon.png" alt="icone profile" />
+        </a>
+      </nav>
+    </div>
+    <div class="home-header-content">
+      <h1>Explorez les trésors de l'humanité !</h1>
+      <p>
+        Explorez une carte interactive des monuments classés par
+        L'<span>UNESCO</span>, un voyage virtuel à travers les merveilles
+        culturelles et naturelles de notre planète.
+      </p>
+      <a href="/api/site" class="classic-button">Explorer les monuments</a>
+    </div>
+  </header>
+  <%- include("components/showMsg") %>
     <main>
       <h1>Carte interactive</h1>
       <div id="cesiumContainer" style="height: 600px; width: 1440px"></div>
     </main>
     <%- include("partials/footer") %>
-    <script type="module" src="/script/main.js"></script>
-  </body>
+      <script type="module" src="/script/main.js"></script>
+</body>
+
 </html>

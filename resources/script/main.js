@@ -78,15 +78,20 @@ async function init3dMap() {
     fetch('./api/site/sites')
         .then((response) => response.json())
         .then((data) => {
+            let i = 0
             data.forEach((site) => {
+                if (i== 0){
+                    console.log(site)
+                    i++
+                }
+
                 const lat = site.coordinates.coordinates[1];
                 const lon = site.coordinates.coordinates[0];
                 const name = site.name;
-                //const letter = name.charAt(0);
-                const link = './api/site/' + site.id;
-                let color;
-                let marker;
-                if (site.category == 'Cultural') {
+                const link = '/site/' + site.id;
+                const color = Cesium.Color.YELLOW;
+                let marker = 'park';
+               /* if (site.category == 'Cultural') {
                     color = Cesium.Color.YELLOW;
                     marker = 'museum';
                 } else if (site.category == 'Natural') {
@@ -95,7 +100,7 @@ async function init3dMap() {
                 } else {
                     color = Cesium.Color.ROYALBLUE;
                     marker = 'zoo';
-                }
+                }*/
 
                 //afficher sur la carte
                 pinBuilder
@@ -103,7 +108,7 @@ async function init3dMap() {
                     .then(function (canvas) {
                         viewer.entities.add({
                             name: name,
-                            description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}" target="_blank">Voir plus</a>`,
+                            description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="/api${link}" target="_blank">Voir plus</a>`,
                             position: Cesium.Cartesian3.fromDegrees(lon, lat),
                             billboard: {
                                 image: canvas.toDataURL(),
