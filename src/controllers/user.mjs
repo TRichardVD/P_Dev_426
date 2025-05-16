@@ -137,7 +137,7 @@ async function insertSiteToList(req, res) {
             }
         );
         res.redirect(
-            `/api/site/${siteId}?success=${encodeURIComponent(
+            `/site/${siteId}?success=${encodeURIComponent(
                 'Le site a été ajouté avec succès.'
             )}`
         );

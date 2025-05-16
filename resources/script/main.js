@@ -18,7 +18,7 @@ function initMap() {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-    fetch('./api/site/sites')
+    fetch('./site/sites')
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
@@ -26,7 +26,7 @@ function initMap() {
                 const lat = site.coordinates.coordinates[1];
                 const lon = site.coordinates.coordinates[0];
                 const name = site.name;
-                const link = './api/site/' + site.id;
+                const link = './site/' + site.id;
 
         // Créer un pop-up avec un lien cliquable
         const popupContent = `<b>${name}</b><br><a href="${link}">Voir plus</a>`;
@@ -75,7 +75,7 @@ navigator.geolocation.watchPosition((pos) => {
 init3dMap();
 
 async function init3dMap() {
-    fetch('./api/site/sites')
+    fetch('./site/sites')
         .then((response) => response.json())
         .then((data) => {
             data.forEach((site) => {
@@ -83,7 +83,7 @@ async function init3dMap() {
                 const lon = site.coordinates.coordinates[0];
                 const name = site.name;
                 //const letter = name.charAt(0);
-                const link = './api/site/' + site.id;
+                const link = './site/' + site.id;
                 let color;
                 let marker;
                 if (site.category == 'Cultural') {

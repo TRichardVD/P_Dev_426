@@ -9,7 +9,7 @@
 <body>
     <%- include('partials/header'); -%>
     <div class="search-container"></div>
-    <form action="/api/site" method="GET">
+    <form action="/site" method="GET">
         <input type="text" name="query" placeholder="Chercher" value="<%= query || "" %>">
         <button type="submit">Rechercher</button>
         <input type="text" name="country" value="<%= country || "" %>" placeholder="Pays">
@@ -34,7 +34,7 @@
             <div class="search-results">
                 <% results.forEach(result => { %>
                     <div class="result-card">
-                        <a href="/api/site/<%= result._id %>">
+                        <a href="/site/<%= result._id %>">
                             <strong><%= result.name %></strong>
                             <p><%= result.description %></p>
                         </a>

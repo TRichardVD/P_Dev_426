@@ -69,7 +69,7 @@
           <div class="comment new-comment">
             <img src="/images/profile-icon.png" alt="Your avatar" />
             <div class="comment-content">
-              <form action="/api/site/<%= site._id %>/comment" method="post">
+              <form action="/site/<%= site._id %>/comment" method="post">
                 <input type="text" name="comment" placeholder="Partagez votre avis..." required />
                 <button type="submit">Publier</button>
               </form>
@@ -115,7 +115,7 @@ const viewer = new Cesium.Viewer('cesiumContainer', {
 
 async function init3dMap() {
   let i = 0;      
-    fetch('/api/site/sites')
+    fetch('/site/sites')
         .then((response) => response.json())
         .then((data) => {
         const siteFound = data.find((site) => site.id === '<%= site._id %>');
@@ -136,7 +136,7 @@ async function init3dMap() {
 		const lon = site.coordinates.coordinates[0];
 		const name = site.name;
 		//const letter = name.charAt(0);
-		const link = './api/site/' + site.id;
+		const link = './site/' + site.id;
 		let color;
 		let marker;
 		if (site.id === siteFound.id) {
@@ -250,7 +250,7 @@ async function init3dMap() {
         if (likeSiteBtn) {
           likeSiteBtn.addEventListener('click', async () => {
             try {
-              const response = await fetch(`/api/site/${likeSiteBtn.dataset.siteId}/like`, {
+              const response = await fetch(`/site/${likeSiteBtn.dataset.siteId}/like`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
               });

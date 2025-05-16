@@ -31,7 +31,9 @@ app.use(auth); // Middleware d'authentification pour toutes les routes
 // Routes d'affichages des pages d'accueil et de connexion
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', {
+        isLoggedIn: req.isLoggedIn,
+    });
 });
 
 app.get('/register', (req, res) => {
@@ -57,7 +59,7 @@ app.get('/create-list', authReq, (req, res) => {
 
 // Routes API de l'utilisateur et des sites
 app.use('/api/user', userRouter);
-app.use('/api/site', siteRouter);
+app.use('/site', siteRouter);
 
 // Démarrage du serveur
 https.createServer(credentials, app).listen(process.env.PORT || 443, () => {

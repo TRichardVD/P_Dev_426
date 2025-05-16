@@ -24,13 +24,16 @@
             class="big-logo"
         /></a>
         <nav class="home-nav">
+          <% if (!isLoggedIn) { %>
           <a href="/login" class="classic-button">Connexion</a>
+           <% } else { %>
           <a href="/api/user/profile" class="profile-icon">
             <img
               src="/images/icons/profile-white-icon.png"
               alt="icone profile"
             />
           </a>
+           <% } %>
         </nav>
       </div>
       <div class="home-header-content">
@@ -40,7 +43,7 @@
           L'<span>UNESCO</span>, un voyage virtuel à travers les merveilles
           culturelles et naturelles de notre planète.
         </p>
-        <a href="/api/site" class="classic-button">Explorer les monuments</a>
+        <a href="/site" class="classic-button">Explorer les monuments</a>
       </div>
     </header>
     <%- include("components/showMsg") %>
