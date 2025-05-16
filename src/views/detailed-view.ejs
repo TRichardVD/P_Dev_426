@@ -125,7 +125,7 @@ async function init3dMap() {
 		const lon = site.coordinates.coordinates[0];
 		const name = site.name;
 		//const letter = name.charAt(0);
-		const link = './api/site/' + site.id;
+		const link = '/api/site/' + site.id;
 		let color;
 		let marker;
 		if (site.id === siteFound.id) {
