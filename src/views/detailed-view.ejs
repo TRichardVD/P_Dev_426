@@ -20,7 +20,7 @@
       <div id="add-to-list-modal" class="modal" style="display: none;">
         <div class="modal-content">
           <h2>Ajouter à une liste</h2>
-          <form id="add-to-list-form" method="post" action="/api/user/list/">
+          <form id="add-to-list-form" method="post" action="/user/list/">
             <select name="listId" id="list-select">
               <% site.user.lists.forEach(list => { %>
                 <option value="<%= list.id %>"><%= list.name %></option>
@@ -297,11 +297,11 @@ async function init3dMap() {
         const siteId = "<%= site._id %>";
 
         // Set initial action
-        addToListForm.action = `/api/user/list/${listSelect.value}/site/${siteId}`;
+        addToListForm.action = `/user/list/${listSelect.value}/site/${siteId}`;
 
         // Update action when selection changes
         listSelect.addEventListener("change", function () {
-          addToListForm.action = `/api/user/list/${this.value}/site/${siteId}`;
+          addToListForm.action = `/user/list/${this.value}/site/${siteId}`;
         });
       });
     </script>

@@ -58,7 +58,7 @@ app.get('/create-list', authReq, (req, res) => {
 });
 
 // Routes API de l'utilisateur et des sites
-app.use('/api/user', userRouter);
+app.use('/user', userRouter);
 app.use('/site', siteRouter);
 
 // Démarrage du serveur

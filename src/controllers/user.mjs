@@ -36,7 +36,7 @@ async function insertList(req, res) {
         await user.save();
 
         return res.redirect(
-            `/api/user/profile?success=${encodeURIComponent(
+            `/user/profile?success=${encodeURIComponent(
                 'La liste a été créée avec succès'
             )}`
         );
@@ -74,7 +74,7 @@ async function dropList(req, res) {
         );
     }
     return res.redirect(
-        `/api/user/profile?success=${encodeURIComponent(
+        `/user/profile?success=${encodeURIComponent(
             'Le site a été retiré avec succès.'
         )}`
     );
@@ -173,7 +173,7 @@ async function dropSiteFromList(req, res) {
         );
     }
     return res.redirect(
-        `/api/user/list/${listId}?success=${encodeURIComponent(
+        `/user/list/${listId}?success=${encodeURIComponent(
             'Le site a été retiré avec succès.'
         )}`
     );
@@ -215,7 +215,10 @@ async function GetUserProfile(req, res) {
             sessions: user.sessions, // Liste des sessions
         };
         // Rendre la vue `profile`
-        return res.render('profile', { user: userData });
+        return res.render('profile', {
+            user: userData,
+            isLoggedIn: req.isLoggedIn,
+        });
     } catch (err) {
         console.error('Error fetching user profile:', err);
         return res.status(500).json({ error: 'Erreur serveur' });
@@ -298,6 +301,35 @@ async function getSiteList(req, res) {
         );
     }
 }
+
+async function getSiteLists(req, res) {
+    const userId = req.user.id;
+
+    if (!userId) {
+        return res.redirect(
+            `/list?err=${encodeURIComponent('Utilisateur non trouvé.')}`
+        );
+    }
+
+    try {
+        const user = await User.findById(userId).populate('lists.sites');
+
+        if (!user) {
+            return res.redirect(
+                `/list?err=${encodeURIComponent('Utilisateur non trouvé.')}`
+            );
+        }
+
+        return res.json(user.lists);
+    } catch (err) {
+        console.error('Erreur lors de la récupération des listes :', err);
+        return res.redirect(
+            `/list?err=${encodeURIComponent(
+                'Erreur lors de la récupération des listes.'
+            )}`
+        );
+    }
+}
 export {
     insertList,
     dropList,
@@ -308,4 +340,5 @@ export {
     renderEditProfile,
     updateProfile,
     getSiteList,
+    getSiteLists,
 };

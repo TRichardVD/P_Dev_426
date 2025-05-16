@@ -1,4 +1,4 @@
-// let map;¨
+// let map;
 Cesium.Ion.defaultAccessToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhODUxNWEzNy1lYjkxLTQyMjUtYjIwYS00OGVlYzEwNTRmN2IiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDMxNjYyMzh9.DiCViUqiY8bfqjpLdNtcKLZO5RHs6JVUH3UjEQJfssY';
 
@@ -9,36 +9,6 @@ const viewer = new Cesium.Viewer('cesiumContainer', {
     animation: false,
 });
 let i = 0;
-
-/* Ancienne map 2d
-function initMap() {
-  map = L.map("map").setView([0, 0], 2);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-
-    fetch('./site/sites')
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            data.forEach((site) => {
-                const lat = site.coordinates.coordinates[1];
-                const lon = site.coordinates.coordinates[0];
-                const name = site.name;
-                const link = './site/' + site.id;
-
-        // Créer un pop-up avec un lien cliquable
-        const popupContent = `<b>${name}</b><br><a href="${link}">Voir plus</a>`;
-
-        // Ajouter le marqueur avec le pop-up
-        L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
-      });
-    })
-    .catch((error) =>
-      console.error("Error loading or processing data:", error)
-    );
-}*/
 
 //fly to custumer location
 navigator.geolocation.watchPosition((pos) => {
@@ -75,6 +45,30 @@ navigator.geolocation.watchPosition((pos) => {
 init3dMap();
 
 async function init3dMap() {
+    // Récupère les listes de l'utilisateur
+    const userLists = await fetch('/user/list', {
+        method: 'GET',
+    })
+        .then((response) => response.json())
+        .catch((error) => {
+            console.error('Error loading or processing data:', error);
+            return [];
+        });
+    console.log(userLists);
+
+    // Crée une map siteId -> couleur de la liste
+    const siteIdToColor = {};
+    if (Array.isArray(userLists)) {
+        userLists.forEach((list) => {
+            // On suppose que chaque list a une propriété color et une propriété sites (array d'id)
+            if (Array.isArray(list.sites) && list.color) {
+                list.sites.forEach((site) => {
+                    siteIdToColor[site._id] = list.color;
+                });
+            }
+        });
+    }
+    console.log(siteIdToColor);
     fetch('./site/sites')
         .then((response) => response.json())
         .then((data) => {
@@ -82,11 +76,18 @@ async function init3dMap() {
                 const lat = site.coordinates.coordinates[1];
                 const lon = site.coordinates.coordinates[0];
                 const name = site.name;
-                //const letter = name.charAt(0);
                 const link = './site/' + site.id;
                 let color;
                 let marker;
-                if (site.category == 'Cultural') {
+
+                // Si le site est dans une liste utilisateur, on utilise la couleur de la liste
+                if (siteIdToColor[site.id]) {
+                    // On suppose que la couleur est une string CSS, on la convertit en Cesium.Color
+                    color = Cesium.Color.fromCssColorString(
+                        siteIdToColor[site.id]
+                    );
+                    marker = 'star'; // On peut choisir un marker spécial ou garder le même
+                } else if (site.category == 'Cultural') {
                     color = Cesium.Color.YELLOW;
                     marker = 'museum';
                 } else if (site.category == 'Natural') {

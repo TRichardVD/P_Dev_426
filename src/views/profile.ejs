@@ -25,7 +25,7 @@
             <p><strong>Mot de passe :</strong> ********</p>
             <!-- <a href="/reset-password" class="reset-password-button">Réinitialiser le mot de passe</a> -->
           </div>
-          <a href="/api/user/edit-profile" class="edit-button">✏️</a>
+          <a href="/user/edit-profile" class="edit-button">✏️</a>
         </div>
       </section>
 
@@ -60,11 +60,11 @@
 <section class="list">
   <h2>Vos listes de sites</h2>
   <% user.lists.forEach((list) => { %>
-  <a href="/api/user/list/<%= list.id %>" class="list-card">
+  <a href="/user/list/<%= list.id %>" class="list-card">
     <div class="list-info">
       <h3><%= list.name %></h3>
       <!-- Delete form for list -->
-      <form action="/api/user/list/<%= list.id %>/delete?_method=DELETE" method="POST" style="display: inline;">
+      <form action="/user/list/<%= list.id %>/delete?_method=DELETE" method="POST" style="display: inline;">
         <button type="submit">Supprimer la liste</button>
       </form>
     </div>
