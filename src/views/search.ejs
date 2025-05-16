@@ -25,8 +25,7 @@
         </select>
         <button type="button" id="reset">Réinitialiser</button>
     </form>
-    
-        <div class="search-results"></div>
+
             <% if (results && results.length > 0) { %>
                 <% if (query) { %>
                 <h2>Résultats de recherche pour "<%= query %>":</h2>
@@ -38,6 +37,7 @@
                             <strong><%= result.name %></strong>
                             <p><%= result.description %></p>
                         </a>
+                        <p><%= result.likes %></p>
                     </div>
                 <% }) %>
                 <% } else if (query) { %>
