@@ -83,7 +83,9 @@ label[for="sortField"] {
 
 .search-results {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
+  width: 50%;
+  margin: auto;
+  grid-template-columns: repeat(auto-fill, minmax(auto, 1fr));
   grid-auto-rows: minmax(100px, auto);
   gap: 1.5rem;
   margin-top: 2rem;
@@ -133,6 +135,10 @@ label[for="sortField"] {
   margin: 0;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .no-results {
