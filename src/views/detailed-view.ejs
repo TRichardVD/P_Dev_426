@@ -38,7 +38,7 @@
         <button id="like-site-btn" data-site-id="<%= site._id %>">
           ❤️ <span id="site-likes-count"><%= site.likes || 0 %></span>
         </button>
-        <button id="add-to-list-btn">+ Ajouter à une liste</button>
+        <button id="add-list-site-btn">+ Ajouter à une liste</button>
       </div>
 
       <!-- Galerie d'images (commentée) -->
@@ -67,7 +67,7 @@
         <h2><%= site.comments.length || 0 %> Commentaires</h2>
         <div class="comment-section">
           <div class="comment new-comment">
-            <img src="/images/profile-icon.png" alt="Your avatar" />
+            <img src="/images/profile-img.svg" alt="Your avatar" />
             <div class="comment-content">
               <form action="/site/<%= site._id %>/comment" method="post">
                 <input type="text" name="comment" placeholder="Partagez votre avis..." required />
@@ -78,7 +78,7 @@
 
           <% site.comments.forEach(comment => { %>
             <div class="comment" id="comment-<%= comment._id %>" data-comment-id="<%= comment._id %>">
-              <img src="/images/profile-icon.png" alt="Avatar de <%= comment.user_username %>" />
+              <img src="/images/profile-img.svg" alt="Avatar de <%= comment.user_username %>" />
               <div class="comment-content">
                 <p class="username"><%= comment.user_username %></p>
                 <p class="comment-text"><%= comment.comment %></p>
@@ -274,7 +274,7 @@ async function init3dMap() {
         }
 
         // Gestion de la modale "Ajouter à une liste"
-        const addToListBtn = document.getElementById("add-to-list-btn");
+        const addToListBtn = document.getElementById("add-list-site-btn");
         const modal = document.getElementById("add-to-list-modal");
         const closeModalBtn = document.getElementById("close-modal-btn");
         const listSelect = document.getElementById("list-select");

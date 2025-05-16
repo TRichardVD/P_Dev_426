@@ -4,15 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create List</title>
+    <link rel="stylesheet" href="/css/detailed-view.css" />
+    <style>
+    /* Style spécifique pour la page de création de liste */
+    .create-list-container {
+        max-width: 400px;
+        margin: 60px auto 0 auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
+        padding: 2.5rem 2rem 2rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .create-list-container h1 {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+    }
+    .create-list-container label {
+        font-weight: 500;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
+    }
+    .create-list-container input[type="text"] {
+        padding: 0.7rem 1rem;
+        border-radius: 6px;
+        border: 1.5px solid #ddd;
+        font-size: 1rem;
+        background: #f5f6fa;
+        color: var(--text-color);
+        margin-bottom: 1rem;
+        transition: border-color 0.2s;
+    }
+    .create-list-container input[type="text"]:focus {
+        border-color: var(--secondary-color);
+        outline: none;
+    }
+    .create-list-container input[type="color"] {
+        width: 50px;
+        height: 40px;
+        border: none;
+        background: none;
+        margin-bottom: 1.5rem;
+        margin-top: 0.5rem;
+        cursor: pointer;
+    }
+    .create-list-container button[type="submit"] {
+        background: var(--secondary-color);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.8rem 0;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: background 0.2s, transform 0.15s;
+    }
+    .create-list-container button[type="submit"]:hover {
+        background: #217dbb;
+        transform: translateY(-2px);
+    }
+    </style>
 </head>
 <body>
     <%- include("components/showMsg") %>
-    <form action="/user/list" method="POST">
-        <label for="name">Nom de votre liste</label>
-        <input type="text" id="name" name="name" required>
-        <label for="color">Couleur de la liste</label>
-        <input type="color" id="color" name="color" required>
-        <button type="submit"></button>
-    </form>
+    <div class="create-list-container">
+        <h1>Créer une liste</h1>
+        <form action="/user/list" method="POST">
+            <label for="name">Nom de votre liste</label>
+            <input type="text" id="name" name="name" required>
+            <label for="color">Couleur de la liste</label>
+            <input type="color" id="color" name="color" required>
+            <button type="submit">Créer la liste</button>
+        </form>
+    </div>
 </body>
 </html>

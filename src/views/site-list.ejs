@@ -1,12 +1,94 @@
-<!-- site-list.ejs -->
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= list.name %> - Liste de Sites</title>
-  <link rel="stylesheet" href="/styles.css"> <!-- Ajouter votre feuille de style ici -->
+  <link rel="stylesheet" href="/css/detailed-view.css" />
+  <style>
+    .list {
+      max-width: 900px;
+      margin: 40px auto 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
+      padding: 2.5rem 2rem 2rem 2rem;
+    }
+    .list h2 {
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .sites-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .site-card {
+      background: #f5f6fa;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: box-shadow 0.2s, transform 0.2s;
+      min-height: 120px;
+    }
+    .site-card:hover {
+      box-shadow: 0 4px 16px rgba(44, 62, 80, 0.18);
+      transform: translateY(-3px) scale(1.02);
+    }
+    .site-info h3 {
+      margin: 0 0 0.5rem 0;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+    .site-info p {
+      margin: 0 0 1rem 0;
+      color: #555;
+      font-size: 0.98rem;
+      word-break: break-all;
+    }
+    .site-info form {
+      display: inline;
+    }
+    .site-info button[type="submit"] {
+      background: #ff4757;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .site-info button[type="submit"]:hover {
+      background: #c0392b;
+      transform: translateY(-2px);
+    }
+    .add-site-button {
+      display: inline-block;
+      margin: 0 auto;
+      background: var(--secondary-color);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+    }
+    .add-site-button:hover {
+      background: #217dbb;
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
 <body>
   <main>
@@ -16,15 +98,17 @@
       <% if (list.sites && list.sites.length > 0) { %>
         <div class="sites-grid">
           <% list.sites.forEach((site) => { %>
-            <a href="/site/<%= site._id %>" target="_blank"><div class="site-card">
-              <div class="site-info">
-                <h3><%= site.name %></h3>
-                <p><%= site.url %></p>
-               <form action="/user/list/<%= list._id %>/site/<%= site._id %>?_method=DELETE" method="POST" style="display: inline;">
-                  <button type="submit">Supprimer le site</button>
-                </form>
+            <a href="/site/<%= site._id %>" target="_blank" style="text-decoration:none;">
+              <div class="site-card">
+                <div class="site-info">
+                  <h3><%= site.name %></h3>
+                  <p><%= site.url %></p>
+                  <form action="/user/list/<%= list._id %>/site/<%= site._id %>?_method=DELETE" method="POST" style="display: inline;">
+                    <button type="submit">Supprimer le site</button>
+                  </form>
+                </div>
               </div>
-            </div></a>
+            </a>
           <% }); %>
         </div>
       <% } else { %>
@@ -34,6 +118,5 @@
       <a href="/site" class="add-site-button">Ajouter un site</a>
     </section>
   </main>
-
 </body>
 </html>

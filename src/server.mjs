@@ -1,3 +1,5 @@
+import { config } from 'dotenv';
+config(); // Chargement des variables d'environnement depuis le fichier .env
 import https from 'https';
 import express from 'express';
 import cookieParser from 'cookie-parser';
@@ -62,7 +64,9 @@ app.use('/user', userRouter);
 app.use('/site', siteRouter);
 
 // Démarrage du serveur
-https.createServer(credentials, app).listen(process.env.PORT || 443, () => {
-    connectDB();
-    console.log('Server running on port 443 https://localhost:443');
-});
+https
+    .createServer(credentials, app)
+    .listen(process.env.PORT || 443, process.env.HOST || 'localhost', () => {
+        connectDB();
+        console.log('Server running on port 443 https://localhost:443');
+    });
