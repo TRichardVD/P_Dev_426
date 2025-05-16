@@ -27,12 +27,14 @@ input[type="text"]:focus {
 button[type="submit"] {
     padding: 0.8rem 1.5rem;
     background-color: #007bff;
-    color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease;
+}
+.search-button {
+    color: white;
 }
 
 button[type="submit"]:hover {

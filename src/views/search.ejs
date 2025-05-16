@@ -11,7 +11,7 @@
     <div class="search-container"></div>
     <form action="/api/site" method="GET">
         <input type="text" name="query" placeholder="Chercher" value="<%= query || "" %>">
-        <button type="submit">Rechercher</button>
+        <button type="submit" class="search-button">Rechercher</button>
         <input type="text" name="country" value="<%= country || "" %>" placeholder="Pays">
         <label for="sortField">Trier par:</label>
         <select name="sortField" id="sortField" value="<%= sortField || "" %>">
