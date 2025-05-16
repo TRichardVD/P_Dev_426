@@ -109,20 +109,33 @@
         Cesium.Ion.defaultAccessToken =
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhODUxNWEzNy1lYjkxLTQyMjUtYjIwYS00OGVlYzEwNTRmN2IiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDMxNjYyMzh9.DiCViUqiY8bfqjpLdNtcKLZO5RHs6JVUH3UjEQJfssY';
 
+        let viewer; // precious global
         const pinBuilder = new Cesium.PinBuilder();
+
         // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.  CesiumWidget
-        const viewer = new Cesium.Viewer('cesiumContainer', {
+        /*const viewer = new Cesium.Viewer('cesiumContainer', {
           timeline: false,
           animation: false,
+        });*/
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+          // Works on full page load
+          init3dMap();
         });
-        
-        
-        init3dMap();
-        
+
+
+
 
 
         async function init3dMap() {
-          fetch('./sites')
+          viewer = new Cesium.Viewer('cesiumContainer', {
+            timeline: false,
+            animation: false,
+          });
+
+          await fetch('./sites')
             .then((response) => response.json())
             .then((data) => {
               const siteFound = data.find((site) => site.id === '<%= site._id %>');
@@ -142,7 +155,7 @@
                 const lon = site.coordinates.coordinates[0];
                 const name = site.name;
                 //const letter = name.charAt(0);
-                const link = './api/site/' + site.id;
+                const link = site.id;
                 let color;
                 let marker;
                 if (site.id === siteFound.id) {
@@ -159,7 +172,7 @@
                   .then(function (canvas) {
                     viewer.entities.add({
                       name: name,
-                      description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}" target="_blank">Voir plus</a>`,
+                      description: `<b>${name}</b><br><a href="https://localhost/api/site/${site.id}" target="_blank" >Voir plus</a>`,
                       position: Cesium.Cartesian3.fromDegrees(lon, lat),
                       billboard: {
                         image: canvas.toDataURL(),
@@ -167,7 +180,7 @@
                       },
                     });
                   });
-              })
+              });
             })
             .catch((error) =>
               console.error('Error loading or processing data:', error)

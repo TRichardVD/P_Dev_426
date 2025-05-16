@@ -108,7 +108,7 @@ async function init3dMap() {
                     .then(function (canvas) {
                         viewer.entities.add({
                             name: name,
-                            description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="/api${link}" target="_blank">Voir plus</a>`,
+                            description: `<b>${name}</b></br><a href="/api${link}" target="_blank">Voir plus</a>`,
                             position: Cesium.Cartesian3.fromDegrees(lon, lat),
                             billboard: {
                                 image: canvas.toDataURL(),

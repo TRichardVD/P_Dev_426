@@ -1,352 +1,352 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 /* ==========================
    GLOBAL STYLES
    ========================== */
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 /* Base link styles */
 a {
-    font-family: 'Roboto', sans-serif;
-    text-decoration: none;
-    position: relative;
-    transition: color 0.3s ease;
-    opacity: 1;
+  font-family: "Roboto", sans-serif;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+  opacity: 1;
 }
 
 /* Link hover effect with underline animation */
 a:not(.btn):not(.nav-login-register a):after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    transition: width 0.3s ease;
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  transition: width 0.3s ease;
 }
 
 a:not(.btn):not(.register-link)::after {
-    background-color: #e74c3c;
+  background-color: #e74c3c;
 }
 a:not(.btn):not(.forgot-password)::after {
-    background-color: #31332f;
+  background-color: #31332f;
 }
 
 a:not(.btn):not(.nav-login-register a):hover:after {
-    width: 100%;
+  width: 100%;
 }
 
 /* Login/Register form link specific styles */
 .connexionBox a {
-    display: inline-block;
-    margin-top: 15px;
+  display: inline-block;
+  margin-top: 15px;
 }
 
 /* Navigation link specific styles - keeping existing styles but updating colors */
 .nav-pages a {
-    font-weight: 500;
-    padding: 5px 0;
+  font-weight: 500;
+  padding: 5px 0;
 }
 
 .nav-login-register a {
-    padding: 10px;
+  padding: 10px;
 }
 
 .nav-pages a:hover {
-    color: #585858;
+  color: #585858;
 }
 
 .nav-pages {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .nav-login-register {
-    display: flex;
-    padding: 10px;
-    gap: 10px;
+  display: flex;
+  padding: 10px;
+  gap: 10px;
 }
 #register {
-    border: 1px solid black;
-    border-radius: 30px;
+  border: 1px solid black;
+  border-radius: 30px;
 }
 .cta {
-    background-color: #9bbcd3;
-    border-radius: 30px;
-    color: #fff;
+  background-color: #9bbcd3;
+  border-radius: 30px;
+  color: #fff;
 }
 .cta:hover {
-    background-color: #1f8337;
+  background-color: #1f8337;
 }
 #register:hover {
-    background-color: #9fa09f;
+  background-color: #9fa09f;
 }
 
 h1 {
-    font-family: 'Montserrat';
-    margin: 20px 0px;
+  font-family: "Montserrat";
+  margin: 20px 0px;
 }
 main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .image-gallery {
-    display: flex;
-    gap: 10px;
-    margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
 }
 
 .thumbnail {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    cursor: pointer;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 .thumbnail:hover {
-    border: 2px solid #9bbcd3;
+  border: 2px solid #9bbcd3;
 }
 
 /* Modern minimalist form style */
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin: 20px auto;
-    padding: 30px;
-    color: #2c3e50;
-    font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px auto;
+  padding: 30px;
+  color: #2c3e50;
+  font-family: "Montserrat", sans-serif;
 }
 
 /* Modern minimalist container for login form */
 .connexionBox,
 .connectionBox {
-    margin: 60px auto;
-    padding: 20px;
-    max-width: 400px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    align-items: center;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  margin: 60px auto;
+  padding: 20px;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 /* Minimalist label style */
 label {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: #2c3e50;
-    letter-spacing: 0.5px;
-    margin-bottom: 2px;
-    margin-top: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  margin-top: 10px;
 }
 
 /* Modern input style with underline effect */
-input[type='text'],
-input[type='email'],
-input[type='password'] {
-    padding: 12px;
-    border: none;
-    border-bottom: 1px solid #ddd;
-    font-size: 1rem;
-    width: 90%;
-    transition: border-color 0.3s;
-    font-family: 'Montserrat', sans-serif;
-    color: #2c3e50;
-    background-color: #f8f9fa;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 12px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+  width: 90%;
+  transition: border-color 0.3s;
+  font-family: "Montserrat", sans-serif;
+  color: #2c3e50;
+  background-color: #f8f9fa;
 }
 
-input[type='text']:focus,
-input[type='email']:focus,
-input[type='password']:focus {
-    outline: none;
-    border-bottom-color: #9bbcd3;
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-bottom-color: #9bbcd3;
 }
 
-input[type='text']::placeholder,
-input[type='email']::placeholder,
-input[type='password']::placeholder {
-    color: #95a5a6;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+  color: #95a5a6;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
 }
 
 /* Modern minimalist submit button */
-input[type='submit'].btn {
-    padding: 12px;
-    background-color: #9bbcd3;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+input[type="submit"].btn {
+  padding: 12px;
+  background-color: #9bbcd3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
-input[type='submit'].btn:hover {
-    background-color: #1f8337;
+input[type="submit"].btn:hover {
+  background-color: #1f8337;
 }
 
 /* Style pour les messages d'erreur */
 .error-message {
-    color: #e74c3c;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+  color: #e74c3c;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
 }
 /* Style pour les messages de succès */
 .success-message {
-    color: #2ecc71;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+  color: #2ecc71;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
 }
 
 /* Style pour les champs de formulaire avec une ligne */
 .form-field {
-    position: relative;
-    margin-bottom: 1.5rem;
+  position: relative;
+  margin-bottom: 1.5rem;
 }
 
 .form-field input {
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid #31332f; /* Ligne sous le champ */
-    font-size: 1rem;
-    padding: 0.5rem 0;
-    background: transparent;
-    outline: none;
-    transition: border-color 0.3s ease, transform 0.3s ease;
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    z-index: 1;
-    position: relative;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #31332f; /* Ligne sous le champ */
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  z-index: 1;
+  position: relative;
 }
 
 .form-field input:focus {
-    border-bottom-color: #9bbcd3; /* Change la couleur de la ligne au focus */
+  border-bottom-color: #9bbcd3; /* Change la couleur de la ligne au focus */
 }
 
 .form-field input:focus + .field-background {
-    transform: translateY(-10px); /* Soulève le champ */
-    background-color: #f0f8ff; /* Fond coloré */
+  transform: translateY(-10px); /* Soulève le champ */
+  background-color: #f0f8ff; /* Fond coloré */
 }
 
 .form-field .field-background {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    z-index: 0;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 0;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 /* Conteneur principal pour centrer le formulaire */
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url('/images/backgrounds/login-bg.jpg');
-    background-size: cover;
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url("/images/backgrounds/login-bg.jpg");
+  background-size: cover;
 }
 
 /* Style de la boîte de connexion */
 .connexionBox {
-    background-color: rgba(255, 255, 255, 0.8); /* Fond blanc avec opacité */
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
-    text-align: center;
-    width: 100%;
-    max-width: 400px;
+  background-color: rgba(255, 255, 255, 0.8); /* Fond blanc avec opacité */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
 }
 
 /* Titre du formulaire */
 .connexionBox h1 {
-    font-family: 'Roboto', sans-serif;
-    font-size: 2rem;
-    color: #31332f;
-    margin-bottom: 1.5rem;
-    opacity: 1;
+  font-family: "Roboto", sans-serif;
+  font-size: 2rem;
+  color: #31332f;
+  margin-bottom: 1.5rem;
+  opacity: 1;
 }
 
 /* Champs de formulaire */
 .form-field {
-    margin-bottom: 1.5rem;
-    text-align: left;
+  margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 .form-field input {
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid #ddd;
-    font-size: 1rem;
-    padding: 0.5rem 0;
-    background: transparent;
-    outline: none;
-    transition: border-color 0.3s ease;
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    opacity: 1;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.3s ease;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  opacity: 1;
 }
 
 .form-field input:focus {
-    border-bottom-color: #9bbcd3; /* Couleur de la ligne au focus */
+  border-bottom-color: #9bbcd3; /* Couleur de la ligne au focus */
 }
 
 /* Lien "Mot de passe oublié" */
 .forgot-password {
-    font-size: 0.8rem;
-    color: #e74c3c;
-    text-decoration: none;
-    float: right;
-    margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #e74c3c;
+  text-decoration: none;
+  float: right;
+  margin-top: 0.5rem;
 }
 
 /* Bouton de soumission */
-input[type='submit'].btn {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #9bbcd3;
-    color: #31332f;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+input[type="submit"].btn {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #9bbcd3;
+  color: #31332f;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-input[type='submit'].btn:hover {
-    background-color: #9bbcd3;
+input[type="submit"].btn:hover {
+  background-color: #9bbcd3;
 }
 
 /* Lien "S'inscrire" */
 .register-link {
-    display: block;
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    color: #31332f;
-    text-decoration: none;
+  display: block;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: #31332f;
+  text-decoration: none;
 }
