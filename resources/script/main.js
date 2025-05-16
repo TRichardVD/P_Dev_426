@@ -1,4 +1,7 @@
-let map;
+// let map;¨
+Cesium.Ion.defaultAccessToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhODUxNWEzNy1lYjkxLTQyMjUtYjIwYS00OGVlYzEwNTRmN2IiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDMxNjYyMzh9.DiCViUqiY8bfqjpLdNtcKLZO5RHs6JVUH3UjEQJfssY';
+
 const pinBuilder = new Cesium.PinBuilder();
 // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.  CesiumWidget
 const viewer = new Cesium.Viewer('cesiumContainer', {
@@ -72,9 +75,6 @@ navigator.geolocation.watchPosition((pos) => {
 init3dMap();
 
 async function init3dMap() {
-    Cesium.Ion.defaultAccessToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhODUxNWEzNy1lYjkxLTQyMjUtYjIwYS00OGVlYzEwNTRmN2IiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDMxNjYyMzh9.DiCViUqiY8bfqjpLdNtcKLZO5RHs6JVUH3UjEQJfssY';
-
     fetch('./api/site/sites')
         .then((response) => response.json())
         .then((data) => {
