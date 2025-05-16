@@ -151,6 +151,12 @@ footer p {
   width: auto;
   display: flex;
 }
+.color-text:hover {
+              color: red;
+            }
+            .color-text:hover .underline {
+              width: 100% !important;
+            }
 
 @media (max-width: 768px) {
   nav {
