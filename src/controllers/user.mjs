@@ -231,7 +231,7 @@ async function renderEditProfile(req, res) {
         if (!user) {
             return res.status(404).send('Utilisateur non trouvé');
         }
-        res.render('edit-profile', { user });
+        res.render('edit-profile', { user, isLoggedIn: req.isLoggedIn });
     } catch (err) {
         console.error("Erreur lors du rendu de la page d'édition :", err);
         res.status(500).send('Erreur serveur');

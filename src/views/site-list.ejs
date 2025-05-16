@@ -16,7 +16,7 @@
       <% if (list.sites && list.sites.length > 0) { %>
         <div class="sites-grid">
           <% list.sites.forEach((site) => { %>
-            <div class="site-card">
+            <a href="/site/<%= site._id %>" target="_blank"><div class="site-card">
               <div class="site-info">
                 <h3><%= site.name %></h3>
                 <p><%= site.url %></p>
@@ -24,7 +24,7 @@
                   <button type="submit">Supprimer le site</button>
                 </form>
               </div>
-            </div>
+            </div></a>
           <% }); %>
         </div>
       <% } else { %>
