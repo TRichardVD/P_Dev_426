@@ -5,13 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modifier le profil</title>
     <link rel="stylesheet" href="/css/profile.css" />
+    <style>
+      .edit-profile-form {
+        max-width: 400px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        padding: 32px 28px 24px 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .edit-profile-form label {
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #222;
+      }
+      .edit-profile-form input[type="text"],
+      .edit-profile-form input[type="email"],
+      .edit-profile-form input[type="password"] {
+        padding: 10px 12px;
+        border: 1px solid #d4d4d4;
+        border-radius: 6px;
+        font-size: 16px;
+        background: #fafbfc;
+        margin-bottom: 8px;
+      }
+      .edit-profile-form .save-button {
+        background: #0078d7;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 12px 0;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background 0.2s;
+      }
+      .edit-profile-form .save-button:hover {
+        background: #005fa3;
+      }
+      .edit-profile-form .error-message {
+        color: #c0392b;
+        background: #ffeaea;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        padding: 8px 12px;
+        margin-bottom: 8px;
+        font-size: 15px;
+      }
+    </style>
   </head>
   <body>
     <%- include("partials/header") %>
 
     <main>
       <h1>Modifier votre profil</h1>
-      <form action="/edit-profile" method="POST" class="edit-profile-form">
+      <form action="/user/edit-profile" method="POST" class="edit-profile-form">
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="error-message"><%= error %></div>
+        <% } %>
         <label for="username">Prénom :</label>
         <input
           type="text"
@@ -36,6 +91,14 @@
           id="password"
           name="password"
           placeholder="Laissez vide pour ne pas changer"
+        />
+
+        <label for="confirmPassword">Confirmer le mot de passe :</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          placeholder="Confirmez le mot de passe"
         />
 
         <button type="submit" class="save-button">Enregistrer</button>
