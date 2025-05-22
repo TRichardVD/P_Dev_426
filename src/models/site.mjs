@@ -27,15 +27,29 @@ const SiteSchema = new Schema(
                 required: true,
             },
         },
+        category: {
+            type: String,
+            enum: ['Cultural', 'Natural', 'Mixed'],
+            required: false,
+        },
     },
     { defaultLanguage: 'french' }
 );
 SiteSchema.methods.toggleLike = async function (userId) {
     const hasLiked = this.likes.includes(userId);
+
+    const User = mongoose.model('User');
+
     if (hasLiked) {
         this.likes = this.likes.filter((id) => !id.equals(userId));
+        await User.findByIdAndUpdate(userId, {
+            $pull: { likedSites: this._id },
+        });
     } else {
         this.likes.push(userId);
+        await User.findByIdAndUpdate(userId, {
+            $addToSet: { likedSites: this._id },
+        });
     }
     await this.save();
     return this.likes.length;

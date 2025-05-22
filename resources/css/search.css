@@ -1,136 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
 .search-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
 form {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 input[type="text"] {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
 input[type="text"]:focus {
-    outline: none;
-    border-color: #007bff;
+  outline: none;
+  border-color: #007bff;
 }
 
 button[type="submit"] {
     padding: 0.8rem 1.5rem;
     background-color: #007bff;
-    color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease;
+}
+.search-button {
+    color: white;
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 select {
-    padding: 0.8rem 1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: white;
-    cursor: pointer;
-    transition: border-color 0.3s ease;
+  padding: 0.8rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
 }
 
 select:focus {
-    outline: none;
-    border-color: #007bff;
+  outline: none;
+  border-color: #007bff;
 }
 
 label[for="sortField"] {
-    display: flex;
-    align-items: center;
-    margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
 }
 
 #reset {
-    padding: 0.8rem 1.5rem;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+  padding: 0.8rem 1.5rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 #reset:hover {
-    background-color: #c82333;
+  background-color: #c82333;
 }
 
 .search-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-    padding: 1rem;
+  display: grid;
+  width: 50%;
+  margin: auto;
+  grid-template-columns: repeat(auto-fill, minmax(auto, 1fr));
+  grid-auto-rows: minmax(100px, auto);
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding: 1rem;
 }
 
 .search-results h2 {
-    color: #333;
-    margin-bottom: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
 }
 
 .search-results ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .result-card {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
 .result-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .result-card a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .result-card strong {
-    color: #007bff;
-    font-size: 1.2rem;
-    margin-bottom: 0.75rem;
-    display: block;
+  color: #007bff;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  display: block;
 }
 
 .result-card p {
-    color: #666;
-    line-height: 1.5;
-    margin: 0;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .no-results {
-    text-align: center;
-    color: #666;
-    padding: 2rem;
-    grid-column: 1 / -1;
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+  grid-column: 1 / -1;
 }

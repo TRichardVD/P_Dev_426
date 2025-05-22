@@ -8,7 +8,12 @@ const connectDB = async () => {
             `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@localhost:27017/db_unesco?authSource=admin`,
             {}
         );
-        // importData();
+        // Force la syncronisation donc suppression de la base de données et recréation
+        // await mongoose.connection.db.dropDatabase();
+        // await mongoose.connection.db.createCollection('sites');
+
+        // importData(); // Décommentez pour importer les données avec la catégorie
+        // importList();
         console.log('Connexion réussie à MongoDB');
     } catch (error) {
         console.error('Erreur de connexion :', error);

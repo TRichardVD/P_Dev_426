@@ -1,44 +1,19 @@
-// let map;¨
-Cesium.Ion.defaultAccessToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhODUxNWEzNy1lYjkxLTQyMjUtYjIwYS00OGVlYzEwNTRmN2IiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDMxNjYyMzh9.DiCViUqiY8bfqjpLdNtcKLZO5RHs6JVUH3UjEQJfssY';
+// Récupération du token Cesium depuis une variable globale injectée côté serveur
+Cesium.Ion.defaultAccessToken = window.CESIUM_TOKEN;
 
 const pinBuilder = new Cesium.PinBuilder();
 // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.  CesiumWidget
 const viewer = new Cesium.Viewer('cesiumContainer', {
     timeline: false,
     animation: false,
+    infoBox: false, // Désactive la box par défaut
 });
+
+// Limite de zoom/dézoom Cesium
+viewer.scene.screenSpaceCameraController.minimumZoomDistance = 500; // 500m (proche)
+viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000; // 30 000 km (empêche de dézoomer à l'infini)
+
 let i = 0;
-
-/* Ancienne map 2d
-function initMap() {
-  map = L.map("map").setView([0, 0], 2);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-
-    fetch('./api/site/sites')
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            data.forEach((site) => {
-                const lat = site.coordinates.coordinates[1];
-                const lon = site.coordinates.coordinates[0];
-                const name = site.name;
-                const link = './api/site/' + site.id;
-
-        // Créer un pop-up avec un lien cliquable
-        const popupContent = `<b>${name}</b><br><a href="${link}">Voir plus</a>`;
-
-        // Ajouter le marqueur avec le pop-up
-        L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
-      });
-    })
-    .catch((error) =>
-      console.error("Error loading or processing data:", error)
-    );
-}*/
 
 //fly to custumer location
 navigator.geolocation.watchPosition((pos) => {
@@ -75,18 +50,49 @@ navigator.geolocation.watchPosition((pos) => {
 init3dMap();
 
 async function init3dMap() {
-    fetch('./api/site/sites')
+    // Récupère les listes de l'utilisateur
+    const userLists = await fetch('/user/list', {
+        method: 'GET',
+    })
+        .then((response) => response.json())
+        .catch((error) => {
+            console.error('Error loading or processing data:', error);
+            return [];
+        });
+    console.log(userLists);
+
+    // Crée une map siteId -> couleur de la liste
+    const siteIdToColor = {};
+    if (Array.isArray(userLists)) {
+        userLists.forEach((list) => {
+            // On suppose que chaque list a une propriété color et une propriété sites (array d'id)
+            if (Array.isArray(list.sites) && list.color) {
+                list.sites.forEach((site) => {
+                    siteIdToColor[site._id] = list.color;
+                });
+            }
+        });
+    }
+    console.log(siteIdToColor);
+    fetch('./site/sites')
         .then((response) => response.json())
         .then((data) => {
             data.forEach((site) => {
                 const lat = site.coordinates.coordinates[1];
                 const lon = site.coordinates.coordinates[0];
                 const name = site.name;
-                //const letter = name.charAt(0);
-                const link = './api/site/' + site.id;
+                const link = './site/' + site.id;
                 let color;
                 let marker;
-                if (site.category == 'Cultural') {
+
+                // Si le site est dans une liste utilisateur, on utilise la couleur de la liste
+                if (siteIdToColor[site.id]) {
+                    // On suppose que la couleur est une string CSS, on la convertit en Cesium.Color
+                    color = Cesium.Color.fromCssColorString(
+                        siteIdToColor[site.id]
+                    );
+                    marker = 'star'; // On peut choisir un marker spécial ou garder le même
+                } else if (site.category == 'Cultural') {
                     color = Cesium.Color.YELLOW;
                     marker = 'museum';
                 } else if (site.category == 'Natural') {
@@ -103,12 +109,12 @@ async function init3dMap() {
                     .then(function (canvas) {
                         viewer.entities.add({
                             name: name,
-                            description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}" target="_blank">Voir plus</a>`,
                             position: Cesium.Cartesian3.fromDegrees(lon, lat),
                             billboard: {
                                 image: canvas.toDataURL(),
                                 verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
                             },
+                            description: `<b>${name}</b><br>Catégorie : ${site.category}<br><a href="${link}" target="_blank">Voir plus</a>`,
                         });
                     });
             });
@@ -117,3 +123,26 @@ async function init3dMap() {
             console.error('Error loading or processing data:', error)
         );
 }
+
+// Gestion de la box personnalisée
+const customInfoBox = document.getElementById('customInfoBox');
+const customInfoBoxContent = document.getElementById('customInfoBoxContent');
+const closeInfoBoxBtn = document.getElementById('closeInfoBox');
+if (closeInfoBoxBtn) {
+    closeInfoBoxBtn.onclick = () => {
+        customInfoBox.style.display = 'none';
+    };
+}
+
+// Affichage de la box personnalisée lors du clic sur un pin
+viewer.selectedEntityChanged.addEventListener(function (entity) {
+    if (entity && entity.billboard) {
+        customInfoBoxContent.innerHTML =
+            entity.description && entity.description.getValue
+                ? entity.description.getValue()
+                : entity.description || '<i>Aucune information</i>';
+        customInfoBox.style.display = 'flex';
+    } else {
+        customInfoBox.style.display = 'none';
+    }
+});

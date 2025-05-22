@@ -3,55 +3,81 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profil - <%= user.username %></title>
-    <link rel="stylesheet" href="/styles.css" />
+    <title>Profil</title>
+    <!-- <link rel="stylesheet" href="/css/style.css" /> -->
+    <link rel="stylesheet" href="/css/profile.css" />
   </head>
   <body>
-    <header>
-      <h1>Profil de <%= user.username %></h1>
-      <a href="/logout">Déconnexion</a>
-    </header>
+    <%- include("partials/header") %>
 
-    <section class="profile-info">
-      <h2>Informations</h2>
-      <p><strong>Nom :</strong> <%= user.fullName %></p>
-      <p><strong>Email :</strong> <%= user.email %></p>
-      <p>
-        <strong>Date d'inscription :</strong> <%=
-        user.registrationDate.toLocaleDateString('fr-FR') %>
-      </p>
-    </section>
+    <main>
+      <!-- Section des informations utilisateur -->
+      <section class="profile-info">
+        <div class="profile-header">
+          <img
+            src="/images/profile-img.svg"
+            alt="Photo de profil"
+            class="profile-picture"
+          />
+          <div class="profile-details">
+            <p><strong>Prénom :</strong> <%= user.username %></p>
+            <p><strong>Email :</strong> <%= user.email %></p>
+            <p><strong>Mot de passe :</strong> ********</p>
+            <!-- <a href="/reset-password" class="reset-password-button">Réinitialiser le mot de passe</a> -->
+          </div>
+          <a href="/user/edit-profile" class="edit-button">✏️</a>
+        </div>
+      </section>
 
-    <section class="places">
-      <h2>Lieux enregistrés</h2>
-      <% if (user.savedPlaces.length > 0) { %>
-      <ul>
-        <% user.savedPlaces.forEach(place => { %>
-        <li>
-          <a href="/places/<%= place.id %>"><%= place.name %></a> - <%=
-          place.country %>
-        </li>
-        <% }); %>
-      </ul>
-      <% } else { %>
-      <p>Aucun lieu enregistré.</p>
-      <% } %>
-    </section>
+      <!-- Section des sites préférés -->
+      <section class="favorite-sites">
+        <h2>Vos sites préférés</h2>
+        <% if (user.likedSites.length > 0) { %>
+        <div class="sites-grid">
+          <% user.likedSites.forEach((site) => { %>
+          <div class="site-card">
+            <% if (site.images && site.images.length > 0) { %>
+            <img src="<%= site.images[0] %>" alt="<%= site.name %>" />
+            <% } else { %>
+            <img
+              src="/images/backgrounds/login-bg.jpg"
+              alt="Image par défaut"
+            />
+            <% } %>
+            <div class="site-info">
+              <h3><%= site.name %></h3>
+              <p><%= site.description %></p>
+            </div>
+            <button class="like-button">❤️</button>
+          </div>
+          <% }); %>
+        </div>
+        <% } else { %>
+        <p>Aucun site préféré enregistré.</p>
+        <% } %>
+      </section>
 
-    <section class="visited-places">
-      <h2>Lieux visités</h2>
-      <% if (user.visitedPlaces.length > 0) { %>
-      <ul>
-        <% user.visitedPlaces.forEach(place => { %>
-        <li>
-          <a href="/places/<%= place.id %>"><%= place.name %></a> - <%=
-          place.country %>
-        </li>
-        <% }); %>
-      </ul>
-      <% } else { %>
-      <p>Aucun lieu visité.</p>
-      <% } %>
-    </section>
+<section class="list">
+  <h2>Vos listes de sites</h2>
+  <% user.lists.forEach((list) => { %>
+  <a href="/user/list/<%= list.id %>" class="list-card">
+    <div class="list-info">
+      <h3><%= list.name %></h3>
+      <!-- Delete form for list -->
+      <form action="/user/list/<%= list.id %>/delete?_method=DELETE" method="POST" style="display: inline;">
+        <button type="submit">Supprimer la liste</button>
+      </form>
+    </div>
+  </a>
+  <% }); %>
+  <a href="/create-list" class="create-list-button">Créer une liste</a>
+</section>
+
+
+      <%- include("partials/footer") %>
+    </main>
   </body>
 </html>
+<style>
+ 
+</style>

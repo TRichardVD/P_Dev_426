@@ -5,29 +5,32 @@
   <nav>
     <div>
       <a href="/">Accueil</a>
-      <a href="/api/site">Monuments</a>
+      <a href="/site">Monuments</a>
     </div>
 
+    <a href="/" class="header-logo">
     <img src="/images/BSI_BlackLogo.png" alt="BSI Logo" />
+    </a>
 
     <div>
       
       <% if (isLoggedIn) { %>
         <form action="/logout" method="POST" style="margin: 0;">
-          <button type="submit" style="background: none; border: none; padding: 0; font: inherit; font-weight: bold; position: relative; cursor: pointer;" 
+          <button class="color-text" type="submit" style="background: none; border: none; padding: 0; font: inherit; font-weight: bold; position: relative; cursor: pointer;" 
             onmouseover="this.querySelector('.underline').style.width='100%'" 
             onmouseout="this.querySelector('.underline').style.width='0'">
             Déconnexion
             <span class="underline" style="content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: black; transition: width 0.3s;"></span>
           </button>
         </form>
-        <a href="/profile" class="profile-icon">
-          <img src="/images/profile-icon.png" alt="Icone Profile" />
+        <a href="/user/profile" class="profile-icon">
+          <img src="/images/profile-img.svg" alt="Icone Profile" />
         </a>
       <% } else { %>
         <a href="/register" class="classic-button">Inscription</a>
         <a href="/login" class="classic-button">Connexion</a>
       <% } %>
+
     </div>
   </nav>
 </header>
