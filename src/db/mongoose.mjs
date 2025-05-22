@@ -13,10 +13,10 @@ const connectDB = async () => {
         console.log('Tentative de connexion à MongoDB... via uri :', uri);
         await mongoose.connect(uri, {});
         // Force la syncronisation donc suppression de la base de données et recréation
-        await mongoose.connection.db.dropDatabase();
-        await mongoose.connection.db.createCollection('sites');
+        // await mongoose.connection.db.dropDatabase();
+        // await mongoose.connection.db.createCollection('sites');
 
-        importData(); // Décommentez pour importer les données avec la catégorie
+        // importData(); // Décommentez pour importer les données avec la catégorie
         // importList();
         console.log('Connexion réussie à MongoDB');
     } catch (error) {

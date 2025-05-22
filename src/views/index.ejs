@@ -31,6 +31,9 @@
               alt="icone profile"
             />
           </a>
+          <% if (user && user.role === 'admin') { %>
+          <a href="/user/admin" class="classic-button">Admin</a>
+          <% } %>
            <% } %>
         </nav>
       </div>
@@ -41,6 +44,7 @@
           L'<span>UNESCO</span>, un voyage virtuel à travers les merveilles
           culturelles et naturelles de notre planète.
         </p>
+        <img src="/images/backgrounds/homepage-bg.jpg" alt="Image principale" style="max-width:100%;height:auto;" />
         <a href="/site" class="classic-button">Explorer les monuments</a>
       </div>
     </header>

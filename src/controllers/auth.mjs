@@ -48,6 +48,7 @@ async function Register(req, res) {
                     username: username,
                     password: hashedPassword,
                     email: email,
+                    role: 'user', // Par défaut, tout nouvel utilisateur est un utilisateur classique
                 });
                 await user.save();
                 return res.redirect(
@@ -181,6 +182,7 @@ const auth = async (req, res, next) => {
             }
             req.user = {
                 username: user.username,
+                role: user.role,
                 id: user._id,
                 session_id: decoded.jti,
             };

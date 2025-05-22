@@ -95,7 +95,7 @@ async function modifyList(req, res) {
 
     try {
         await User.updateOne(
-            { _id: userId, 'lists._id': listId },
+            { '_id': userId, 'lists._id': listId },
             {
                 $set: {
                     'lists.$.name': name,
@@ -129,7 +129,7 @@ async function insertSiteToList(req, res) {
 
     try {
         await User.updateOne(
-            { _id: userId, 'lists._id': listId },
+            { '_id': userId, 'lists._id': listId },
             {
                 $addToSet: {
                     'lists.$.sites': siteId,
@@ -160,7 +160,7 @@ async function dropSiteFromList(req, res) {
 
     try {
         await User.updateOne(
-            { _id: userId, 'lists._id': listId },
+            { '_id': userId, 'lists._id': listId },
             {
                 $pull: {
                     'lists.$.sites': siteId,
@@ -214,6 +214,17 @@ async function GetUserProfile(req, res) {
             })),
             sessions: user.sessions, // Liste des sessions
         };
+
+        if (req.user && req.user.role === 'admin') {
+            console.log('Utilisateur admin');
+            // Récupérer tous les utilisateurs pour l'admin
+            const allUsers = await User.find({}, 'username email role');
+            return res.render('admin-panel', {
+                user: userData,
+                isLoggedIn: req.isLoggedIn,
+                allUsers,
+            });
+        }
         // Rendre la vue `profile`
         return res.render('profile', {
             user: userData,

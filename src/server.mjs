@@ -40,6 +40,7 @@ app.use(auth); // Middleware d'authentification pour toutes les routes
 app.get('/', (req, res) => {
     res.render('index', {
         isLoggedIn: req.isLoggedIn,
+        user: req.user,
     });
 });
 
