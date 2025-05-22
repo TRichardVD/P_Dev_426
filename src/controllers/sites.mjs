@@ -135,7 +135,6 @@ async function GetSiteById(req, res) {
             name: site.name,
             description: site.description,
             coordinates: site.coordinates,
-            images: site.images,
             comments: enhancedComments,
             likes: site.likes.length,
             category: site.category,
@@ -145,6 +144,7 @@ async function GetSiteById(req, res) {
         return res.render('detailed-view', {
             site: result,
             isLoggedIn: req.isLoggedIn,
+            unsplashAppId: process.env.UNSPLASH_APP_ID,
         });
     } catch (err) {
         console.error('Error in GetSiteById:', err);
