@@ -1,14 +1,18 @@
-// let map;
-Cesium.Ion.defaultAccessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhODUxNWEzNy1lYjkxLTQyMjUtYjIwYS00OGVlYzEwNTRmN2IiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDMxNjYyMzh9.DiCViUqiY8bfqjpLdNtcKLZO5RHs6JVUH3UjEQJfssY";
+// Récupération du token Cesium depuis une variable globale injectée côté serveur
+Cesium.Ion.defaultAccessToken = window.CESIUM_TOKEN;
 
 const pinBuilder = new Cesium.PinBuilder();
 // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.  CesiumWidget
-const viewer = new Cesium.Viewer("cesiumContainer", {
+const viewer = new Cesium.Viewer('cesiumContainer', {
     timeline: false,
     animation: false,
     infoBox: false, // Désactive la box par défaut
 });
+
+// Limite de zoom/dézoom Cesium
+viewer.scene.screenSpaceCameraController.minimumZoomDistance = 500; // 500m (proche)
+viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000; // 30 000 km (empêche de dézoomer à l'infini)
+
 let i = 0;
 
 //fly to custumer location
@@ -23,10 +27,10 @@ navigator.geolocation.watchPosition((pos) => {
         });
 
         const CostomerPos = Promise.resolve(
-            pinBuilder.fromMakiIconId("marker-stroked", Cesium.Color.RED, 48)
+            pinBuilder.fromMakiIconId('marker-stroked', Cesium.Color.RED, 48)
         ).then(function (canvas) {
             return viewer.entities.add({
-                name: "You",
+                name: 'You',
                 position: Cesium.Cartesian3.fromDegrees(
                     [pos.coords.longitude],
                     [pos.coords.latitude]
@@ -47,12 +51,12 @@ init3dMap();
 
 async function init3dMap() {
     // Récupère les listes de l'utilisateur
-    const userLists = await fetch("/user/list", {
-        method: "GET",
+    const userLists = await fetch('/user/list', {
+        method: 'GET',
     })
         .then((response) => response.json())
         .catch((error) => {
-            console.error("Error loading or processing data:", error);
+            console.error('Error loading or processing data:', error);
             return [];
         });
     console.log(userLists);
@@ -70,14 +74,14 @@ async function init3dMap() {
         });
     }
     console.log(siteIdToColor);
-    fetch("./site/sites")
+    fetch('./site/sites')
         .then((response) => response.json())
         .then((data) => {
             data.forEach((site) => {
                 const lat = site.coordinates.coordinates[1];
                 const lon = site.coordinates.coordinates[0];
                 const name = site.name;
-                const link = "./site/" + site.id;
+                const link = './site/' + site.id;
                 let color;
                 let marker;
 
@@ -87,16 +91,16 @@ async function init3dMap() {
                     color = Cesium.Color.fromCssColorString(
                         siteIdToColor[site.id]
                     );
-                    marker = "star"; // On peut choisir un marker spécial ou garder le même
-                } else if (site.category == "Cultural") {
+                    marker = 'star'; // On peut choisir un marker spécial ou garder le même
+                } else if (site.category == 'Cultural') {
                     color = Cesium.Color.YELLOW;
-                    marker = "museum";
-                } else if (site.category == "Natural") {
+                    marker = 'museum';
+                } else if (site.category == 'Natural') {
                     color = Cesium.Color.GREEN;
-                    marker = "park";
+                    marker = 'park';
                 } else {
                     color = Cesium.Color.ROYALBLUE;
-                    marker = "zoo";
+                    marker = 'zoo';
                 }
 
                 //afficher sur la carte
@@ -116,17 +120,17 @@ async function init3dMap() {
             });
         })
         .catch((error) =>
-            console.error("Error loading or processing data:", error)
+            console.error('Error loading or processing data:', error)
         );
 }
 
 // Gestion de la box personnalisée
-const customInfoBox = document.getElementById("customInfoBox");
-const customInfoBoxContent = document.getElementById("customInfoBoxContent");
-const closeInfoBoxBtn = document.getElementById("closeInfoBox");
+const customInfoBox = document.getElementById('customInfoBox');
+const customInfoBoxContent = document.getElementById('customInfoBoxContent');
+const closeInfoBoxBtn = document.getElementById('closeInfoBox');
 if (closeInfoBoxBtn) {
     closeInfoBoxBtn.onclick = () => {
-        customInfoBox.style.display = "none";
+        customInfoBox.style.display = 'none';
     };
 }
 
@@ -136,9 +140,9 @@ viewer.selectedEntityChanged.addEventListener(function (entity) {
         customInfoBoxContent.innerHTML =
             entity.description && entity.description.getValue
                 ? entity.description.getValue()
-                : entity.description || "<i>Aucune information</i>";
-        customInfoBox.style.display = "flex";
+                : entity.description || '<i>Aucune information</i>';
+        customInfoBox.style.display = 'flex';
     } else {
-        customInfoBox.style.display = "none";
+        customInfoBox.style.display = 'none';
     }
 });

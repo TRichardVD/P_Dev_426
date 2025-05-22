@@ -48,7 +48,7 @@
             ❤️ <span id="site-likes-count"><%= site.likes || 0 %></span>
           </button>
         <% } %>
-        <% if (isLoggedIn && site.user && site.user.lists && site.user.lists.length > 0) { %>
+        <% if (isLoggedIn) { %>
           <button id="add-list-site-btn">+ Ajouter à une liste</button>
         <% } else { %>
           <button class="btn" disabled>Connectez-vous pour utiliser le plein potentiel du site</button>
@@ -75,6 +75,11 @@
       <section>
         <h2>Localisation</h2>
         <div id="cesiumContainer" style="height: 400px; width: 100%;"></div>
+        <!-- Custom Info Box -->
+        <div id="customInfoBox" class="custom-info-box" style="display:none;">
+          <button id="closeInfoBox" class="close-info-box">&times;</button>
+          <div id="customInfoBoxContent"></div>
+        </div>
       </section>
 
       <section>
@@ -119,17 +124,35 @@
 
     
     <script>
-      Cesium.Ion.defaultAccessToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NmI2ZDljYS0zYWM1LTRhMzktOGM4MC0zYzhmNGQ2YjNhZTYiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDYxOTI0NzN9.eFzZGEIVPfubhi7owpQzIaroqHJ2dX8vAtbr-kteQnM';
+      window.CESIUM_TOKEN = '<%= process.env.CESIUM_TOKEN %>';
+    </script>
+    <script>
+      const pinBuilder = new Cesium.PinBuilder();
+      const viewer = new Cesium.Viewer('cesiumContainer', {
+          timeline: false,
+          animation: false,
+          infoBox: false,
+      });
+      // Limite de zoom/dézoom Cesium
+      viewer.scene.screenSpaceCameraController.minimumZoomDistance = 500; // 500m (proche)
+      viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000; // 30 000 km (empêche de dézoomer à l'infini)
+      Cesium.Ion.defaultAccessToken = window.CESIUM_TOKEN;
 
-const pinBuilder = new Cesium.PinBuilder();
-const viewer = new Cesium.Viewer('cesiumContainer', {
-    timeline: false,
-    animation: false,
+      // Infobox personnalisé
+function showCustomInfoBox(html) {
+  const infoBox = document.getElementById('customInfoBox');
+  const content = document.getElementById('customInfoBoxContent');
+  content.innerHTML = html;
+  infoBox.style.display = 'block';
+}
+function hideCustomInfoBox() {
+  document.getElementById('customInfoBox').style.display = 'none';
+}
+document.getElementById('closeInfoBox').onclick = hideCustomInfoBox;
+
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'customInfoBox') hideCustomInfoBox();
 });
-
-
-
 
 async function init3dMap() {
   let i = 0;      
@@ -148,12 +171,10 @@ async function init3dMap() {
             ),
         });
 
-
 	data.forEach((site) => {
 		const lat = site.coordinates.coordinates[1];
 		const lon = site.coordinates.coordinates[0];
 		const name = site.name;
-		//const letter = name.charAt(0);
 		const link = '/site/' + site.id;
 		let color;
 		let marker;
@@ -176,7 +197,7 @@ async function init3dMap() {
 	pinBuilder
 		.fromMakiIconId(marker, color, 48)
 		.then(function (canvas) {
-			viewer.entities.add({
+			const entity = viewer.entities.add({
 				name: name,
 				description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}" target="_blank">Voir plus</a>`,
 				position: Cesium.Cartesian3.fromDegrees(lon, lat),
@@ -185,8 +206,22 @@ async function init3dMap() {
 					verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
 				},
 			});
+        // Ajout du handler pour l'infobox personnalisée
+        entity.customDescription = `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}" target="_blank">Voir plus</a>`;
 		});
 	})
+
+  // Handler pour afficher l'infobox personnalisée au clic sur un marqueur
+  const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+  handler.setInputAction(function (movement) {
+    const pickedObject = viewer.scene.pick(movement.position);
+    if (Cesium.defined(pickedObject) && pickedObject.id && pickedObject.id.customDescription) {
+      showCustomInfoBox(pickedObject.id.customDescription);
+    } else {
+      hideCustomInfoBox();
+    }
+  }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
 })
         .catch((error) =>
             console.error('Error loading or processing data:', error)

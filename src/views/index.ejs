@@ -57,6 +57,9 @@
       </div>
     </main>
     <%- include("partials/footer") %>
+    <script>
+      window.CESIUM_TOKEN = '<%= process.env.CESIUM_TOKEN %>';
+    </script>
     <script type="module" src="/script/main.js"></script>
   </body>
 </html>

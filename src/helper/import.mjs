@@ -8,17 +8,24 @@ export const importData = async () => {
     const heritageSites = JSON.parse(data);
     heritageSites.forEach((site) => {
         const countries = site.states
-            .split(',')
-            .map((country) => country.trim());
+            ? site.states.split(',').map((country) => country.trim())
+            : [];
+        const longitude =
+            site.longitude && site.longitude !== ''
+                ? Number(site.longitude)
+                : 0;
+        const latitude =
+            site.latitude && site.latitude !== '' ? Number(site.latitude) : 0;
         const newSite = new Site({
             name: site.site,
             address: site.location,
             description: site.short_description,
             country: countries,
-            'coordinates.coordinates':
-                site.longitude != '' && site.latitude != ''
-                    ? [site.longitude, site.latitude]
-                    : [0, 0],
+            category: site.category || undefined,
+            coordinates: {
+                type: 'Point',
+                coordinates: [longitude, latitude],
+            },
         });
         newSite.save().catch((error) => {
             console.error("Erreur lors de l'importation du site :", error);

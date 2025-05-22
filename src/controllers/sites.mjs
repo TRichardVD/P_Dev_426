@@ -71,6 +71,7 @@ async function getSitesApi(req, res) {
             coordinates: site.coordinates,
             images: site.images,
             likes: site.likes.length,
+            category: site.category,
         }));
 
         return res.json(result);
@@ -116,6 +117,7 @@ async function GetSiteById(req, res) {
             images: site.images,
             comments: enhancedComments,
             likes: site.likes.length,
+            category: site.category,
             user: userData ? userData : null,
         };
         console.log('Site details:', result);
