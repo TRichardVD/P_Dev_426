@@ -4,15 +4,19 @@ import dotenv from 'dotenv';
 dotenv.config();
 const connectDB = async () => {
     try {
-        await mongoose.connect(
-            `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@localhost:27017/db_unesco?authSource=admin`,
-            {}
-        );
-        // Force la syncronisation donc suppression de la base de données et recréation
-        // await mongoose.connection.db.dropDatabase();
-        // await mongoose.connection.db.createCollection('sites');
+        const uri = `mongodb://${process.env.DB_USER}:${
+            process.env.DB_PASSWORD
+        }@${process.env.DB_HOST || 'localhost'}:${
+            process.env.DB_PORT || 27017
+        }/db_unesco?authSource=admin`;
 
-        // importData(); // Décommentez pour importer les données avec la catégorie
+        console.log('Tentative de connexion à MongoDB... via uri :', uri);
+        await mongoose.connect(uri, {});
+        // Force la syncronisation donc suppression de la base de données et recréation
+        await mongoose.connection.db.dropDatabase();
+        await mongoose.connection.db.createCollection('sites');
+
+        importData(); // Décommentez pour importer les données avec la catégorie
         // importList();
         console.log('Connexion réussie à MongoDB');
     } catch (error) {
