@@ -26,27 +26,37 @@
         <button type="button" id="reset">Réinitialiser</button>
     </form>
 
-            <% if (results && results.length > 0) { %>
-                <% if (query) { %>
-                <h2>Résultats de recherche pour "<%= query %>":</h2>
-                <% } %>
-            <div class="search-results">
-                <% results.forEach(result => { %>
-                    <div class="result-card">
-                        <a href="/site/<%= result._id %>">
-                            <strong><%= result.name %></strong>
-                            <p><%= result.description %></p>
-                        </a>
-                        <p><%= result.likes %></p>
-                    </div>
-                <% }) %>
-                <% } else if (query) { %>
-                    <p class="no-results">Aucun résultat trouvé pour "<%= query %>"</p>
-                <% } %>
+    <% if (isLoggedIn && typeof user !== 'undefined' && user && Array.isArray(user.lists) && user.lists.length > 0) { %>
+    <div id="sidebar-lists" style="display:none;position:fixed;top:0;right:0;height:100vh;width:320px;background:#fff;box-shadow:-2px 0 16px rgba(44,62,80,0.13);z-index:1000;flex-direction:column;align-items:flex-start;padding:2rem 1.5rem;transition:right 0.3s;">
+        <h3 style="margin-bottom:1.5rem;">Glissez ici pour ajouter à une liste</h3>
+        <% user.lists.forEach(function(list) { %>
+            <div class="sidebar-list-drop" data-list-id="<%= list.id || list._id %>" data-color="<%= list.color || '#eee' %>" style="background:<%= list.color || '#eee' %>;padding:1rem 1.2rem;margin-bottom:1rem;border-radius:8px;cursor:pointer;transition:background 0.2s;">
+                <%= list.name %>
             </div>
-
+        <% }) %>
+        <button onclick="document.getElementById('sidebar-lists').style.display='none'" style="margin-top:auto;">Fermer</button>
     </div>
-    
+    <% } %>
+
+    <% if (results && results.length > 0) { %>
+        <% if (query) { %>
+        <h2>Résultats de recherche pour "<%= query %>":</h2>
+        <% } %>
+    <div class="search-results">
+        <% results.forEach(result => { %>
+            <div class="result-card" draggable="<%= isLoggedIn ? 'true' : 'false' %>" data-site-id="<%= result._id %>">
+                <a href="/site/<%= result._id %>">
+                    <strong><%= result.name %></strong>
+                    <p><%= result.description %></p>
+                </a>
+                <p><%= result.likes %></p>
+            </div>
+        <% }) %>
+    <% } else if (query) { %>
+        <p class="no-results">Aucun résultat trouvé pour "<%= query %>"</p>
+    <% } %>
+    </div>
+
     <script>
         const resetButton = document.getElementById('reset');
         resetButton.addEventListener('click', () => {
@@ -59,6 +69,53 @@
             countryInput.value = '';
             sortFieldSelect.selectedIndex = 0;
             sortOrderSelect.selectedIndex = 0;
+        });
+
+        // Drag & Drop pour ajouter un site à une liste (pour utilisateurs connectés)
+        document.addEventListener('DOMContentLoaded', function() {
+          const sidebar = document.getElementById('sidebar-lists');
+          if (!sidebar) return;
+          let draggedSiteId = null;
+          document.querySelectorAll('.result-card[draggable="true"]').forEach(card => {
+              card.addEventListener('dragstart', e => {
+                  draggedSiteId = card.getAttribute('data-site-id');
+                  sidebar.style.display = 'flex';
+              });
+              card.addEventListener('dragend', e => {
+                  setTimeout(() => { sidebar.style.display = 'none'; }, 200);
+              });
+          });
+          document.querySelectorAll('.sidebar-list-drop').forEach(listDiv => {
+              listDiv.addEventListener('dragover', e => {
+                  e.preventDefault();
+                  listDiv.style.background = '#d0e6fa';
+              });
+              listDiv.addEventListener('dragleave', e => {
+                  listDiv.style.background = listDiv.getAttribute('data-color') || '#eee';
+              });
+              listDiv.addEventListener('drop', async e => {
+                  e.preventDefault();
+                  sidebar.style.display = 'none';
+                  const listId = listDiv.getAttribute('data-list-id');
+                  if (!draggedSiteId || !listId) return;
+                  try {
+                      const response = await fetch(`/user/list/${listId}/site/${draggedSiteId}`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' }
+                      });
+                      if (response.ok) {
+                          alert('Site ajouté à la liste !');
+                      } else if (response.status === 401) {
+                          window.location.href = '/login';
+                      } else {
+                          const err = await response.json();
+                          alert(err.message || 'Erreur lors de l\'ajout');
+                      }
+                  } catch (err) {
+                      alert('Erreur lors de l\'ajout');
+                  }
+              });
+          });
         });
     </script>
     <%- include('partials/footer'); -%>

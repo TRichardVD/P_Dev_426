@@ -2,6 +2,19 @@ import Site from '../models/site.mjs';
 import User from '../models/user.mjs';
 import { getCommentsBySiteId } from './comments.mjs';
 
+const cleanUser = (user) => {
+    return {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        lists: user.lists.map((list) => ({
+            id: list._id,
+            name: list.name,
+            color: list.color,
+        })),
+    };
+};
+
 async function GetSite(req, res) {
     const { query, country, sortField, sortOrder } = req.query;
     let mongoSort = {};
@@ -46,6 +59,12 @@ async function GetSite(req, res) {
                     break;
             }
         }
+        let userData = null;
+        if (req.user.id) {
+            userData = cleanUser(
+                await User.findById(req.user.id).populate('lists')
+            );
+        }
 
         return res.render('search', {
             isLoggedIn: req.isLoggedIn,
@@ -54,6 +73,7 @@ async function GetSite(req, res) {
             country: country || null,
             sortField: sortField || null,
             sortOrder: sortOrder || null,
+            user: userData,
         });
     } catch (err) {
         return res.status(500).json({ error: err.message });
@@ -107,7 +127,7 @@ async function GetSiteById(req, res) {
         }));
         let userData = null;
         if (userId) {
-            userData = await User.findById(userId).populate('lists');
+            userData = cleanUser(await User.findById(userId).populate('lists'));
         }
         const result = {
             _id: site._id,
