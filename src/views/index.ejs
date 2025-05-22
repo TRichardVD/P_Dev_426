@@ -50,6 +50,11 @@
     <main>
       <h1>Carte interactive</h1>
       <div id="cesiumContainer" style="height: 600px; width: 1440px"></div>
+      <!-- Custom Info Box -->
+      <div id="customInfoBox" class="custom-info-box" style="display:none;">
+        <button id="closeInfoBox" class="close-info-box">&times;</button>
+        <div id="customInfoBoxContent"></div>
+      </div>
     </main>
     <%- include("partials/footer") %>
     <script type="module" src="/script/main.js"></script>

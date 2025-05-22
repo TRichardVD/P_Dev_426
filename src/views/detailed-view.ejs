@@ -22,9 +22,13 @@
           <h2>Ajouter à une liste</h2>
           <form id="add-to-list-form" method="post" action="/user/list/">
             <select name="listId" id="list-select">
-              <% site.user.lists.forEach(list => { %>
-                <option value="<%= list.id %>"><%= list.name %></option>
-              <% }); %>
+              <% if (site.user && site.user.lists && site.user.lists.length > 0) { %>
+                <% site.user.lists.forEach(list => { %>
+                  <option value="<%= list.id %>"><%= list.name %></option>
+                <% }); %>
+              <% } else { %>
+                <option disabled>Aucune liste disponible</option>
+              <% } %>
             </select>
             <button type="submit">Ajouter</button>
             <button type="button" id="close-modal-btn">Fermer</button>
@@ -35,10 +39,20 @@
       <h1><%= site.name %></h1>
 
       <div class="site-actions">
-        <button id="like-site-btn" data-site-id="<%= site._id %>">
-          ❤️ <span id="site-likes-count"><%= site.likes || 0 %></span>
-        </button>
-        <button id="add-list-site-btn">+ Ajouter à une liste</button>
+        <% if (isLoggedIn) { %>
+          <button id="like-site-btn" data-site-id="<%= site._id %>">
+            ❤️ <span id="site-likes-count"><%= site.likes || 0 %></span>
+          </button>
+        <% } else { %>
+          <button class="like-btn-disabled" disabled title="Connectez-vous pour aimer ce site">
+            ❤️ <span id="site-likes-count"><%= site.likes || 0 %></span>
+          </button>
+        <% } %>
+        <% if (isLoggedIn && site.user && site.user.lists && site.user.lists.length > 0) { %>
+          <button id="add-list-site-btn">+ Ajouter à une liste</button>
+        <% } else { %>
+          <button class="btn" disabled>Connectez-vous pour utiliser le plein potentiel du site</button>
+        <% } %>
       </div>
 
       <!-- Galerie d'images (commentée) -->
@@ -69,10 +83,14 @@
           <div class="comment new-comment">
             <img src="/images/profile-img.svg" alt="Your avatar" />
             <div class="comment-content">
-              <form action="/site/<%= site._id %>/comment" method="post">
-                <input type="text" name="comment" placeholder="Partagez votre avis..." required />
-                <button type="submit">Publier</button>
-              </form>
+              <% if (isLoggedIn) { %>
+                <form action="/site/<%= site._id %>/comment" method="post">
+                  <input type="text" name="comment" placeholder="Partagez votre avis..." required />
+                  <button type="submit">Publier</button>
+                </form>
+              <% } else { %>
+                <a href="/login" class="btn">Connectez-vous pour commenter</a>
+              <% } %>
             </div>
           </div>
 

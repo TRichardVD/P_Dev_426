@@ -248,7 +248,8 @@ a {
     justify-content: center;
 }
 
-#like-site-btn {
+#like-site-btn,
+.site-actions .like-btn-disabled {
     background: white;
     border: 2px solid #ff4757;
     border-radius: 50px;
@@ -262,29 +263,27 @@ a {
     gap: 8px;
 }
 
-#like-site-btn:hover {
+.site-actions .like-btn-disabled {
+    color: #aaa;
+    border-color: #bbb;
+    cursor: not-allowed;
+    background: #f5f6fa;
+    opacity: 1;
+}
+
+#like-site-btn:hover:not([disabled]) {
     background: #ff4757;
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
 }
 
-#like-site-btn:active {
+#like-site-btn:active:not([disabled]) {
     transform: translateY(0);
 }
 
-#add-list-site-btn:hover {
-    background: var(--secondary-color);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
-}
-
-#add-list-site-btn:active {
-    transform: translateY(0);
-}
-
-#add-list-site-btn {
+#add-list-site-btn,
+.site-actions .btn[disabled] {
     background: white;
     border: 2px solid var(--secondary-color);
     border-radius: 50px;
@@ -296,6 +295,25 @@ a {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.site-actions .btn[disabled] {
+    color: #aaa;
+    border-color: #bbb;
+    cursor: not-allowed;
+    background: #f5f6fa;
+    opacity: 1;
+}
+
+#add-list-site-btn:hover:not([disabled]) {
+    background: var(--secondary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+}
+
+#add-list-site-btn:active:not([disabled]) {
+    transform: translateY(0);
 }
 
 #site-likes-count {
