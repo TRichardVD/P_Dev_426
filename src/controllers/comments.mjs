@@ -119,4 +119,35 @@ const getCommentsBySiteId = async (site_id) => {
     }
 };
 
-export { addComment, getCommentsBySiteId, toggleLike, toggleDislike };
+const getCommentsBySiteIdInsecure = async (site_id) => {
+    const siteId = site_id;
+    try {
+        const comments = await Comment.find({ site_id: siteId })
+            .populate('user_id', 'username')
+            .sort({ score: -1 }) // Sort by score in descending order
+            .exec();
+        const result = comments.map((comment) => ({
+            _id: comment._id,
+            user_id: comment.user_id._id,
+            user_username: comment.user_username,
+            comment: comment.comment,
+            date: comment.date,
+            likes: comment.likes,
+            dislikes: comment.dislikes,
+            score: comment.score,
+        }));
+        console.log('result', result);
+        return result;
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        throw new Error('Error fetching comments');
+    }
+};
+
+export {
+    addComment,
+    getCommentsBySiteId,
+    toggleLike,
+    toggleDislike,
+    getCommentsBySiteIdInsecure,
+};

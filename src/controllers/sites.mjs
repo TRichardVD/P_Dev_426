@@ -1,6 +1,6 @@
 import Site from '../models/site.mjs';
 import User from '../models/user.mjs';
-import { getCommentsBySiteId } from './comments.mjs';
+import { getCommentsBySiteIdInsecure } from './comments.mjs';
 
 const cleanUser = (user) => {
     return {
@@ -60,7 +60,7 @@ async function GetSite(req, res) {
             }
         }
         let userData = null;
-        if (req.user.id) {
+        if (req.isLoggedIn && req.user && req.user.id) {
             userData = cleanUser(
                 await User.findById(req.user.id).populate('lists')
             );
@@ -114,10 +114,11 @@ async function GetSiteById(req, res) {
             return res.status(404).json({ error: 'Site not found' });
         }
 
-        const comments = await getCommentsBySiteId(id);
-
+        const comments = await getCommentsBySiteIdInsecure(id);
         const enhancedComments = comments.map((comment) => ({
             ...comment,
+            likes: comment.likes.length,
+            dislikes: comment.dislikes.length,
             userHasLiked: req.user
                 ? comment.likes.includes(req.user.id)
                 : false,

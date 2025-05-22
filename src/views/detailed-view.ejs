@@ -126,9 +126,9 @@
     
     <script>
       window.CESIUM_TOKEN = '<%= process.env.CESIUM_TOKEN %>';
-    </script>
-    <script>
+
       const pinBuilder = new Cesium.PinBuilder();
+      Cesium.Ion.defaultAccessToken = window.CESIUM_TOKEN;
       const viewer = new Cesium.Viewer('cesiumContainer', {
           timeline: false,
           animation: false,
@@ -137,7 +137,7 @@
       // Limite de zoom/dézoom Cesium
       viewer.scene.screenSpaceCameraController.minimumZoomDistance = 500; // 500m (proche)
       viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000; // 30 000 km (empêche de dézoomer à l'infini)
-      Cesium.Ion.defaultAccessToken = window.CESIUM_TOKEN;
+      
 
       // Infobox personnalisé
 function showCustomInfoBox(html) {

@@ -1,168 +1,168 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 /* Variables et reset ou styles de base */
 :root {
-  --primary-color: #2c3e50;
-  --secondary-color: #3498db;
-  --text-color: #333;
-  --background-color: #f5f6fa;
-  --border-radius: 8px;
-  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --text-color: #333;
+    --background-color: #f5f6fa;
+    --border-radius: 8px;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Corps principal */
 body {
-  font-family: "Montserrat", sans-serif; /*font-family: "Segoe UI", system-ui, sans-serif;*/
-  line-height: 1.6;
-  color: var(--text-color);
-  background-color: var(--background-color);
-  margin: 0;
-  padding: 0;
+    font-family: 'Montserrat', sans-serif; /*font-family: "Segoe UI", system-ui, sans-serif;*/
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
 }
 
 /* Conteneur principal */
 main {
-  max-width: 1200px; /* Fusion : on conserve la largeur 1200px, ajustez si besoin */
-  margin: 0 auto;
-  padding: 2rem;
+    max-width: 1200px; /* Fusion : on conserve la largeur 1200px, ajustez si besoin */
+    margin: 0 auto;
+    padding: 2rem;
 }
 
 /* Titres */
 h1 {
-  font-size: 2.5rem;
-  color: var(--primary-color);
-  margin-bottom: 2rem;
-  text-align: center; /* On fusionne pour avoir le centrage du h1 venant de main */
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center; /* On fusionne pour avoir le centrage du h1 venant de main */
 }
 
 h2 {
-  font-size: 1.8rem;
-  color: var(--primary-color);
-  margin: 2rem 0 1rem;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin: 2rem 0 1rem;
 }
 
 /* Sections principales */
 section {
-  background: white;
-  padding: 2rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  margin-bottom: 2rem;
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
 }
 
 /* Galerie d’images (si utilisée) */
 #selected-image {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  border-radius: var(--border-radius);
-  margin-bottom: 1rem;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
 }
 
 .image-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 .thumbnail {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: transform 0.2s;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
 .thumbnail:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 /* Carte */
 #map {
-  border-radius: var(--border-radius);
-  overflow: hidden;
+    border-radius: var(--border-radius);
+    overflow: hidden;
 }
 
 /* Barre de navigation */
 nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: "Montserrat", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Roboto';
+    border-bottom: 1px solid black; /* Conserve le style HEAD si souhaité */
 }
 
 a {
-  color: black;
-  text-decoration: none;
+    color: black;
+    text-decoration: none;
 }
 
 .nav-pages a:hover {
-  color: #585858;
+    color: #585858;
 }
 
 .nav-pages {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .nav-login-register {
-  display: flex;
-  padding: 10px;
-  gap: 10px;
+    display: flex;
+    padding: 10px;
+    gap: 10px;
 }
 
 .nav-login-register a {
-  padding: 10px;
+    padding: 10px;
 }
 
 /* Section commentaire */
 .comment-section {
-  margin: 20px 0;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
 }
 
 .comment {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #ddd;
-  transition: background-color 0.2s ease;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s ease;
 }
 
 .comment:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .comment:hover {
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 .comment img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
-  border: 2px solid #2c3e50;
-  transition: transform 0.2s ease;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 2px solid #2c3e50;
+    transition: transform 0.2s ease;
 }
 
 .comment img:hover {
-  transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 .comment-content {
-  flex: 1;
-  padding: 10px;
+    flex: 1;
+    padding: 10px;
 }
 
 .comment-content p {
@@ -170,88 +170,86 @@ a {
     font-family: 'Roboto', sans-serif;
     color: #333;
     line-height: 1.4;
-  margin: 5px 0;
-  font-family: "Roboto", sans-serif;
-  color: #333;
-  line-height: 1.4;
+    margin: 5px 0;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    line-height: 1.4;
 }
 
 .comment-content .username {
-  font-weight: bold;
-  color: #2c3e50;
-  font-size: 1.1rem;
-  margin-bottom: 8px;
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
 }
 
 .comment input {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
 }
 
 .comment input:focus {
-  outline: none;
-  border-color: var(--secondary-color);
+    outline: none;
+    border-color: var(--secondary-color);
 }
 
 .comment button {
-  background-color: var(--secondary-color);
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .comment button:hover {
-  background-color: #2980b9;
-  transform: translateY(-2px);
+    background-color: #2980b9;
+    transform: translateY(-2px);
 }
 
 /* Like / Dislike */
 .like-dislike {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .like-dislike button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-  color: #2c3e50;
-  transition: color 0.3s;
-  padding: 5px 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #2c3e50;
+    transition: color 0.3s;
+    padding: 5px 10px;
 }
 
 .like-dislike button:hover {
-  color: #9bbcd3;
+    color: #9bbcd3;
 }
 
 .like-dislike button:active {
-  transform: scale(0.95);
+    transform: scale(0.95);
 }
 
 .like-dislike span {
     font-family: 'Roboto', sans-serif;
     color: #333;
-  font-family: "Roboto", sans-serif;
-  color: #333;
 }
 
 /* Bouton Like du site */
 .site-actions {
-  margin: 20px 0;
-  display: flex;
-  justify-content: center;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
 }
 
 #like-site-btn,
@@ -323,40 +321,40 @@ a {
 }
 
 #site-likes-count {
-  font-weight: bold;
-  font-size: 1.1rem;
+    font-weight: bold;
+    font-size: 1.1rem;
 }
 
 /* Autre style pour la section commentaires (si nécessaire) */
 .comments-section {
-  margin-top: 2rem;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  background-color: #f9f9f9;
-  padding-left: 70px;
-  padding-right: 70px;
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    background-color: #f9f9f9;
+    padding-left: 70px;
+    padding-right: 70px;
 }
 
 .comments-section h2 {
-  font-size: 1.5rem;
-  text-align: start;
-  margin-left: 20px;
-  margin-bottom: 30px;
+    font-size: 1.5rem;
+    text-align: start;
+    margin-left: 20px;
+    margin-bottom: 30px;
 }
 
 .comments-section div {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
 }
 
 .comments-section img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 1rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
 }
 
 .comments-section input[type='text'] {
@@ -365,98 +363,92 @@ a {
     border: 1px solid #ddd;
     border-radius: var(--border-radius);
     margin-right: 0.5rem;
-.comments-section input[type="text"] {
-  flex: 1;
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  margin-right: 0.5rem;
 }
 
 .comments-section button {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .comments-section button:hover {
-  background-color: var(--secondary-color);
+    background-color: var(--secondary-color);
 }
 
 /* Galerie avancée (si besoin) */
 .gallery-container {
-  text-align: center;
-  margin: 40px;
+    text-align: center;
+    margin: 40px;
 }
 
 .gallery-main {
-  position: relative;
-  display: inline-block;
-  border-radius: 12px;
-  overflow: hidden;
-  width: 1000px;
-  height: 600px;
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 1000px;
+    height: 600px;
 }
 
 .main-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
 }
 
 .like-button {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 8px 12px;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .like-button span {
-  color: black;
+    color: black;
 }
 
 .gallery-thumbnails {
-  display: flex;
-  justify-content: center;
-  margin: 25px;
-  gap: 10px;
+    display: flex;
+    justify-content: center;
+    margin: 25px;
+    gap: 10px;
 }
 
 .color-box {
-  width: 80px;
-  height: 80px;
-  display: inline-block;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 10px;
-  object-fit: cover;
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
 .color-box:hover {
-  transform: scale(1.1);
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
 .color-box:focus {
-  transform: translateY(-10px);
+    transform: translateY(-10px);
 }
 
 /* Section Histoire alignée à gauche */
 .history-section {
-  text-align: start;
+    text-align: start;
 }
 
 /* Popup "Ajouter à une liste" */
