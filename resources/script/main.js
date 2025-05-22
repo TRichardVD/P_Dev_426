@@ -77,7 +77,13 @@ async function init3dMap() {
     fetch('./site/sites')
         .then((response) => response.json())
         .then((data) => {
+            let i = 0
             data.forEach((site) => {
+                if (i== 0){
+                    console.log(site)
+                    i++
+                }
+
                 const lat = site.coordinates.coordinates[1];
                 const lon = site.coordinates.coordinates[0];
                 const name = site.name;
@@ -101,7 +107,7 @@ async function init3dMap() {
                 } else {
                     color = Cesium.Color.ROYALBLUE;
                     marker = 'zoo';
-                }
+                }*/
 
                 //afficher sur la carte
                 pinBuilder

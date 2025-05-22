@@ -74,7 +74,7 @@ header nav div img {
   transition: transform var(--transition-speed);
 }
 
-header nav div img:hover {
+header nav div > img:hover {
   transform: scale(1.1);
 }
 
@@ -83,7 +83,7 @@ header nav > img {
   transition: transform var(--transition-speed);
 }
 
-header nav > img:hover {
+header nav img:hover {
   transform: scale(1.1);
 }
 
@@ -146,6 +146,17 @@ footer p {
   margin: 0;
   font-size: clamp(12px, 1.4vw, 14px);
 }
+.header-logo {
+  height: 40px;
+  width: auto;
+  display: flex;
+}
+.color-text:hover {
+              color: red;
+            }
+            .color-text:hover .underline {
+              width: 100% !important;
+            }
 
 @media (max-width: 768px) {
   nav {

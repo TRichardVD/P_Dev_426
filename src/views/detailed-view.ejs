@@ -70,7 +70,9 @@
 
       <section class="history-section">
         <h2>Histoire</h2>
-        <p><%= site.description %>.</p>
+        <p>
+          <%= site.description %>.
+        </p>
       </section>
 
       <section>
@@ -84,7 +86,9 @@
       </section>
 
       <section>
-        <h2><%= site.comments.length || 0 %> Commentaires</h2>
+        <h2>
+          <%= site.comments.length || 0 %> Commentaires
+        </h2>
         <div class="comment-section">
           <div class="comment new-comment">
             <img src="/images/profile-img.svg" alt="Your avatar" />
@@ -162,15 +166,15 @@ async function init3dMap() {
         .then((data) => {
         const siteFound = data.find((site) => site.id === '<%= site._id %>');
 
-        console.log(siteFound);
+              console.log(siteFound);
 
-	      viewer.camera.flyTo({
-            destination: Cesium.Cartesian3.fromDegrees(
-                [siteFound.coordinates.coordinates[0]],
-                [siteFound.coordinates.coordinates[1]],
-                20000
-            ),
-        });
+              viewer.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(
+                  siteFound.coordinates.coordinates[0],
+                  siteFound.coordinates.coordinates[1],
+                  20000
+                ),
+              });
 
 	data.forEach((site) => {
 		const lat = site.coordinates.coordinates[1];
@@ -230,36 +234,36 @@ async function init3dMap() {
 }
 
 
-      // function initMap() {
-      //   // Initialiser la carte avec une vue par défaut
-      //   var map = L.map("map").setView([0, 0], 2);
+        // function initMap() {
+        //   // Initialiser la carte avec une vue par défaut
+        //   var map = L.map("map").setView([0, 0], 2);
 
-      //   // Ajouter le layer OpenStreetMap
-      //   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      //     attribution:
-      //       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      //   }).addTo(map);
+        //   // Ajouter le layer OpenStreetMap
+        //   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        //     attribution:
+        //       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        //   }).addTo(map);
 
-      //   // Vérifier si les coordonnées existent et sont valides
-      //   const lat = "<%= site.coordinates.coordinates[0] %>";
-      //   const lon = "<%= site.coordinates.coordinates[1] %>";
+        //   // Vérifier si les coordonnées existent et sont valides
+        //   const lat = "<%= site.coordinates.coordinates[0] %>";
+        //   const lon = "<%= site.coordinates.coordinates[1] %>";
 
-      //   if (lat && lon) {
-      //     // Créer un pop-up avec un lien cliquable (exemple minimal)
-      //     const popupContent = `<b><%= site.name %></b>`;
-      //     L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
-      //     map.setView([lat, lon], 13);
-      //   } else {
-      //     console.error("Les coordonnées ne sont pas valides.");
-      //   }
-      // }
-
-      document.addEventListener("DOMContentLoaded", function () {
-        init3dMap();
-      });
-
-      // Gestion Like/Dislike sur les commentaires
-      document.addEventListener('DOMContentLoaded', function() {
+        //   if (lat && lon) {
+        //     // Créer un pop-up avec un lien cliquable (exemple minimal)
+        //     const popupContent = `<b><%= site.name %></b>`;
+        //     L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
+        //     map.setView([lat, lon], 13);
+        //   } else {
+        //     console.error("Les coordonnées ne sont pas valides.");
+        //   }
+        // }
+        /*
+                document.addEventListener("DOMContentLoaded", function () {
+                  init3dMap();
+                });
+        */
+        // Gestion Like/Dislike sur les commentaires
+        document.addEventListener('DOMContentLoaded', function () {
 
         const handleVote = async (commentId, action) => {
           
@@ -277,21 +281,21 @@ async function init3dMap() {
               throw new Error(error.message);
             }
 
-            const data = await response.json();
-            const comment = document.querySelector(`[data-comment-id="${commentId}"]`);
-            comment.querySelector('.like-count').textContent = data.likes;
-            comment.querySelector('.dislike-count').textContent = data.dislikes;
-          } catch (error) {
-            console.error('Error:', error);
-            alert(error.message);
-          }
-        };
+              const data = await response.json();
+              const comment = document.querySelector(`[data-comment-id="${commentId}"]`);
+              comment.querySelector('.like-count').textContent = data.likes;
+              comment.querySelector('.dislike-count').textContent = data.dislikes;
+            } catch (error) {
+              console.error('Error:', error);
+              alert(error.message);
+            }
+          };
 
-        document.querySelectorAll('.like-btn').forEach(button => {
-          button.addEventListener('click', () => {
-            handleVote(button.dataset.commentId, 'like');
+          document.querySelectorAll('.like-btn').forEach(button => {
+            button.addEventListener('click', () => {
+              handleVote(button.dataset.commentId, 'like');
+            });
           });
-        });
 
         document.querySelectorAll('.dislike-btn').forEach(button => {
           button.addEventListener('click', () => {
@@ -309,14 +313,14 @@ async function init3dMap() {
                 headers: { 'Content-Type': 'application/json' }
               });
 
-              if (!response.ok) {
-                const error = await response.json();
-                if (response.status === 401) {
-                  window.location.href = '/login';
-                  return;
+                if (!response.ok) {
+                  const error = await response.json();
+                  if (response.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                  }
+                  throw new Error(error.message);
                 }
-                throw new Error(error.message);
-              }
 
               const data = await response.json();
               document.getElementById('site-likes-count').textContent = data.likes;
