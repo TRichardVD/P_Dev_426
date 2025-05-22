@@ -1,236 +1,314 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vue détaillée</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="/css/detailed-view.css" />
-  <link rel="stylesheet" href="/css/header-footer.css" />
-  <script src="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Cesium.js"></script>
-  <link href="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
-</head>
-
-<body>
-  <%- include('partials/header') %>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= site.name %></title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="/css/detailed-view.css" />
+    <link rel="stylesheet" href="/css/header-footer.css" />
+      <script src="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Cesium.js"></script>
+    <link
+      href="https://cesium.com/downloads/cesiumjs/releases/1.127/Build/Cesium/Widgets/widgets.css"
+      rel="stylesheet"
+    />
+    
+  </head>
+  <body>
+    <%- include('partials/header') %>
+    <%- include('components/showMsg') %>
     <main>
-      <h1>
-        <%= site.name %>
-      </h1>
-      <div class="site-actions">
-        <button id="like-site-btn" data-site-id="<%= site._id %>">
-          ❤️ <span id="site-likes-count">
-            <%= site.likes || 0 %>
-          </span>
-        </button>
+      <div id="add-to-list-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <h2>Ajouter à une liste</h2>
+          <form id="add-to-list-form" method="post" action="/user/list/">
+            <select name="listId" id="list-select">
+              <% if (site.user && site.user.lists && site.user.lists.length > 0) { %>
+                <% site.user.lists.forEach(list => { %>
+                  <option value="<%= list.id %>"><%= list.name %></option>
+                <% }); %>
+              <% } else { %>
+                <option disabled>Aucune liste disponible</option>
+              <% } %>
+            </select>
+            <button type="submit">Ajouter</button>
+            <button type="button" id="close-modal-btn">Fermer</button>
+          </form>
+        </div>
       </div>
 
-      <!--
-      Si vous souhaitez gérer une galerie d’images, décommentez la partie ci-dessous 
-      et insérez les images dans le tableau 'images'.
+      <h1><%= site.name %></h1>
 
+      <div class="site-actions">
+        <% if (isLoggedIn) { %>
+          <button id="like-site-btn" data-site-id="<%= site._id %>">
+            ❤️ <span id="site-likes-count"><%= site.likes || 0 %></span>
+          </button>
+        <% } else { %>
+          <button class="like-btn-disabled" disabled title="Connectez-vous pour aimer ce site">
+            ❤️ <span id="site-likes-count"><%= site.likes || 0 %></span>
+          </button>
+        <% } %>
+        <% if (isLoggedIn) { %>
+          <button id="add-list-site-btn">+ Ajouter à une liste</button>
+        <% } else { %>
+          <button class="btn" disabled>Connectez-vous pour utiliser le plein potentiel du site</button>
+        <% } %>
+      </div>
+
+      <!-- Galerie d'images (commentée) -->
+      <!--
       <% const images = []; %>
       <% let selectedImage = "photo1.jpg"; %>
-
-      <img
-        id="selected-image"
-        src="<%= selectedImage %>"
-        alt="selected image"
-      />
+      <img id="selected-image" src="<%= selectedImage %>" alt="selected image" />
       <div class="image-gallery">
         <% images.forEach(image => { %>
-        <img class="thumbnail" src="<%= image %>" alt="<%= image %>" />
+          <img class="thumbnail" src="<%= image %>" alt="<%= image %>" />
         <% }); %>
       </div>
       -->
 
       <section class="history-section">
         <h2>Histoire</h2>
-        <p>
-          <%= site.description %>.
-        </p>
+        <p><%= site.description %>.</p>
       </section>
 
       <section>
         <h2>Localisation</h2>
-        <div id="cesiumContainer" style="height: 600px; width: 1125px"></div>
+        <div id="cesiumContainer" style="height: 400px; width: 100%;"></div>
+        <!-- Custom Info Box -->
+        <div id="customInfoBox" class="custom-info-box" style="display:none;">
+          <button id="closeInfoBox" class="close-info-box">&times;</button>
+          <div id="customInfoBoxContent"></div>
+        </div>
       </section>
 
       <section>
-        <h2>
-          <%= site.comments.length || 0 %> Commentaires
-        </h2>
+        <h2><%= site.comments.length || 0 %> Commentaires</h2>
         <div class="comment-section">
           <div class="comment new-comment">
-            <img src="/images/profile-icon.png" alt="Your avatar" />
+            <img src="/images/profile-img.svg" alt="Your avatar" />
             <div class="comment-content">
-              <form action="/api/site/<%= site._id %>/comment" method="post">
-                <input type="text" name="comment" placeholder="Partagez votre avis..." required />
-                <button type="submit">Publier</button>
-              </form>
+              <% if (isLoggedIn) { %>
+                <form action="/site/<%= site._id %>/comment" method="post">
+                  <input type="text" name="comment" placeholder="Partagez votre avis..." required />
+                  <button type="submit">Publier</button>
+                </form>
+              <% } else { %>
+                <a href="/login" class="btn">Connectez-vous pour commenter</a>
+              <% } %>
             </div>
           </div>
 
-          <% site.comments.forEach(comment=> { %>
+          <% site.comments.forEach(comment => { %>
             <div class="comment" id="comment-<%= comment._id %>" data-comment-id="<%= comment._id %>">
-              <img src="/images/profile-icon.png" alt="Avatar de <%= comment.user_username %>" />
+              <img src="/images/profile-img.svg" alt="Avatar de <%= comment.user_username %>" />
               <div class="comment-content">
-                <p class="username">
-                  <%= comment.user_username %>
-                </p>
-                <p class="comment-text">
-                  <%= comment.comment %>
-                </p>
+                <p class="username"><%= comment.user_username %></p>
+                <p class="comment-text"><%= comment.comment %></p>
                 <div class="like-dislike">
                   <button class="like-btn" data-comment-id="<%= comment._id %>">
-                    👍 <span class="like-count">
-                      <%= comment.likes || 0 %>
-                    </span>
+                    👍 <span class="like-count"><%= comment.likes || 0 %></span>
                   </button>
                   <button class="dislike-btn" data-comment-id="<%= comment._id %>">
-                    👎 <span class="dislike-count">
-                      <%= comment.dislikes || 0 %>
-                    </span>
+                    👎 <span class="dislike-count"><%= comment.dislikes || 0 %></span>
                   </button>
                 </div>
               </div>
             </div>
-            <% }); %>
+          <% }); %>
         </div>
       </section>
     </main>
 
     <%- include('partials/footer') %>
 
+    
+    <script>
+      window.CESIUM_TOKEN = '<%= process.env.CESIUM_TOKEN %>';
 
-      <script>
-        Cesium.Ion.defaultAccessToken =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhODUxNWEzNy1lYjkxLTQyMjUtYjIwYS00OGVlYzEwNTRmN2IiLCJpZCI6Mjg4NzMwLCJpYXQiOjE3NDMxNjYyMzh9.DiCViUqiY8bfqjpLdNtcKLZO5RHs6JVUH3UjEQJfssY';
-
-        let viewer; // precious global
-        const pinBuilder = new Cesium.PinBuilder();
-
-        // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.  CesiumWidget
-        /*const viewer = new Cesium.Viewer('cesiumContainer', {
+      const pinBuilder = new Cesium.PinBuilder();
+      Cesium.Ion.defaultAccessToken = window.CESIUM_TOKEN;
+      const viewer = new Cesium.Viewer('cesiumContainer', {
           timeline: false,
           animation: false,
-        });*/
+          infoBox: false,
+      });
+      // Limite de zoom/dézoom Cesium
+      viewer.scene.screenSpaceCameraController.minimumZoomDistance = 500; // 500m (proche)
+      viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000; // 30 000 km (empêche de dézoomer à l'infini)
+      
 
+      // Infobox personnalisé
+function showCustomInfoBox(html) {
+  const infoBox = document.getElementById('customInfoBox');
+  const content = document.getElementById('customInfoBoxContent');
+  content.innerHTML = html;
+  infoBox.style.display = 'block';
+}
+function hideCustomInfoBox() {
+  document.getElementById('customInfoBox').style.display = 'none';
+}
+document.getElementById('closeInfoBox').onclick = hideCustomInfoBox;
 
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'customInfoBox') hideCustomInfoBox();
+});
 
-        document.addEventListener('DOMContentLoaded', function () {
-          // Works on full page load
-          init3dMap();
+async function init3dMap() {
+  let i = 0;      
+    fetch('/site/sites')
+        .then((response) => response.json())
+        .then((data) => {
+        const siteFound = data.find((site) => site.id === '<%= site._id %>');
+
+        console.log(siteFound);
+
+	      viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(
+                [siteFound.coordinates.coordinates[0]],
+                [siteFound.coordinates.coordinates[1]],
+                20000
+            ),
         });
 
+	data.forEach((site) => {
+		const lat = site.coordinates.coordinates[1];
+		const lon = site.coordinates.coordinates[0];
+		const name = site.name;
+		const link = '/site/' + site.id;
+		let color;
+		let marker;
+		if (site.id === siteFound.id) {
+      color = Cesium.Color.RED;
+      marker = 'star-stroked';
+    }
+    else if (site.category == 'Cultural') {
+			color = Cesium.Color.YELLOW;
+			marker = 'museum';
+		} else if (site.category == 'Natural') {
+			color = Cesium.Color.GREEN;
+			marker = 'park';
+		} else {
+			color = Cesium.Color.ROYALBLUE;
+			marker = 'zoo';
+		}
+
+		//afficher sur la carte
+	pinBuilder
+		.fromMakiIconId(marker, color, 48)
+		.then(function (canvas) {
+			const entity = viewer.entities.add({
+				name: name,
+				description: `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}" target="_blank">Voir plus</a>`,
+				position: Cesium.Cartesian3.fromDegrees(lon, lat),
+				billboard: {
+					image: canvas.toDataURL(),
+					verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+				},
+			});
+        // Ajout du handler pour l'infobox personnalisée
+        entity.customDescription = `<b>${name}</b><br>catégorie : ${site.category}</br><a href="${link}" target="_blank">Voir plus</a>`;
+		});
+	})
+
+  // Handler pour afficher l'infobox personnalisée au clic sur un marqueur
+  const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+  handler.setInputAction(function (movement) {
+    const pickedObject = viewer.scene.pick(movement.position);
+    if (Cesium.defined(pickedObject) && pickedObject.id && pickedObject.id.customDescription) {
+      showCustomInfoBox(pickedObject.id.customDescription);
+    } else {
+      hideCustomInfoBox();
+    }
+  }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+})
+        .catch((error) =>
+            console.error('Error loading or processing data:', error)
+        );
+}
 
 
+      // function initMap() {
+      //   // Initialiser la carte avec une vue par défaut
+      //   var map = L.map("map").setView([0, 0], 2);
 
+      //   // Ajouter le layer OpenStreetMap
+      //   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      //     attribution:
+      //       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      //   }).addTo(map);
 
-        async function init3dMap() {
-          viewer = new Cesium.Viewer('cesiumContainer', {
-            timeline: false,
-            animation: false,
+      //   // Vérifier si les coordonnées existent et sont valides
+      //   const lat = "<%= site.coordinates.coordinates[0] %>";
+      //   const lon = "<%= site.coordinates.coordinates[1] %>";
+
+      //   if (lat && lon) {
+      //     // Créer un pop-up avec un lien cliquable (exemple minimal)
+      //     const popupContent = `<b><%= site.name %></b>`;
+      //     L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
+      //     map.setView([lat, lon], 13);
+      //   } else {
+      //     console.error("Les coordonnées ne sont pas valides.");
+      //   }
+      // }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        init3dMap();
+      });
+
+      // Gestion Like/Dislike sur les commentaires
+      document.addEventListener('DOMContentLoaded', function() {
+
+        const handleVote = async (commentId, action) => {
+          
+          try {
+            const response = await fetch(`/api/comment/${commentId}/${action}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' }
+            });
+            if (!response.ok) {
+              const error = await response.json();
+              if (response.status === 401) {
+                window.location.href = '/login';
+                return;
+              }
+              throw new Error(error.message);
+            }
+
+            const data = await response.json();
+            const comment = document.querySelector(`[data-comment-id="${commentId}"]`);
+            comment.querySelector('.like-count').textContent = data.likes;
+            comment.querySelector('.dislike-count').textContent = data.dislikes;
+          } catch (error) {
+            console.error('Error:', error);
+            alert(error.message);
+          }
+        };
+
+        document.querySelectorAll('.like-btn').forEach(button => {
+          button.addEventListener('click', () => {
+            handleVote(button.dataset.commentId, 'like');
           });
+        });
 
-          await fetch('./sites')
-            .then((response) => response.json())
-            .then((data) => {
-              const siteFound = data.find((site) => site.id === '<%= site._id %>');
+        document.querySelectorAll('.dislike-btn').forEach(button => {
+          button.addEventListener('click', () => {
+            handleVote(button.dataset.commentId, 'dislike');
+          });
+        });
 
-              console.log(siteFound);
-
-              viewer.camera.flyTo({
-                destination: Cesium.Cartesian3.fromDegrees(
-                  siteFound.coordinates.coordinates[0],
-                  siteFound.coordinates.coordinates[1],
-                  20000
-                ),
-              });
-
-              data.forEach((site) => {
-                const lat = site.coordinates.coordinates[1];
-                const lon = site.coordinates.coordinates[0];
-                const name = site.name;
-                //const letter = name.charAt(0);
-                const link = site.id;
-                let color;
-                let marker;
-                if (site.id === siteFound.id) {
-                  color = Cesium.Color.GREEN;
-                  marker = 'star-stroked';
-                }
-                else {
-                  color = Cesium.Color.YELLOW;
-                  marker = 'park';
-                }
-                //afficher sur la carte
-                pinBuilder
-                  .fromMakiIconId(marker, color, 48)
-                  .then(function (canvas) {
-                    viewer.entities.add({
-                      name: name,
-                      description: `<b>${name}</b><br><a href="https://localhost/api/site/${site.id}" target="_blank" >Voir plus</a>`,
-                      position: Cesium.Cartesian3.fromDegrees(lon, lat),
-                      billboard: {
-                        image: canvas.toDataURL(),
-                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-                      },
-                    });
-                  });
-              });
-            })
-            .catch((error) =>
-              console.error('Error loading or processing data:', error)
-            );
-        }
-
-
-
-
-
-        // function initMap() {
-        //   // Initialiser la carte avec une vue par défaut
-        //   var map = L.map("map").setView([0, 0], 2);
-
-        //   // Ajouter le layer OpenStreetMap
-        //   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        //     attribution:
-        //       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        //   }).addTo(map);
-
-        //   // Vérifier si les coordonnées existent et sont valides
-        //   const lat = "<%= site.coordinates.coordinates[0] %>";
-        //   const lon = "<%= site.coordinates.coordinates[1] %>";
-
-        //   if (lat && lon) {
-        //     // Créer un pop-up avec un lien cliquable (exemple minimal)
-        //     const popupContent = `<b><%= site.name %></b>`;
-        //     L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
-        //     map.setView([lat, lon], 13);
-        //   } else {
-        //     console.error("Les coordonnées ne sont pas valides.");
-        //   }
-        // }
-        /*
-                document.addEventListener("DOMContentLoaded", function () {
-                  init3dMap();
-                });
-        */
-        // Gestion Like/Dislike sur les commentaires
-        document.addEventListener('DOMContentLoaded', function () {
-
-          const handleVote = async (commentId, action) => {
-
+        // Gestion du like sur le site
+        const likeSiteBtn = document.getElementById('like-site-btn');
+        if (likeSiteBtn) {
+          likeSiteBtn.addEventListener('click', async () => {
             try {
-              const response = await fetch(`/api/comment/${commentId}/${action}`, {
+              const response = await fetch(`/site/${likeSiteBtn.dataset.siteId}/like`, {
                 method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                }
+                headers: { 'Content-Type': 'application/json' }
               });
+
               if (!response.ok) {
                 const error = await response.json();
                 if (response.status === 401) {
@@ -241,60 +319,45 @@
               }
 
               const data = await response.json();
-              const comment = document.querySelector(`[data-comment-id="${commentId}"]`);
-              comment.querySelector('.like-count').textContent = data.likes;
-              comment.querySelector('.dislike-count').textContent = data.dislikes;
+              document.getElementById('site-likes-count').textContent = data.likes;
             } catch (error) {
               console.error('Error:', error);
               alert(error.message);
             }
-          };
-
-          document.querySelectorAll('.like-btn').forEach(button => {
-            button.addEventListener('click', () => {
-              handleVote(button.dataset.commentId, 'like');
-            });
           });
+        }
 
-          document.querySelectorAll('.dislike-btn').forEach(button => {
-            button.addEventListener('click', () => {
-              handleVote(button.dataset.commentId, 'dislike');
-            });
-          });
+        // Gestion de la modale "Ajouter à une liste"
+        const addToListBtn = document.getElementById("add-list-site-btn");
+        const modal = document.getElementById("add-to-list-modal");
+        const closeModalBtn = document.getElementById("close-modal-btn");
+        const listSelect = document.getElementById("list-select");
+        const addToListForm = document.getElementById("add-to-list-form");
+
+        addToListBtn.addEventListener("click", function () {
+          modal.style.display = "flex";
         });
 
-        // Gestion du Like sur la page
-        document.addEventListener('DOMContentLoaded', function () {
-          const likeSiteBtn = document.getElementById('like-site-btn');
-          if (likeSiteBtn) {
-            likeSiteBtn.addEventListener('click', async () => {
-              try {
-                const response = await fetch(`/api/site/${likeSiteBtn.dataset.siteId}/like`, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  }
-                });
-
-                if (!response.ok) {
-                  const error = await response.json();
-                  if (response.status === 401) {
-                    window.location.href = '/login';
-                    return;
-                  }
-                  throw new Error(error.message);
-                }
-
-                const data = await response.json();
-                document.getElementById('site-likes-count').textContent = data.likes;
-              } catch (error) {
-                console.error('Error:', error);
-                alert(error.message);
-              }
-            });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && modal.style.display === "flex") {
+            modal.style.display = "none";
           }
         });
-      </script>
-</body>
 
+        closeModalBtn.addEventListener("click", function () {
+          modal.style.display = "none";
+        });
+
+        const siteId = "<%= site._id %>";
+
+        // Set initial action
+        addToListForm.action = `/user/list/${listSelect.value}/site/${siteId}`;
+
+        // Update action when selection changes
+        listSelect.addEventListener("change", function () {
+          addToListForm.action = `/user/list/${this.value}/site/${siteId}`;
+        });
+      });
+    </script>
+  </body>
 </html>

@@ -6,7 +6,7 @@ Ce projet à pour but de mettre en pratique les compétences qui seront acquis d
 
 ## Scrum Master & Product Owner
 
--   [Aurélie Curchod](https://github.com/zfpacd)
+- [Aurélie Curchod](https://github.com/zfpacd)
 
 ## Product Goal
 
@@ -18,9 +18,9 @@ l'UNESCO de manière interactive.
 
 ### Prérequis
 
--   [Git](https://git-scm.com/downloads)
--   [Node.js](https://nodejs.org/) (version 16 ou ultérieure recommandée)
--   [Docker](https://docker.com) (Si vous n'avez pas de base de données mongodb installé)
+- [Git](https://git-scm.com/downloads)
+- [Node.js](https://nodejs.org/) (version 16 ou ultérieure recommandée)
+- [Docker](https://docker.com) (Si vous n'avez pas de base de données mongodb installé)
 
 ### 1. Cloner le projet
 
@@ -127,10 +127,10 @@ Rendez-vous sur le document [`collaborate.md`](./doc/collaborate.md)
 
 ## Developpeurs
 
--   [Abiram Muthulingam](https://github.com/AbiramMuth)
--   [Benjamin Germain Blouin](https://github.com/benjaminnnnnnnnnnnnn)
--   [Eithan Sanchez Filipe](https://github.com/EithanSanchezFilipe)
--   [Emir Krasniqi](https://github.com/EmirKrasniqi06)
--   [Jerry Cleuet](https://github.com/JerryCleuet)
--   [Nicola Golaz](https://github.com/NicolaGolaz)
--   [Théo Nicola Richard](https://github.com/TRichardVD)
+- [Abiram Muthulingam](https://github.com/AbiramMuth)
+- [Benjamin Germain Blouin](https://github.com/benjaminnnnnnnnnnnnn)
+- [Eithan Sanchez Filipe](https://github.com/EithanSanchezFilipe)
+- [Emir Krasniqi](https://github.com/EmirKrasniqi06)
+- [Jerry Cleuet](https://github.com/JerryCleuet)
+- [Nicola Golaz](https://github.com/NicolaGolaz)
+- [Théo Nicola Richard](https://github.com/TRichardVD)

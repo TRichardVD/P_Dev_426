@@ -1,5 +1,19 @@
 import Site from '../models/site.mjs';
-import { getCommentsBySiteId } from './comments.mjs';
+import User from '../models/user.mjs';
+import { getCommentsBySiteIdInsecure } from './comments.mjs';
+
+const cleanUser = (user) => {
+    return {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        lists: user.lists.map((list) => ({
+            id: list._id,
+            name: list.name,
+            color: list.color,
+        })),
+    };
+};
 
 async function GetSite(req, res) {
     const { query, country, sortField, sortOrder } = req.query;
@@ -45,6 +59,12 @@ async function GetSite(req, res) {
                     break;
             }
         }
+        let userData = null;
+        if (req.isLoggedIn && req.user && req.user.id) {
+            userData = cleanUser(
+                await User.findById(req.user.id).populate('lists')
+            );
+        }
 
         return res.render('search', {
             isLoggedIn: req.isLoggedIn,
@@ -53,6 +73,7 @@ async function GetSite(req, res) {
             country: country || null,
             sortField: sortField || null,
             sortOrder: sortOrder || null,
+            user: userData,
         });
     } catch (err) {
         return res.status(500).json({ error: err.message });
@@ -70,6 +91,7 @@ async function getSitesApi(req, res) {
             coordinates: site.coordinates,
             images: site.images,
             likes: site.likes.length,
+            category: site.category,
         }));
 
         return res.json(result);
@@ -81,6 +103,7 @@ async function getSitesApi(req, res) {
 
 async function GetSiteById(req, res) {
     const { id } = req.params;
+    const userId = req.user ? req.user.id : null;
     if (!id) {
         return res.status(400).json({ error: 'Site ID is required' });
     }
@@ -91,10 +114,11 @@ async function GetSiteById(req, res) {
             return res.status(404).json({ error: 'Site not found' });
         }
 
-        const comments = await getCommentsBySiteId(id);
-
+        const comments = await getCommentsBySiteIdInsecure(id);
         const enhancedComments = comments.map((comment) => ({
             ...comment,
+            likes: comment.likes.length,
+            dislikes: comment.dislikes.length,
             userHasLiked: req.user
                 ? comment.likes.includes(req.user.id)
                 : false,
@@ -102,7 +126,10 @@ async function GetSiteById(req, res) {
                 ? comment.dislikes.includes(req.user.id)
                 : false,
         }));
-
+        let userData = null;
+        if (userId) {
+            userData = cleanUser(await User.findById(userId).populate('lists'));
+        }
         const result = {
             _id: site._id,
             name: site.name,
@@ -111,7 +138,8 @@ async function GetSiteById(req, res) {
             images: site.images,
             comments: enhancedComments,
             likes: site.likes.length,
-            user: req.user ? { id: req.user.id } : null,
+            category: site.category,
+            user: userData ? userData : null,
         };
         console.log('Site details:', result);
         return res.render('detailed-view', {

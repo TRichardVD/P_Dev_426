@@ -7,248 +7,300 @@
    GLOBAL STYLES
    ========================== */
 * {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 body {
-  font-family: "Roboto", sans-serif;
-  background-color: #f5f5f5;
-  width: 100%;
-  height: auto;
+    font-family: "Roboto", sans-serif;
+    background-color: #f5f5f5;
+    width: 100%;
+    height: auto;
 }
 
 img {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 /* ==========================
      HEADER STYLES
      ========================== */
 .home-header {
-  background-image: url("/images/backgrounds/homepage-bg.jpg");
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  height: 50vh;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 2;
-  animation: fadeIn 1.5s ease-in-out; /* Apparition progressive */
-  position: relative;
-  overflow: hidden;
+    background-image: url("/images/backgrounds/homepage-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 2;
+    animation: fadeIn 1.5s ease-in-out; /* Apparition progressive */
+    position: relative;
+    overflow: hidden;
 }
 
 .nav-logo-container {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: center;
-  align-items: center;
-  gap: 8em;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 8em;
 }
 
 .home-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1em 2em;
-  gap: 2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 2em;
+    gap: 2em;
 }
 
 .home-header-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: left;
-  gap: 5em;
-  color: white;
-  text-align: justify;
-  width: 50%;
-  animation: slideIn 1.5s ease-out;
-  animation-delay: 0.5s;
-  animation-fill-mode: both;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    gap: 5em;
+    color: white;
+    text-align: justify;
+    width: 50%;
+    animation: slideIn 1.5s ease-out;
+    animation-delay: 0.5s;
+    animation-fill-mode: both;
 }
 
 /* ==========================
      BUTTON STYLES
      ========================== */
 .classic-button {
-  background-color: #9bbcd3;
-  color: #000;
-  text-decoration: none;
-  padding: 0.5em 2em;
-  border: none;
-  border-radius: 0.5em;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.5em;
-  transition: all 0.3s;
-  align-self: center;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #9bbcd3;
+    color: #000;
+    text-decoration: none;
+    padding: 0.5em 2em;
+    border: none;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.5em;
+    transition: all 0.3s;
+    align-self: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .classic-button:hover {
-  background-color: #7a9bae;
-  transform: scale(1.05); /* Zoom au survol */
+    background-color: #7a9bae;
+    transform: scale(1.05); /* Zoom au survol */
 }
 
 /* ==========================
      PROFILE ICON STYLES
      ========================== */
 .profile-icon {
-  width: 6em;
-  height: auto;
-  border-radius: 100%;
-  border: 0.2em solid white;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation au survol */
+    width: 6em;
+    height: auto;
+    border-radius: 100%;
+    border: 0.2em solid white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation au survol */
 }
 
 .profile-icon:hover {
-  transform: scale(1.1) rotate(10deg); /* Zoom et légère rotation */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Ombre au survol */
+    transform: scale(1.1) rotate(10deg); /* Zoom et légère rotation */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Ombre au survol */
 }
 
 /* ==========================
      LOGO STYLES
      ========================== */
 .big-logo {
-  width: 20em;
-  height: auto;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+    width: 20em;
+    height: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .big-logo:hover {
-  transform: scale(1.1); /* Zoom léger */
-  opacity: 0.9; /* Légère transparence */
+    transform: scale(1.1); /* Zoom léger */
+    opacity: 0.9; /* Légère transparence */
 }
 
 /* ==========================
      TYPOGRAPHY
      ========================== */
 p {
-  font-size: 1.2em;
-  color: white;
-  font-weight: 300;
+    font-size: 1.2em;
+    color: white;
+    font-weight: 300;
 }
 
 title {
-  font-size: 2.5em;
-  color: white;
-  font-weight: 700;
-  text-transform: uppercase;
+    font-size: 2.5em;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 /* ==========================
      ANIMATIONS
      ========================== */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Style pour la page d'accueil */
 
 :root {
-  --primary-color: #2c3e50;
-  --secondary-color: #3498db;
-  --text-color: #333;
-  --background-color: #f5f6fa;
-  --border-radius: 0.5rem;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --text-color: #333;
+    --background-color: #f5f6fa;
+    --border-radius: 0.5rem;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
 }
 
 main {
-  width: 90%;
-  max-width: 1440px;
-  margin: 3rem auto;
-  padding: 0 4rem;
-  text-align: center;
+    width: 90%;
+    max-width: 1440px;
+    margin: 3rem auto;
+    padding: 0 4rem;
+    text-align: center;
 }
 
 main h1 {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  color: var(--primary-color);
-  margin-bottom: 2rem;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--primary-color);
+    margin-bottom: 2rem;
 }
 
 #map {
-  width: 100%;
-  height: min(600px, 80vh);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  margin: 0 auto;
-  max-width: 1200px;
+    width: 100%;
+    height: min(600px, 80vh);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 0 auto;
+    max-width: 1200px;
 }
 
 @media (max-width: 768px) {
-  .home-header {
-    padding-top: 1rem;
-    min-height: 70vh;
-  }
+    .home-header {
+        padding-top: 1rem;
+        min-height: 70vh;
+    }
 
-  .home-header .nav-logo-container {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
+    .home-header .nav-logo-container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 
-  .home-header-content {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding: 2rem 1rem;
-    text-align: center;
-  }
+    .home-header-content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding: 2rem 1rem;
+        text-align: center;
+    }
 
-  main {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
+    main {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 
-  #map {
-    height: 70vh;
-  }
+    #map {
+        height: 70vh;
+    }
 }
 
 @media (max-width: 480px) {
-  .home-header .nav-logo-container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
+    .home-header .nav-logo-container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
 
-  .home-header-content {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
+    .home-header-content {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
 
-  main {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
+    main {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
 
-  .home-nav a.classic-button {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
+    .home-nav a.classic-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
 }
 
 .cesium-credit-wrapper {
-  display: none !important;
+    display: none !important;
+}
+
+/* ==========================
+   CUSTOM INFO BOX (CESIUM)
+   ========================== */
+.custom-info-box {
+    position: fixed;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 320px;
+    max-width: 90vw;
+    background: #fff;
+    color: var(--primary-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    padding: 2rem 2.5rem 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    animation: fadeIn 0.4s;
+}
+
+.custom-info-box #customInfoBoxContent {
+    width: 100%;
+    color: var(--text-color);
+    font-size: 1.1em;
+    text-align: left;
+    margin-top: 0.5em;
+}
+
+.close-info-box {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-bottom: 0.5em;
+    transition: color 0.2s;
+}
+.close-info-box:hover {
+    color: #e74c3c;
+}
+
+@media (max-width: 600px) {
+    .custom-info-box {
+        min-width: 90vw;
+        padding: 1rem 0.5rem 1rem 0.5rem;
+    }
 }

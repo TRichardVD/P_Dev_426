@@ -1,0 +1,198 @@
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Header */
+header {
+  background-color: #0078d7;
+  padding: 10px 20px;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 10px;
+}
+
+/* Profile Info Section */
+.profile-info {
+  background-color: #f4f9f4;
+  border: 1px solid #d4d4d4;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-picture {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.profile-details {
+  flex-grow: 1;
+}
+
+.profile-details p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.edit-button {
+  text-decoration: none;
+  font-size: 20px;
+  color: #0078d7;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Favorite Sites Section */
+.favorite-sites {
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.sites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.site-card {
+  background-color: white;
+  border: 1px solid #d4d4d4;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.site-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.site-info {
+  padding: 10px;
+}
+
+.site-info h3 {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.site-info p {
+  font-size: 14px;
+  color: #666;
+}
+
+.like-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+/* Footer */
+footer {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+footer p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #666;
+}
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* List Section */
+.list {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.list-card {
+  display: block;
+  margin: 10px 0px;
+  background-color: white;
+  border: 1px solid #d4d4d4;
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.list-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.list-info {
+  padding: 20px;
+}
+
+.list-info h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.create-list-button {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 20px;
+  background-color: #0078d7;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.create-list-button:hover {
+  background-color: #005fa3;
+  transform: translateY(-3px);
+}
+
+.create-list-button:focus {
+  outline: none;
+}
