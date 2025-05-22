@@ -39,8 +39,12 @@
                                 <form action="/user/admin/promote/<%= u._id %>" method="POST" style="display:inline;">
                                     <button type="submit">Promouvoir admin</button>
                                 </form>
+                                <% } else { %>
+                                <form action="/user/admin/revoke/<%= u._id %>" method="POST" style="display:inline;">
+                                    <button type="submit">Rétrograder utilisateur</button>
+                                </form>
                                 <% } %>
-                                <form action="/user/admin/delete/<%= u._id %>" method="POST" style="display:inline;">
+                                <form action="/user/admin/delete/<%= u._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.');">
                                     <button type="submit">Supprimer</button>
                                 </form>
                             </td>

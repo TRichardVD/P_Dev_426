@@ -215,16 +215,6 @@ async function GetUserProfile(req, res) {
             sessions: user.sessions, // Liste des sessions
         };
 
-        if (req.user && req.user.role === 'admin') {
-            console.log('Utilisateur admin');
-            // Récupérer tous les utilisateurs pour l'admin
-            const allUsers = await User.find({}, 'username email role');
-            return res.render('admin-panel', {
-                user: userData,
-                isLoggedIn: req.isLoggedIn,
-                allUsers,
-            });
-        }
         // Rendre la vue `profile`
         return res.render('profile', {
             user: userData,
@@ -341,6 +331,38 @@ async function getSiteLists(req, res) {
         );
     }
 }
+
+// Nouvelle fonction pour le panneau admin
+async function renderAdminPanel(req, res) {
+    if (!req.user || req.user.role !== 'admin') {
+        return res.status(403).send('Accès refusé');
+    }
+    try {
+        const user = await User.findById(req.user.id);
+        const userData = {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            lists: user.lists.map((list) => ({
+                id: list._id,
+                name: list.name,
+                color: list.color,
+            })),
+            sessions: user.sessions,
+        };
+        const allUsers = await User.find({}, 'username email role');
+        return res.render('admin-panel', {
+            user: userData,
+            isLoggedIn: req.isLoggedIn,
+            allUsers,
+        });
+    } catch (err) {
+        console.error("Erreur lors de l'affichage du panneau admin :", err);
+        return res.status(500).json({ error: 'Erreur serveur' });
+    }
+}
+
 export {
     insertList,
     dropList,
@@ -352,4 +374,5 @@ export {
     updateProfile,
     getSiteList,
     getSiteLists,
+    renderAdminPanel, // ajout export
 };

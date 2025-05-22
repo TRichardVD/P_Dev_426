@@ -12,6 +12,7 @@ import {
     dropSiteFromList,
     getSiteList,
     getSiteLists,
+    renderAdminPanel,
 } from '../controllers/user.mjs';
 import methodOverride from 'method-override';
 import multer from 'multer';
@@ -38,7 +39,7 @@ userRouter.post('/list/:listId/site/:siteId', authReq, insertSiteToList);
 userRouter.delete('/list/:listId/site/:siteId', authReq, dropSiteFromList);
 userRouter.get('/list', authReq, getSiteLists);
 userRouter.get('/list/:listId', authReq, getSiteList);
-userRouter.get('/admin', authReq, GetUserProfile); // Accès au panneau admin via /user/admin
+userRouter.get('/admin', authReq, renderAdminPanel); // Utilise maintenant renderAdminPanel
 userRouter.post(
     '/admin/update-home-image',
     authReq,
@@ -61,6 +62,12 @@ userRouter.post('/admin/promote/:id', authReq, async (req, res) => {
     if (!req.user || req.user.role !== 'admin')
         return res.status(403).send('Accès refusé');
     await User.findByIdAndUpdate(req.params.id, { role: 'admin' });
+    res.redirect('/user/admin');
+});
+userRouter.post('/admin/revoke/:id', authReq, async (req, res) => {
+    if (!req.user || req.user.role !== 'admin')
+        return res.status(403).send('Accès refusé');
+    await User.findByIdAndUpdate(req.params.id, { role: 'user' });
     res.redirect('/user/admin');
 });
 userRouter.post('/admin/delete/:id', authReq, async (req, res) => {
