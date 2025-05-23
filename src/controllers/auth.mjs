@@ -197,7 +197,7 @@ const auth = async (req, res, next) => {
 };
 
 const authReq = async (req, res, next) => {
-    if (!req.isLoggedIn) {
+    if (!req.isLoggedIn || !req.user) {
         return res.redirect(`/login?err=${encodeURIComponent('Non autorisé')}`);
     }
     next();
