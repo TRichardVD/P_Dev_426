@@ -128,7 +128,7 @@ const getCommentsBySiteIdInsecure = async (site_id) => {
             .exec();
         const result = comments.map((comment) => ({
             _id: comment._id,
-            user_id: comment.user_id._id,
+            user_id: comment.user_id,
             user_username: comment.user_username,
             comment: comment.comment,
             date: comment.date,
