@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <h1><%= site.name %></h1>
+      <h1><%= site.name %><br><span class="category"><%= site.category %></span></h1>
       
       <div id="gallery">
         <div id="main-image-container">
@@ -49,7 +49,7 @@
         <div id="gallery-thumbnails"></div>
       </div>
 
-      <div class="site-actions">
+      <div class="site-actions" style="display: flex; justify-content: center; align-items: center; margin-top: 1rem; gap : 1rem;">
         <% if (isLoggedIn) { %>
           <button id="like-site-btn" data-site-id="<%= site._id %>">
             ❤️ <span id="site-likes-count"><%= site.likes || 0 %></span>
@@ -64,23 +64,12 @@
         <% } else { %>
           <button class="btn" disabled>Connectez-vous pour utiliser le plein potentiel du site</button>
         <% } %>
+        
       </div>
-
-      <!-- Galerie d'images (commentée) -->
-      <!--
-      <% const images = []; %>
-      <% let selectedImage = "photo1.jpg"; %>
-      <img id="selected-image" src="<%= selectedImage %>" alt="selected image" />
-      <div class="image-gallery">
-        <% images.forEach(image => { %>
-          <img class="thumbnail" src="<%= image %>" alt="<%= image %>" />
-        <% }); %>
-      </div>
-      -->
 
       <section class="history-section">
         <h2>Histoire</h2>
-        <p><%= site.description %>.</p>
+        <p><%= site.description %></p>
       </section>
 
       <section>
