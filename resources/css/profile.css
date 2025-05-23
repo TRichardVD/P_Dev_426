@@ -23,6 +23,24 @@ header nav {
   justify-content: space-between;
   align-items: center;
 }
+.list .list-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto;
+  max-width: 800px;
+}
+.list form button[type='submit'] {
+  background-color: transparent;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.list form button[type='submit']:hover {
+  background-color: #ccc9c8;
+}
 
 header nav a {
   color: white;
