@@ -95,7 +95,7 @@ async function modifyList(req, res) {
 
     try {
         await User.updateOne(
-            { _id: userId, 'lists._id': listId },
+            { '_id': userId, 'lists._id': listId },
             {
                 $set: {
                     'lists.$.name': name,
@@ -129,7 +129,7 @@ async function insertSiteToList(req, res) {
 
     try {
         await User.updateOne(
-            { _id: userId, 'lists._id': listId },
+            { '_id': userId, 'lists._id': listId },
             {
                 $addToSet: {
                     'lists.$.sites': siteId,
@@ -160,7 +160,7 @@ async function dropSiteFromList(req, res) {
 
     try {
         await User.updateOne(
-            { _id: userId, 'lists._id': listId },
+            { '_id': userId, 'lists._id': listId },
             {
                 $pull: {
                     'lists.$.sites': siteId,
@@ -214,6 +214,7 @@ async function GetUserProfile(req, res) {
             })),
             sessions: user.sessions, // Liste des sessions
         };
+
         // Rendre la vue `profile`
         return res.render('profile', {
             user: userData,
@@ -241,22 +242,33 @@ async function renderEditProfile(req, res) {
 // Mettre à jour les données du profil
 async function updateProfile(req, res) {
     try {
-        const { username, email, password } = req.body;
-
+        const { username, email, password, confirmPassword } = req.body;
         const user = await User.findById(req.user.id);
         if (!user) {
             return res.status(404).send('Utilisateur non trouvé');
         }
-
         if (username) user.username = username;
         if (email) user.email = email;
         if (password) {
+            if (password.length < 8) {
+                return res.render('edit-profile', {
+                    user,
+                    isLoggedIn: req.isLoggedIn,
+                    error: 'Le mot de passe doit contenir au moins 8 caractères.',
+                });
+            }
+            if (password !== confirmPassword) {
+                return res.render('edit-profile', {
+                    user,
+                    isLoggedIn: req.isLoggedIn,
+                    error: 'Les mots de passe ne correspondent pas.',
+                });
+            }
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, salt);
         }
-
         await user.save();
-        res.redirect('/profile');
+        res.redirect('/user/profile');
     } catch (err) {
         console.error('Erreur lors de la mise à jour du profil :', err);
         res.status(500).send('Erreur serveur');
@@ -330,6 +342,38 @@ async function getSiteLists(req, res) {
         );
     }
 }
+
+// Nouvelle fonction pour le panneau admin
+async function renderAdminPanel(req, res) {
+    if (!req.user || req.user.role !== 'admin') {
+        return res.status(403).send('Accès refusé');
+    }
+    try {
+        const user = await User.findById(req.user.id);
+        const userData = {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            lists: user.lists.map((list) => ({
+                id: list._id,
+                name: list.name,
+                color: list.color,
+            })),
+            sessions: user.sessions,
+        };
+        const allUsers = await User.find({}, 'username email role');
+        return res.render('admin-panel', {
+            user: userData,
+            isLoggedIn: req.isLoggedIn,
+            allUsers,
+        });
+    } catch (err) {
+        console.error("Erreur lors de l'affichage du panneau admin :", err);
+        return res.status(500).json({ error: 'Erreur serveur' });
+    }
+}
+
 export {
     insertList,
     dropList,
@@ -341,4 +385,5 @@ export {
     updateProfile,
     getSiteList,
     getSiteLists,
+    renderAdminPanel, // ajout export
 };

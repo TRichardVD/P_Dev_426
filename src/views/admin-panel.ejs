@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panneau d'administration</title>
+    <link rel="stylesheet" href="/css/admin-panel.css" />
+</head>
+<body>
+    <%- include("partials/header") %>
+    <main>
+        <h1>Panneau d'administration</h1>
+        <section>
+            <h2>Changer l'image principale de la page d'accueil</h2>
+            <form action="/user/admin/update-home-image" method="POST" enctype="multipart/form-data">
+                <input type="file" name="mainImage" accept="image/*" required />
+                <button type="submit">Mettre à jour l'image</button>
+            </form>
+        </section>
+        <section>
+            <h2>Gestion des utilisateurs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom d'utilisateur</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% allUsers.forEach(function(u) { %>
+                        <tr>
+                            <td><%= u.username %></td>
+                            <td><%= u.email %></td>
+                            <td><%= u.role %></td>
+                            <td>
+                                <% if (u.role !== 'admin') { %>
+                                <form action="/user/admin/promote/<%= u._id %>" method="POST" style="display:inline;">
+                                    <button type="submit">Promouvoir admin</button>
+                                </form>
+                                <% } else { %>
+                                <form action="/user/admin/revoke/<%= u._id %>" method="POST" style="display:inline;">
+                                    <button type="submit">Rétrograder utilisateur</button>
+                                </form>
+                                <% } %>
+                                <form action="/user/admin/delete/<%= u._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.');">
+                                    <button type="submit">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <%- include("partials/footer") %>
+</body>
+</html>

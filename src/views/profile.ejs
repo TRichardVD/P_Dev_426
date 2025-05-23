@@ -57,22 +57,33 @@
         <% } %>
       </section>
 
-<section class="list">
-  <h2>Vos listes de sites</h2>
-  <% user.lists.forEach((list) => { %>
-  <a href="/user/list/<%= list.id %>" class="list-card">
-    <div class="list-info">
-      <h3><%= list.name %></h3>
-      <!-- Delete form for list -->
-      <form action="/user/list/<%= list.id %>/delete?_method=DELETE" method="POST" style="display: inline;">
-        <button type="submit">Supprimer la liste</button>
-      </form>
-    </div>
-  </a>
-  <% }); %>
-  <a href="/create-list" class="create-list-button">Créer une liste</a>
-</section>
+      <!-- Section des listes de sites -->
+      <section class="list">
+        <h2>Vos listes de sites</h2>
+        <% user.lists.forEach((list) => { %>
+        <a href="/user/list/<%= list.id %>" class="list-card">
+          <div class="list-info">
+            <h3><%= list.name %></h3>
+            <!-- Delete form for list -->
+            <form
+              action="/user/list/<%= list.id %>/delete?_method=DELETE"
+              method="POST"
+              style="display: inline;"
+            >
+              <button type="submit">Supprimer la liste</button>
+            </form>
+          </div>
+        </a>
+        <% }); %>
+        <a href="/create-list" class="create-list-button">Créer une liste</a>
+      </section>
 
+      <!-- Navigation du profil -->
+      <nav class="profile-nav">
+        <% if (user && user.role === 'admin') { %>
+        <a href="/user/admin" class="classic-button">Panneau Admin</a>
+        <% } %>
+      </nav>
 
       <%- include("partials/footer") %>
     </main>
