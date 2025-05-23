@@ -17,7 +17,6 @@ const connectDB = async () => {
         // await mongoose.connection.db.createCollection('sites');
 
         // importData(); // Décommentez pour importer les données avec la catégorie
-        // importList();
         console.log('Connexion réussie à MongoDB');
     } catch (error) {
         console.error('Erreur de connexion :', error);
