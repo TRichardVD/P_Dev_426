@@ -66,9 +66,19 @@ async function GetSite(req, res) {
             );
         }
 
+        const filteredSites = sites.map((site) => ({
+            _id: site._id,
+            name: site.name,
+            description: site.description,
+            coordinates: site.coordinates,
+            images: site.images,
+            likes: site.likes.length,
+            category: site.category,
+        }));
+
         return res.render('search', {
             isLoggedIn: req.isLoggedIn,
-            results: sites,
+            results: filteredSites,
             query: query || null,
             country: country || null,
             sortField: sortField || null,
