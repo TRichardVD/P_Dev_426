@@ -6,12 +6,15 @@
     <title>Modifier le profil</title>
     <link rel="stylesheet" href="/css/profile.css" />
     <style>
+      h1 {
+        text-align: center;
+      }
       .edit-profile-form {
         max-width: 400px;
         margin: 40px auto;
         background: #fff;
         border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         padding: 32px 28px 24px 28px;
         display: flex;
         flex-direction: column;
@@ -65,7 +68,7 @@
       <h1>Modifier votre profil</h1>
       <form action="/user/edit-profile" method="POST" class="edit-profile-form">
         <% if (typeof error !== 'undefined' && error) { %>
-          <div class="error-message"><%= error %></div>
+        <div class="error-message"><%= error %></div>
         <% } %>
         <label for="username">Prénom :</label>
         <input
