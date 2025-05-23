@@ -8,24 +8,28 @@
 </head>
 <body>
     <%- include('partials/header'); -%>
-    <div class="search-container"></div>
-    <form action="/site" method="GET">
-        <input type="text" name="query" placeholder="Chercher" value="<%= query || "" %>">
-        <button type="submit" class="search-button">Rechercher</button>
-        <input type="text" name="country" value="<%= country || "" %>" placeholder="Pays">
-        <label for="sortField">Trier par:</label>
-        <select name="sortField" id="sortField" value="<%= sortField || "" %>">
-            <option value="">Sélectionnez un champ</option>
-            <option value="pertinence" <%= sortField === "pertinence" ? "selected" : "" %>>Pertinence</option>
-            <option value="alphabetique" <%= sortField === "alphabetique" ? "selected" : "" %> id="alphabetique">Alphabétique</option>
-        </select>
-        <select name="sortOrder" id="sortOrder" value="<%= sortOrder || "" %>">
-            <option value="asc" <%= sortOrder === "asc" ? "selected" : "" %>>Ordre croissant</option>
-            <option value="desc" <%= sortOrder === "desc" ? "selected" : "" %>>Ordre décroissant</option>
-        </select>
-        <button type="button" id="reset">Réinitialiser</button>
-    </form>
-
+    <div class="search-container">
+        <form action="/site" method="GET">
+            <div class="search">
+                <input type="text" name="query" placeholder="Chercher" value="<%= query || "" %>">
+                <input type="text" name="country" value="<%= country || "" %>" placeholder="Pays">
+                <button type="submit" class="search-button">Rechercher</button>
+            </div>
+            <div class="filters">
+                <label for="sortField">Trier par:</label>
+                <select name="sortField" id="sortField" value="<%= sortField || "" %>">
+                    <option value="">Sélectionnez un champ</option>
+                    <option value="pertinence" <%= sortField === "pertinence" ? "selected" : "" %>>Pertinence</option>
+                    <option value="alphabetique" <%= sortField === "alphabetique" ? "selected" : "" %> id="alphabetique">Alphabétique</option>
+                </select>
+                <select name="sortOrder" id="sortOrder" value="<%= sortOrder || "" %>">
+                    <option value="asc" <%= sortOrder === "asc" ? "selected" : "" %>>Ordre croissant</option>
+                    <option value="desc" <%= sortOrder === "desc" ? "selected" : "" %>>Ordre décroissant</option>
+                </select>
+                <button type="button" id="reset">Réinitialiser</button>
+            </div>
+        </form>
+    </div>
     <% if (isLoggedIn && typeof user !== 'undefined' && user && Array.isArray(user.lists) && user.lists.length > 0) { %>
     <div id="sidebar-lists" style="display:none;position:fixed;top:0;right:0;height:100vh;width:320px;background:#fff;box-shadow:-2px 0 16px rgba(44,62,80,0.13);z-index:1000;flex-direction:column;align-items:flex-start;padding:2rem 1.5rem;transition:right 0.3s;">
         <h3 style="margin-bottom:1.5rem;">Glissez ici pour ajouter à une liste</h3>
@@ -49,7 +53,7 @@
                     <strong><%= result.name %></strong>
                     <p><%= result.description %></p>
                 </a>
-                <p><%= result.likes %></p>
+                <p style="text-align: center;"><%= result.likes %> ❤️</p>
             </div>
         <% }) %>
     <% } else if (query) { %>
