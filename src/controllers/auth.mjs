@@ -177,7 +177,9 @@ const auth = async (req, res, next) => {
                 !user.sessions ||
                 !user.sessions.includes(decoded.jti)
             ) {
+                console.log('Session not found');
                 req.isLoggedIn = false;
+                next();
                 return;
             }
             req.user = {
@@ -190,6 +192,7 @@ const auth = async (req, res, next) => {
         } catch (err) {
             console.error(err);
             req.isLoggedIn = false;
+            next();
             return;
         }
     }
@@ -197,6 +200,7 @@ const auth = async (req, res, next) => {
 };
 
 const authReq = async (req, res, next) => {
+    console.log('authReq', req.user);
     if (!req.isLoggedIn || !req.user) {
         return res.redirect(`/login?err=${encodeURIComponent('Non autorisé')}`);
     }
