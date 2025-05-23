@@ -1,7 +1,7 @@
 /* ==========================
    IMPORTS
    ========================== */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* ==========================
    GLOBAL STYLES
@@ -12,7 +12,7 @@
 }
 
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #f5f5f5;
     width: 100%;
     height: auto;
@@ -27,7 +27,7 @@ img {
      HEADER STYLES
      ========================== */
 .home-header {
-    background-image: url("/images/backgrounds/homepage-bg.jpg");
+    background-image: url('/images/backgrounds/homepage-bg.jpg');
     background-size: cover;
     background-position: center;
     width: 100%;

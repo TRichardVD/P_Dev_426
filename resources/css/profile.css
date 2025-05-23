@@ -27,6 +27,24 @@ header nav {
   justify-content: space-between;
   align-items: center;
 }
+.list .list-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto;
+  max-width: 800px;
+}
+.list form button[type="submit"] {
+  background-color: transparent;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.list form button[type="submit"]:hover {
+  background-color: #ccc9c8;
+}
 
 header nav a {
   color: white;
@@ -44,7 +62,7 @@ header nav a {
   margin: 20px auto;
   max-width: 800px;
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   gap: 20px;
 }
 
@@ -92,6 +110,16 @@ header nav a {
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.site-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+a.site-card-link {
+  text-decoration: none;
 }
 
 .site-card img {
@@ -101,7 +129,8 @@ header nav a {
 }
 
 .site-info {
-  padding: 10px;
+  padding: 10px 20px;
+  text-align: justify;
 }
 
 .site-info h3 {
