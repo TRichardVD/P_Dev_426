@@ -35,7 +35,8 @@
         <% if (user.likedSites.length > 0) { %>
         <div class="sites-grid">
           <% user.likedSites.forEach((site) => { %>
-          <div class="site-card">
+          <a href="/site/<%= site.id %>" class="site-card-link">
+            <div class="site-card">
             <% if (site.images && site.images.length > 0) { %>
             <img src="<%= site.images[0] %>" alt="<%= site.name %>" />
             <% } else { %>
@@ -50,6 +51,7 @@
             </div>
             <button class="like-button">❤️</button>
           </div>
+          </a>
           <% }); %>
         </div>
         <% } else { %>
