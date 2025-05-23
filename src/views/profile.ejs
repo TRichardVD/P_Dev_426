@@ -25,8 +25,8 @@
             <p><strong>Mot de passe :</strong> ********</p>
             <!-- <a href="/reset-password" class="reset-password-button">Réinitialiser le mot de passe</a> -->
           </div>
-          <a href="/user/edit-profile" class="edit-button">✏️</a>
         </div>
+        <a href="/user/edit-profile" class="edit-button">✏️</a>
       </section>
 
       <!-- Section des sites préférés -->
@@ -37,20 +37,20 @@
           <% user.likedSites.forEach((site) => { %>
           <a href="/site/<%= site.id %>" class="site-card-link">
             <div class="site-card">
-            <% if (site.images && site.images.length > 0) { %>
-            <img src="<%= site.images[0] %>" alt="<%= site.name %>" />
-            <% } else { %>
-            <img
-              src="/images/backgrounds/login-bg.jpg"
-              alt="Image par défaut"
-            />
-            <% } %>
-            <div class="site-info">
-              <h3><%= site.name %></h3>
-              <p><%= site.description %></p>
+              <% if (site.images && site.images.length > 0) { %>
+              <img src="<%= site.images[0] %>" alt="<%= site.name %>" />
+              <% } else { %>
+              <img
+                src="/images/backgrounds/login-bg.jpg"
+                alt="Image par défaut"
+              />
+              <% } %>
+              <div class="site-info">
+                <h3><%= site.name %></h3>
+                <p><%= site.description %></p>
+              </div>
+              <button class="like-button">❤️</button>
             </div>
-            <button class="like-button">❤️</button>
-          </div>
           </a>
           <% }); %>
         </div>
@@ -70,7 +70,7 @@
             <form
               action="/user/list/<%= list.id %>/delete?_method=DELETE"
               method="POST"
-              style="display: inline;"
+              style="display: inline"
             >
               <button type="submit">❌</button>
             </form>
@@ -86,11 +86,8 @@
         <a href="/user/admin" class="classic-button">Panneau Admin</a>
         <% } %>
       </nav>
-
-      <%- include("partials/footer") %>
     </main>
+    <%- include("partials/footer") %>
   </body>
 </html>
-<style>
- 
-</style>
+<style></style>
